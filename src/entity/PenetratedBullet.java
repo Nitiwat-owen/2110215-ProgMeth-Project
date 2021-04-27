@@ -2,14 +2,14 @@ package entity;
 
 import entity.base.*;
 
-public class Bullet extends Entity implements Interactable {
-	private final double speed = 5.0;
+public class PenetratedBullet extends Entity {
+	private final double speed = 2.5;
 	private int damage;
 
-	public Bullet(int x, int y) {
+	public PenetratedBullet(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.damage = 20;
+		this.damage = 50;
 	}
 
 	public boolean interact(Entity e) {
