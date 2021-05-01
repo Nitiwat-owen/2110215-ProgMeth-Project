@@ -2,9 +2,8 @@ package entity;
 
 import entity.base.*;
 
-public class Bullet extends Entity implements Interactable {
+public class Bullet extends Weapon implements Interactable {
 	private final double speed = 5.0;
-	private int damage;
 
 	public Bullet(int x, int y) {
 		this.x = x;

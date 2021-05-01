@@ -26,7 +26,8 @@ public class Wall extends Entity implements Interactable, Destroyable {
 
 	@Override
 	public boolean interact(Entity e) {
-		if (isWeapon(e)) {
+		if (e instanceof Weapon) {
+			setHealth(getHealth()-((Weapon)e).getDamage());
 			this.Destroyable(e);
 			return true;
 		}
