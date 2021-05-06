@@ -4,9 +4,7 @@ import entity.base.*;
 
 public class Wall extends Entity implements Interactable, Destroyable {
 
-	public Wall(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public Wall() {
 		this.health = 100;
 		visible = true;
 		destroy = false;
@@ -28,6 +26,7 @@ public class Wall extends Entity implements Interactable, Destroyable {
 	public boolean interact(Entity e) {
 		if (e instanceof Weapon) {
 			setHealth(getHealth()-((Weapon)e).getDamage());
+			e.remove();
 			this.Destroyable(e);
 			return true;
 		}

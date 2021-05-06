@@ -2,7 +2,7 @@ package entity;
 
 import entity.base.*;
 
-public class Bomb extends Entity implements Interactable {
+public class Bomb extends Entity {
 
 	private int damage;
 
@@ -10,15 +10,6 @@ public class Bomb extends Entity implements Interactable {
 		this.x = x;
 		this.y = y;
 		damage = 100;
-	}
-
-	public boolean interact(Entity e) {
-		if (e instanceof Wall) {
-			((Wall) e).setHealth(((Wall) e).getHealth() - this.damage);
-			this.remove();
-			return true;
-		}
-		return false;
 	}
 
 	public void setDamage(int damage) {
