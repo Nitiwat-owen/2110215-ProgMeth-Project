@@ -12,24 +12,23 @@ public class GameMap {
 
 	private ArrayList<Entity> allEntity;
 
-	public GameMap(int column, int row) {
-		allEntity = new ArrayList<Entity>();
-
-		setWidth(column);
-		setHeight(row);
-
-		for (int i = 0; i < row; i++) {
-			for (int j = 0; j < column; j++) {
-				cellMap[i][j] = new Cell();
-			}
-		}
-	}
+	/*
+	 * public GameMap(int column, int row) { allEntity = new ArrayList<Entity>();
+	 * 
+	 * setWidth(column); setHeight(row);
+	 * 
+	 * for (int i = 0; i < row; i++) { for (int j = 0; j < column; j++) {
+	 * cellMap[i][j] = new Cell(); } } }
+	 */
 
 	public GameMap(String[][] map) {
 		allEntity = new ArrayList<Entity>();
 
-		int column = this.getWidth();
-		int row = this.getHeight();
+		int column = map[0].length;
+		int row = map.length;
+
+		setWidth(column);
+		setHeight(row);
 
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
@@ -122,5 +121,13 @@ public class GameMap {
 
 	public ArrayList<Entity> getAllEntity() {
 		return this.allEntity;
+	}
+
+	public void exitGate() {
+		int playerX = GameController.getPlayer().getX();
+		int playerY = GameController.getPlayer().getY();
+		if (playerX == 14 && playerY == 2) {
+			GameController.setWin(true);
+		}
 	}
 }

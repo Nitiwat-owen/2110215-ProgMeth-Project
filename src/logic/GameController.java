@@ -1,26 +1,49 @@
 package logic;
 
 import entity.*;
+
 public class GameController {
+
+	private static GameMap gameMap;
+
 	private static boolean isPlanted;
+
 	private static Player player;
+
 	private static boolean isWin;
+
 	private static int bullet_count;
+
 	private static int penetrated_count;
+
 	private static int bomb_count;
+
+	public void InitializeMap(String[][] map, int x, int y) {
+		gameMap = new GameMap(map);
+		isPlanted = false;
+		player = new Player();
+		
+		gameMap.addEntity(player, x, y);
+		
+		isWin = false;
+		bullet_count = 0;
+		penetrated_count = 0;
+		bomb_count = 0;
+	}
+
 	public static void addBombCount() {
 		GameController.bomb_count++;
 	}
-	
-	public static void addBulletCount(){
+
+	public static void addBulletCount() {
 		GameController.bullet_count += 5;
 	}
-	
+
 	public static void addPenetratedCount() {
 		GameController.penetrated_count += 3;
 	}
-	
-	public static boolean isGameWin(){
+
+	public static boolean isGameWin() {
 		return isWin;
 	}
 
@@ -71,5 +94,4 @@ public class GameController {
 	public static void setBomb_count(int bomb_count) {
 		GameController.bomb_count = bomb_count;
 	}
-	
 }

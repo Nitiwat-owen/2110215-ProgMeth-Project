@@ -7,9 +7,7 @@ public class Player extends Entity {
 	private int penetratedBullets;
 	private int bombs;
 	
-	public Player(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public Player() {
 		bullets = 10;
 		penetratedBullets = 0;
 		bombs = 0;

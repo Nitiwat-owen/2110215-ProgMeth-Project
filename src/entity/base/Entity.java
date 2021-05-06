@@ -26,10 +26,6 @@ public abstract class Entity {
 	}
 
 	public void remove() {
-
-	}
-
-	public boolean isWeapon(Entity e) {
-		return e.getClass() == Bullet.class || e.getClass() == Bomb.class || e.getClass() == PenetratedBullet.class;
+		
 	}
 }
