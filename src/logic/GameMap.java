@@ -50,7 +50,7 @@ public class GameMap {
 					break;
 				case "W":
 					addEntity(new Wall(), j, i);
-					break;
+					break;	
 				default:
 					break;
 				}

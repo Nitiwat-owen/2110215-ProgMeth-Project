@@ -1,6 +1,6 @@
 package entity.base;
 
-public class Weapon extends Entity{
+public abstract class Weapon extends Entity{
 	protected int damage;
 
 	public int getDamage() {
