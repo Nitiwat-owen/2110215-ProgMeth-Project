@@ -30,27 +30,85 @@ public class Main extends Application {
 
 	private Button playButton;
 	private Button exitButton;
-	private Text nameText;
-	private VBox pane = new VBox();
+	private VBox startPane = new VBox();
+	private Pane gamePane = new Pane();
 	private static final int width = 800;
 	private static final int height = 800;
-	Canvas canvas = new Canvas(width, height);
+	Canvas canvas = new Canvas(800, 200);
 	GraphicsContext gc = canvas.getGraphicsContext2D();
 	private static Image background = new Image("firstScene_Background.png");
+	private Scene startScene, gameScene;
+	private Stage window;
 
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
-	public void start(Stage stage) {
-		pane.setSpacing(20);
-		pane.setAlignment(Pos.CENTER);
-//		Text nameText = new Text("Labyrinth Escape");
-//		nameText.setFont(new Font("Verdana", 50));
-//		pane.getChildren().add(nameText);
-		Button playButton = new Button("Play");
-		Button exitButton = new Button("Exit");
+	public void start(Stage primaryStage) {
+		window = primaryStage;
+
+		startPane.setSpacing(50);
+		startPane.setAlignment(Pos.CENTER);
+
+		InitializeButton();
+
+		drawNameText(gc);
+		drawBackground();
+		startPane.getChildren().addAll(canvas, playButton, exitButton);
+
+//		Scene scene = new Scene(pane, width, height);
+//		stage.setScene(scene);
+//		stage.setTitle("Labyrinth Escape");
+//		stage.setResizable(false);
+//		stage.show();
+
+		startScene = new Scene(startPane, width, height);
+		window.setScene(startScene);
+		window.setTitle("Labyrinth Escape");
+		window.setResizable(false);
+		window.show();
+		
+		gameScene = new Scene(gamePane, width, height);
+	}
+
+	public void drawNameText(GraphicsContext gc) {
+		gc.setLineWidth(5);
+		gc.setFill(Color.YELLOW);
+		gc.setStroke(Color.RED);
+
+		Font font = Font.font("Verdana", FontWeight.BOLD, 60);
+		gc.setFont(font);
+
+		gc.strokeText("Labyrinth Escape", 100, 100);
+		gc.fillText("Labyrinth Escape", 100, 100);
+	}
+
+	public void drawBackground() {
+		BackgroundImage Background = new BackgroundImage(new Image("firstScene_Background.png", 0, 0, false, true),
+				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT);
+		startPane.setBackground(new Background(Background));
+	}
+
+	public void InitializeButton() {
+		playButton = new Button("PLAY");
+		playButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 40));
+		playButton.setPrefWidth(200);
+		playButton.setPrefHeight(50);
+		playButton.setStyle("-fx-background-color: #1E90FF");
+
+		playButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				window.setScene(gameScene);
+			}
+		});
+		exitButton = new Button("EXIT");
+		exitButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 40));
+		exitButton.setPrefWidth(200);
+		exitButton.setPrefHeight(50);
+		exitButton.setStyle("-fx-background-color: #1E90FF");
 
 		exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
@@ -58,49 +116,5 @@ public class Main extends Application {
 				System.exit(0);
 			}
 		});
-		drawNameText(gc);
-		drawPlayButton(gc);
-		drawBackground();
-		pane.getChildren().addAll(canvas ,playButton, exitButton);
-
-		Scene scene = new Scene(pane, 800, 800);
-		stage.setScene(scene);
-		stage.setTitle("Labyrinth Escape");
-		stage.setResizable(false);
-		stage.show();
-	}
-	
-	public void drawNameText(GraphicsContext gc) {
-		gc.setLineWidth(5);
-		gc.setFill(Color.YELLOW);
-		gc.setStroke(Color.RED);
-		
-		Font font = Font.font("Verdana", FontWeight.BOLD, 60);
-		gc.setFont(font);
-		
-		gc.strokeText("Labyrinth Escape", 100, 200);
-		gc.fillText("Labyrinth Escape", 100, 200);
-	}
-	
-	public void drawPlayButton(GraphicsContext gc) {
-		gc.setLineWidth(10);
-		gc.setFill(Color.AQUA);
-		gc.setStroke(Color.BLUEVIOLET);
-		
-		gc.strokeRect(300, 300, 200, 50);
-		gc.fillRect(300, 300, 200, 50);
-		
-		gc.setFill(Color.BLUE);
-		Font font = Font.font("Verdana", FontWeight.LIGHT, 40);
-		gc.setFont(font);
-		gc.fillText("PLAY", 350, 340);
-	}
-	
-
-	public void drawBackground() {
-		BackgroundImage Background = new BackgroundImage(new Image("firstScene_Background.png", 0, 0, false, true),
-				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		pane.setBackground(new Background(Background));
 	}
 }
