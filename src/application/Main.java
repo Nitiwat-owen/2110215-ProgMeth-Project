@@ -1,6 +1,7 @@
-package main;
+package application;
 
 import javafx.application.Application;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -25,19 +26,21 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 public class Main extends Application {
 
 	private Button playButton;
 	private Button exitButton;
 	private VBox startPane = new VBox();
-	private Pane gamePane = new Pane();
+	// private StackPane gamePane = new StackPane();
 	private static final int width = 800;
 	private static final int height = 800;
 	Canvas canvas = new Canvas(800, 200);
 	GraphicsContext gc = canvas.getGraphicsContext2D();
 	private static Image background = new Image("firstScene_Background.png");
-	private Scene startScene, gameScene;
+	private Scene startScene;
+	private GameScreen gameScene;
 	private Stage window;
 
 	public static void main(String[] args) {
@@ -62,14 +65,14 @@ public class Main extends Application {
 //		stage.setTitle("Labyrinth Escape");
 //		stage.setResizable(false);
 //		stage.show();
+		gameScene = new GameScreen(width, height);
 
 		startScene = new Scene(startPane, width, height);
 		window.setScene(startScene);
 		window.setTitle("Labyrinth Escape");
 		window.setResizable(false);
 		window.show();
-		
-		gameScene = new Scene(gamePane, width, height);
+
 	}
 
 	public void drawNameText(GraphicsContext gc) {
@@ -97,7 +100,7 @@ public class Main extends Application {
 		playButton.setPrefWidth(200);
 		playButton.setPrefHeight(50);
 		playButton.setStyle("-fx-background-color: #1E90FF");
-
+		playButton.setCursor(Cursor.HAND);
 		playButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -109,7 +112,7 @@ public class Main extends Application {
 		exitButton.setPrefWidth(200);
 		exitButton.setPrefHeight(50);
 		exitButton.setStyle("-fx-background-color: #1E90FF");
-
+		exitButton.setCursor(Cursor.HAND);
 		exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
