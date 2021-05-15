@@ -94,4 +94,13 @@ public class GameController {
 	public static void setBomb_count(int bomb_count) {
 		GameController.bomb_count = bomb_count;
 	}
+
+	public static GameMap getGameMap() {
+		return gameMap;
+	}
+
+	public static void setGameMap(GameMap gameMap) {
+		GameController.gameMap = gameMap;
+	}
+	
 }

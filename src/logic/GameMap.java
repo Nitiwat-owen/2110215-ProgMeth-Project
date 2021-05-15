@@ -37,19 +37,19 @@ public class GameMap {
 				case "0":
 					break;
 				case "B":
-					addEntity(new BulletItem(), j, i);
+					addEntity(new BulletItem(j,i), j, i);
 					break;
 				case "BM":
-					addEntity(new BombItem(), j, i);
+					addEntity(new BombItem(j,i), j, i);
 					break;
 				case "PB":
-					addEntity(new PenetratedBulletItem(), j, i);
+					addEntity(new PenetratedBulletItem(j,i), j, i);
 					break;
 				case "SW":
-					addEntity(new SteelWall(), j, i);
+					addEntity(new SteelWall(j,i), j, i);
 					break;
 				case "W":
-					addEntity(new Wall(), j, i);
+					addEntity(new Wall(j,i), j, i);
 					break;	
 				default:
 					break;

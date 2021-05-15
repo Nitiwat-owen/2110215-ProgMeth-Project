@@ -18,4 +18,8 @@ public class Bullet extends Weapon {
 	public int getDamage() {
 		return this.damage;
 	}
+	@Override
+	public int getIndex() {
+		return -1;
+	}
 }

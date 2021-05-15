@@ -1,10 +1,13 @@
 package entity;
 
 import entity.base.*;
+import javafx.scene.canvas.GraphicsContext;
 
 public class Wall extends Entity implements Interactable, Destroyable {
 
-	public Wall() {
+	public Wall(int x,int y) {
+		this.x = x*48;
+		this.y = y*48;
 		this.health = 100;
 		visible = true;
 		destroy = false;
@@ -40,5 +43,12 @@ public class Wall extends Entity implements Interactable, Destroyable {
 			// remove
 		}
 		return false;
+	}
+	@Override
+	public int getIndex() {
+		return 5;
+	}
+	public void draw(GraphicsContext gc) {
+		image
 	}
 }

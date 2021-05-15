@@ -19,4 +19,8 @@ public class PenetratedBullet extends Entity {
 	public int getDamage() {
 		return this.damage;
 	}
+	@Override
+	public int getIndex() {
+		return -1;
+	}
 }
