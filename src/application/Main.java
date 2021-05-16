@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -11,6 +13,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -41,6 +44,7 @@ public class Main extends Application {
 	private static Image background = new Image("firstScene_Background.png");
 	private Scene startScene;
 	private GameScreen gameScene;
+	private LoadingScreen loadingScene;
 	private Stage window;
 
 	public static void main(String[] args) {
@@ -66,7 +70,7 @@ public class Main extends Application {
 //		stage.setResizable(false);
 //		stage.show();
 		gameScene = new GameScreen(width, height);
-
+		//loadingScene = new LoadingScreen(width,height);
 		startScene = new Scene(startPane, width, height);
 		window.setScene(startScene);
 		window.setTitle("Labyrinth Escape");
@@ -102,9 +106,20 @@ public class Main extends Application {
 		playButton.setStyle("-fx-background-color: #1E90FF");
 		playButton.setCursor(Cursor.HAND);
 		playButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			
 			@Override
 			public void handle(MouseEvent event) {
 				window.setScene(gameScene);
+//				window.setScene(loadingScene);;
+//				Platform.runLater(new Runnable(){
+//				    	  @Override
+//				    	  public void run() {
+//				    		  
+//				    	  }
+//				      });
+		
+				  
+				
 			}
 		});
 		exitButton = new Button("EXIT");

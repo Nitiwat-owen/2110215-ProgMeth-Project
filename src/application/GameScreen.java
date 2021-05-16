@@ -1,6 +1,7 @@
 package application;
 
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -51,9 +52,9 @@ public class GameScreen extends Scene {
 		Pane gamePane = new Pane();
 		gamePane.getChildren().add(gameCanvas);
 		pane.getChildren().add(gamePane);
-		
-		gameMap = MapParser.readMap("map.csv");
+        gameMap = MapParser.readMap("map.csv");
 		GameController.InitializeMap(gameMap, 2, 12);
+ 
 		/*AnimationTimer animation = new AnimationTimer() {
 			public void handle(long now) {
 				drawMap(gc);
@@ -62,6 +63,7 @@ public class GameScreen extends Scene {
 		//drawMap(gameGC);
 		animation.start();*/
 		drawMap(gameGC);
+		
 	}
 
 	public void drawBulletCount(GraphicsContext gc) {
