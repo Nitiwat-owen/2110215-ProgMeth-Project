@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import entity.SteelWall;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 
@@ -13,6 +14,7 @@ public class RenderableHolder {
 	private List<IRenderable> entities;
 	private Comparator<IRenderable> comparator;
 	public static Image mapSprite;
+	public static Image tankSprite;
 	
 	static {
 		loadResource();
@@ -33,17 +35,12 @@ public class RenderableHolder {
 
 	public static void loadResource() {
 		mapSprite = new Image(ClassLoader.getSystemResource("image-sheet.png").toString());
+		tankSprite = new Image(ClassLoader.getSystemResource("tank.png").toString());
 	}
 	public void add(IRenderable entity) {
-		System.out.println("add");
+
 		entities.add(entity);
 		Collections.sort(entities, comparator);
-		for(IRenderable x: entities){
-			//if(x instanceof Tank) System.out.println("tank");
-			//if(x instanceof Mine) System.out.println("mine");
-			//if(x instanceof Field) System.out.println("field");
-			
-		}
 	}
 
 	public void update() {

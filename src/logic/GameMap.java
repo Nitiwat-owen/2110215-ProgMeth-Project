@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import entity.base.*;
 import entity.*;
 import item.*;
+import sharedObject.RenderableHolder;
 
 public class GameMap {
 	private Cell[][] cellMap;
@@ -30,27 +31,30 @@ public class GameMap {
 		setWidth(column);
 		setHeight(row);
 
+		cellMap = new Cell[row][column];
+
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
-				cellMap[i][j] = new Cell();
+				cellMap[i][j] = new Cell(j, i);
+				RenderableHolder.getInstance().add(cellMap[i][j]);
 				switch (map[i][j]) {
 				case "0":
 					break;
 				case "B":
-					addEntity(new BulletItem(j,i), j, i);
+					addEntity(new BulletItem(j, i), j, i);
 					break;
 				case "BM":
-					addEntity(new BombItem(j,i), j, i);
+					addEntity(new BombItem(j, i), j, i);
 					break;
 				case "PB":
-					addEntity(new PenetratedBulletItem(j,i), j, i);
+					addEntity(new PenetratedBulletItem(j, i), j, i);
 					break;
 				case "SW":
-					addEntity(new SteelWall(j,i), j, i);
+					addEntity(new SteelWall(j, i), j, i);
 					break;
 				case "W":
-					addEntity(new Wall(j,i), j, i);
-					break;	
+					addEntity(new Wall(j, i), j, i);
+					break;
 				default:
 					break;
 				}
@@ -76,16 +80,14 @@ public class GameMap {
 
 	public boolean addEntity(Entity e, int x, int y) {
 		allEntity.add(e);
+		RenderableHolder.getInstance().add(e);
 
-		e.setX(x);
-		e.setY(y);
 		boolean b = cellMap[y][x].setEntity(e);
 		return b;
 	}
 
 	public void removeEntity(int x, int y) {
 		allEntity.remove(cellMap[x][y].getEntity());
-
 		cellMap[x][y].removeEntity();
 	}
 
@@ -129,5 +131,9 @@ public class GameMap {
 		if (playerX == 14 && playerY == 2) {
 			GameController.setWin(true);
 		}
+	}
+
+	public void logicUpdate() {
+
 	}
 }

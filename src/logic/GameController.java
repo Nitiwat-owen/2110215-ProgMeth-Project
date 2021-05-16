@@ -1,6 +1,7 @@
 package logic;
 
 import entity.*;
+import sharedObject.RenderableHolder;
 
 public class GameController {
 
@@ -18,12 +19,13 @@ public class GameController {
 
 	private static int bomb_count;
 
-	public void InitializeMap(String[][] map, int x, int y) {
+	public static void InitializeMap(String[][] map, int x, int y) {
 		gameMap = new GameMap(map);
 		isPlanted = false;
-		player = new Player();
+		player = new Player(x,y);
 		
 		gameMap.addEntity(player, x, y);
+		RenderableHolder.getInstance().add(player);
 		
 		isWin = false;
 		bullet_count = 0;

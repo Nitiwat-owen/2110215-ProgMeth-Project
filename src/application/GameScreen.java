@@ -1,5 +1,6 @@
 package application;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -9,20 +10,26 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.*;
+import sharedObject.IRenderable;
+import sharedObject.RenderableHolder;
 
 public class GameScreen extends Scene {
 
 	private static Pane pane = new VBox();
 	Canvas canvas = new Canvas(800, 50);
+	Canvas gameCanvas = new Canvas(800, 750);
 	GraphicsContext gc = canvas.getGraphicsContext2D();
+	GraphicsContext gameGC = gameCanvas.getGraphicsContext2D();
 	private int time = 180;
 	private Thread timerThread;
+	private String[][] gameMap;
 
 	public GameScreen(int width, int height) {
 		super(pane, width, height);
 		Pane topPane = new Pane();
 		topPane.getChildren().add(canvas);
 		pane.getChildren().add(topPane);
+		
 		drawBulletCount(gc);
 		drawPenetBulletCount(gc);
 		drawBombCount(gc);
@@ -40,6 +47,21 @@ public class GameScreen extends Scene {
 			}
 		});
 		timerThread.start();
+
+		Pane gamePane = new Pane();
+		gamePane.getChildren().add(gameCanvas);
+		pane.getChildren().add(gamePane);
+		
+		gameMap = MapParser.readMap("map.csv");
+		GameController.InitializeMap(gameMap, 2, 12);
+		/*AnimationTimer animation = new AnimationTimer() {
+			public void handle(long now) {
+				drawMap(gc);
+			}
+		};
+		//drawMap(gameGC);
+		animation.start();*/
+		drawMap(gameGC);
 	}
 
 	public void drawBulletCount(GraphicsContext gc) {
@@ -100,5 +122,13 @@ public class GameScreen extends Scene {
 			currentTime = currentTime + second;
 		}
 		gc.fillText(currentTime, 700, 50, 100);
+	}
+
+	public void drawMap(GraphicsContext gc) {
+		for (IRenderable entity : RenderableHolder.getInstance().getEntities()) {
+			if (entity.isVisible() && !entity.isDestroyed()) {
+				entity.draw(gc);
+			}
+		}
 	}
 }

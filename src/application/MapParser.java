@@ -11,7 +11,7 @@ public static String[][] readMap(String filename) {
 		
 		try {
 			InputStream inputStream = ClassLoader.
-			        getSystemResourceAsStream("csv/"+filename);
+			        getSystemResourceAsStream(filename);
 			InputStreamReader streamReader = new InputStreamReader(inputStream, "UTF-8");
 			BufferedReader in = new BufferedReader(streamReader);
 
