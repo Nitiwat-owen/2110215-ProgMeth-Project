@@ -41,6 +41,7 @@ public class Main extends Application {
 	private static Image background = new Image("firstScene_Background.png");
 	private Scene startScene;
 	private GameScreen gameScene;
+	private LoadingScreen loadingScene;
 	private Stage window;
 
 	public static void main(String[] args) {
@@ -66,7 +67,7 @@ public class Main extends Application {
 //		stage.setResizable(false);
 //		stage.show();
 		gameScene = new GameScreen(width, height);
-
+		//loadingScene = new LoadingScene(width,height);
 		startScene = new Scene(startPane, width, height);
 		window.setScene(startScene);
 		window.setTitle("Labyrinth Escape");

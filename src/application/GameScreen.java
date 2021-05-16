@@ -1,6 +1,8 @@
 package application;
 
+import input.InputUtility;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -29,7 +31,7 @@ public class GameScreen extends Scene {
 		Pane topPane = new Pane();
 		topPane.getChildren().add(canvas);
 		pane.getChildren().add(topPane);
-		
+
 		drawBulletCount(gc);
 		drawPenetBulletCount(gc);
 		drawBombCount(gc);
@@ -51,17 +53,36 @@ public class GameScreen extends Scene {
 		Pane gamePane = new Pane();
 		gamePane.getChildren().add(gameCanvas);
 		pane.getChildren().add(gamePane);
-		
-		gameMap = MapParser.readMap("map.csv");
-		GameController.InitializeMap(gameMap, 2, 12);
-		/*AnimationTimer animation = new AnimationTimer() {
-			public void handle(long now) {
-				drawMap(gc);
-			}
-		};
-		//drawMap(gameGC);
-		animation.start();*/
-		drawMap(gameGC);
+
+		gameMap = MapParser.readMap("map_test.csv");
+		GameController.InitializeMap(gameMap, 1, 6);
+
+//		AnimationTimer animation = new AnimationTimer() {
+//			public void handle(long now) {
+//				drawMap(gameGC);
+//				RenderableHolder.getInstance().update();
+//			}
+//		};
+//		animation.start();
+		gameCanvas.requestFocus();
+		Thread gameThread = new Thread(() -> {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					drawMap(gameGC);
+					RenderableHolder.getInstance().update();
+				}
+			});
+
+		});
+		gameThread.start();
+//		
+		InputUtility.addEventListener(this, gameGC);
+//		Thread gameThread = new Thread(() -> {
+//			drawMap(gameGC);
+//		});
+
+		// drawMap(gameGC);
 	}
 
 	public void drawBulletCount(GraphicsContext gc) {
@@ -125,10 +146,16 @@ public class GameScreen extends Scene {
 	}
 
 	public void drawMap(GraphicsContext gc) {
-		for (IRenderable entity : RenderableHolder.getInstance().getEntities()) {
-			if (entity.isVisible() && !entity.isDestroyed()) {
-				entity.draw(gc);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				for (IRenderable entity : RenderableHolder.getInstance().getEntities()) {
+					if (entity.isVisible() && !entity.isDestroyed()) {
+						entity.draw(gc);
+					}
+				}
 			}
-		}
+		});
+
 	}
 }

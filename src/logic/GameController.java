@@ -32,7 +32,9 @@ public class GameController {
 		penetrated_count = 0;
 		bomb_count = 0;
 	}
-
+	public static void movePlayer(String dir) {
+		player.move(dir);
+	}
 	public static void addBombCount() {
 		GameController.bomb_count++;
 	}
