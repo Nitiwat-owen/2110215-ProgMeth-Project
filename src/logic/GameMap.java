@@ -92,14 +92,14 @@ public class GameMap {
 	}
 
 	public boolean isMovable(int x, int y, Entity e) {
+		if (x < 0 || x >= width || y < 0 || y >= height) {
+			return false;
+		}
 		if (cellMap[y][x].IsEmpty()) {
 			return true;
 		}
-		if (x >= 0 && x < width && y >= 0 && y < height) {
-			return true;
-		}
-		if (cellMap[x][y].getEntity() instanceof Interactable) {
-			return ((Interactable) cellMap[x][y]).interact(e);
+		if (cellMap[y][x].getEntity() instanceof Interactable) {
+			return ((Interactable) cellMap[y][x].getEntity()).interact(e);
 		}
 		return false;
 	}

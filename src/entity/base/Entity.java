@@ -53,24 +53,23 @@ public abstract class Entity implements IRenderable {
 	public boolean move(String dir) {
 		int targetx = x;
 		int targety = y;
-		int angle = 0;
 
 		switch (dir) {
 		case "W":
 			targety -= 1;
-			angle = 0;
+			((Player) this).setAngle(0);
 			break;
 		case "A":
 			targetx -= 1;
-			angle = 270;
+			((Player) this).setAngle(270);
 			break;
 		case "S":
 			targety += 1;
-			angle = 180;
+			((Player) this).setAngle(180);
 			break;
 		case "D":
 			targetx += 1;
-			angle = 90;
+			((Player) this).setAngle(90);
 			break;
 		default:
 			break;
@@ -79,7 +78,6 @@ public abstract class Entity implements IRenderable {
 //			this.destroy = true;
 //			RenderableHolder.getInstance().update();
 //			RenderableHolder.getInstance().add(this);
-			((Player) this).setAngle(angle);
 			this.x = targetx;
 			this.y = targety;
 			return true;
