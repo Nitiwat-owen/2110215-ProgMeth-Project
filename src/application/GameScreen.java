@@ -56,7 +56,7 @@ public class GameScreen extends Scene {
 
 		gameMap = MapParser.readMap("map_test.csv");
 		GameController.InitializeMap(gameMap, 1, 6);
-
+		gameCanvas.requestFocus();
 		AnimationTimer animation = new AnimationTimer() {
 			public void handle(long now) {
 				drawMap(gameGC);
@@ -64,7 +64,7 @@ public class GameScreen extends Scene {
 			}
 		};
 		animation.start();
-//		gameCanvas.requestFocus();
+//		
 //		Thread gameThread = new Thread(() -> {
 //			Platform.runLater(new Runnable() {
 //				@Override

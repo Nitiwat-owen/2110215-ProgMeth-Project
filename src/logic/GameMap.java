@@ -92,7 +92,7 @@ public class GameMap {
 	}
 
 	public boolean isMovable(int x, int y, Entity e) {
-		if (cellMap[x][y].IsEmpty()) {
+		if (cellMap[y][x].IsEmpty()) {
 			return true;
 		}
 		if (x >= 0 && x < width && y >= 0 && y < height) {

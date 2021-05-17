@@ -9,6 +9,7 @@ public class Player extends Entity {
 	private int bullets;
 	private int penetratedBullets;
 	private int bombs;
+	private int angle;
 
 	public Player(int x, int y) {
 		bullets = 10;
@@ -17,10 +18,31 @@ public class Player extends Entity {
 		this.x = x;
 		this.y = y;
 		z = 20;
+		this.angle = 0;
+	}
+
+	public int getAngle() {
+		return angle;
+	}
+
+	public void setAngle(int angle) {
+		this.angle = angle;
 	}
 
 	@Override
 	public int getIndex() {
+		switch (angle) {
+		case 0:
+			return 0;
+		case 90:
+			return 1;
+		case 180:
+			return 2;
+		case 270:
+			return 3;
+		default:
+			break;
+		}
 		return -1;
 	}
 
@@ -41,7 +63,8 @@ public class Player extends Entity {
 
 	@Override
 	public void draw(GraphicsContext gc) {
-		WritableImage tankImage = new WritableImage(RenderableHolder.tankSprite.getPixelReader(), 0, 0, 48, 48);
+		WritableImage tankImage = new WritableImage(RenderableHolder.tankSprite.getPixelReader(), this.getIndex() * 48,
+				0, 48, 48);
 		gc.drawImage(tankImage, x * 48, y * 48);
 	}
 
