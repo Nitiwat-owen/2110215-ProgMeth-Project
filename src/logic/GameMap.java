@@ -96,8 +96,8 @@ public class GameMap {
 	}
 
 	public void removeEntity(int x, int y) {
-//		allEntity.remove(cellMap[x][y].getEntity());
-		System.out.println(allEntity.remove(cellMap[x][y].getEntity()));
+		allEntity.remove(cellMap[x][y].getEntity());
+//		System.out.println(allEntity.remove(cellMap[x][y].getEntity()));
 		cellMap[x][y].removeEntity();
 	}
 
@@ -141,9 +141,5 @@ public class GameMap {
 		if (playerX == 14 && playerY == 2) {
 			GameController.setWin(true);
 		}
-	}
-
-	public void logicUpdate() {
-
 	}
 }

@@ -107,4 +107,8 @@ public class GameController {
 		GameController.gameMap = gameMap;
 	}
 	
+	public static void update() {
+		player.update();
+	}
+	
 }

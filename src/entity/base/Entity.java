@@ -75,15 +75,15 @@ public abstract class Entity implements IRenderable {
 			break;
 		}
 		if (GameController.getGameMap().isMovable(targetx, targety, this)) {
+			this.x = targetx;
+			this.y = targety;
 //			this.destroy = true;
 //			RenderableHolder.getInstance().update();
-//			RenderableHolder.getInstance().add(this);
+			RenderableHolder.getInstance().add(this);
 			if (targetx != x || targety != y) {
 				RenderableHolder.getInstance().add(new Cell(x, y));
 			}
-			this.remove();
-			this.x = targetx;
-			this.y = targety;
+			//this.remove();
 			return true;
 		}
 		return false;

@@ -14,79 +14,118 @@ import javafx.scene.text.Font;
 import logic.*;
 import sharedObject.IRenderable;
 import sharedObject.RenderableHolder;
+import javafx.scene.input.KeyEvent;
 
+public class GameScreen extends Canvas {
 
-public class GameScreen extends Scene {
-
-	private static Pane pane = new VBox();
-	Canvas canvas = new Canvas(800, 50);
-	Canvas gameCanvas = new Canvas(800, 750);
-	GraphicsContext gc = canvas.getGraphicsContext2D();
-	GraphicsContext gameGC = gameCanvas.getGraphicsContext2D();
-	private int time = 180;
-	private Thread topPaneThread;
-	private String[][] gameMap;
+//	private static Pane pane = new VBox();
+//	Canvas canvas = new Canvas(800, 50);
+//	Canvas gameCanvas = new Canvas(800, 750);
+//	GraphicsContext gc = canvas.getGraphicsContext2D();
+//	GraphicsContext gameGC = gameCanvas.getGraphicsContext2D();
+//	private int time = 180;
+//	private Thread topPaneThread;
+//	private String[][] gameMap;
+//	
 
 	public GameScreen(int width, int height) {
-		super(pane, width, height);
-		Pane topPane = new Pane();
-		topPane.getChildren().add(canvas);
+		super(width, height);
+		addListener();
+	}
 
-		pane.getChildren().add(topPane);
-
-		topPaneThread = new Thread(() -> {
-			while (true) {
-				try {
-					Thread.sleep(1000);
-					time--;
-					drawTimeOut(gc);
-					drawBulletCount(gc);
-					drawPenetBulletCount(gc);
-					drawBombCount(gc);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					break;
-				}
-			}
-		});
-		topPaneThread.start();
-
-		Pane gamePane = new Pane();
-		gamePane.getChildren().add(gameCanvas);
-		pane.getChildren().add(gamePane);
-
-		gameMap = MapParser.readMap("map.csv");
-		GameController.InitializeMap(gameMap, 1, 6);
-		gameCanvas.requestFocus();
-
-		Thread drawBG = new Thread(() -> {
-			drawBackground(gameGC);
-			drawMap(gameGC);
-		});
-		drawBG.start();
-
+//	public GameScreen(int width, int height) {
+//		super(pane, width, height);
+//		//addListener();
+//		Pane topPane = new Pane();
+//		topPane.getChildren().add(canvas);
+//
+//		pane.getChildren().add(topPane);
+//
+//		topPaneThread = new Thread(() -> {
+//			while (true) {
+//				System.out.println("A");
+//				try {
+//					Thread.sleep(1000);
+//					time--;
+//					drawTimeOut(gc);
+//					drawBulletCount(gc);
+//					drawPenetBulletCount(gc);
+//					drawBombCount(gc);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//					break;
+//				}
+//				System.out.println("B");
+//			}
+//		});
+//		topPaneThread.start();
+//		
+//
+//		Pane gamePane = new Pane();
+//		gamePane.getChildren().add(gameCanvas);
+//		pane.getChildren().add(gamePane);
+//
+//		gameMap = MapParser.readMap("map_test.csv");
+//		GameController.InitializeMap(gameMap, 1, 6);
+//		gameCanvas.requestFocus();
+//
+////		Thread drawBG = new Thread(() -> {
+////			Platform.runLater(new Runnable() {
+////				@Override
+////				public void run() {
+//					drawBackground(gameGC);
+//					//drawMap(gameGC);
+////				}
+////			});
+////			
+////		});
+////		drawBG.start();
+////		Platform.runLater(new Runnable() {
+////			@Override
+////			public void run() {
+////				drawBackground(gameGC);
+////				drawMap(gameGC);
+////			}
+////		});
+//
 //		AnimationTimer animation = new AnimationTimer() {
 //			public void handle(long now) {
+//				System.out.println("X");
 //				drawMap(gameGC);
+//				System.out.println("Y");
 //				RenderableHolder.getInstance().update();
-//				
+//				System.out.println("Z");
+//				//GameController.update();
 //			}
 //		};
 //		animation.start();
-//		
-//		Thread gameThread = new Thread(() -> {
-//			Platform.runLater(new Runnable() {
-//				@Override
-//				public void run() {
-//					drawMap(gameGC);
-//					RenderableHolder.getInstance().update();
-//				}
-//			});
+////		
+////		Thread gameThread = new Thread(() -> {
+////			Platform.runLater(new Runnable() {
+////				@Override
+////				public void run() {
+////					drawMap(gameGC);
+////					RenderableHolder.getInstance().update();
+////				}
+////			});
+////
+////		});
+////		gameThread.start();
+////		
+//		 InputUtility.addEventListener(this, gameGC);
+//	}
 //
-//		});
-//		gameThread.start();
-//		
-		InputUtility.addEventListener(this, gameGC);
+	public void addListener() {
+		this.setOnKeyPressed((KeyEvent event) -> {
+			String new_code = event.getCode().toString();
+			if (!InputUtility.getPressed()) {
+				InputUtility.setTriggered(new_code, true);
+			}
+			InputUtility.setPressed(true);
+		});
+		this.setOnKeyReleased((KeyEvent event) -> {
+			InputUtility.setPressed(false);
+		});
 	}
 
 	public void drawBulletCount(GraphicsContext gc) {
@@ -129,7 +168,7 @@ public class GameScreen extends Scene {
 		gc.strokeText("BOMB : " + Integer.toString(bombCount), 500, 50, 200);
 	}
 
-	public void drawTimeOut(GraphicsContext gc) {
+	public void drawTimeOut(GraphicsContext gc, int time) {
 		gc.setFill(Color.BLACK);
 		gc.fillRect(700, 0, 200, 100);
 		int minute = time / 60;
