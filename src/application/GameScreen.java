@@ -15,6 +15,7 @@ import logic.*;
 import sharedObject.IRenderable;
 import sharedObject.RenderableHolder;
 
+
 public class GameScreen extends Scene {
 
 	private static Pane pane = new VBox();
@@ -23,54 +24,55 @@ public class GameScreen extends Scene {
 	GraphicsContext gc = canvas.getGraphicsContext2D();
 	GraphicsContext gameGC = gameCanvas.getGraphicsContext2D();
 	private int time = 180;
-	private Thread timerThread;
+	private Thread topPaneThread;
 	private String[][] gameMap;
 
 	public GameScreen(int width, int height) {
 		super(pane, width, height);
 		Pane topPane = new Pane();
 		topPane.getChildren().add(canvas);
+
 		pane.getChildren().add(topPane);
 
-		drawBulletCount(gc);
-		drawPenetBulletCount(gc);
-		drawBombCount(gc);
-
-		timerThread = new Thread(() -> {
+		topPaneThread = new Thread(() -> {
 			while (true) {
 				try {
 					Thread.sleep(1000);
 					time--;
 					drawTimeOut(gc);
+					drawBulletCount(gc);
+					drawPenetBulletCount(gc);
+					drawBombCount(gc);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 					break;
 				}
 			}
 		});
-		timerThread.start();
+		topPaneThread.start();
 
 		Pane gamePane = new Pane();
 		gamePane.getChildren().add(gameCanvas);
 		pane.getChildren().add(gamePane);
 
-		gameMap = MapParser.readMap("map_test.csv");
+		gameMap = MapParser.readMap("map.csv");
 		GameController.InitializeMap(gameMap, 1, 6);
 		gameCanvas.requestFocus();
-		
+
 		Thread drawBG = new Thread(() -> {
 			drawBackground(gameGC);
+			drawMap(gameGC);
 		});
 		drawBG.start();
-			
-		AnimationTimer animation = new AnimationTimer() {
-			public void handle(long now) {
-				drawMap(gameGC);
-				RenderableHolder.getInstance().update();
-				
-			}
-		};
-		animation.start();
+
+//		AnimationTimer animation = new AnimationTimer() {
+//			public void handle(long now) {
+//				drawMap(gameGC);
+//				RenderableHolder.getInstance().update();
+//				
+//			}
+//		};
+//		animation.start();
 //		
 //		Thread gameThread = new Thread(() -> {
 //			Platform.runLater(new Runnable() {

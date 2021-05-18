@@ -1,5 +1,6 @@
 package application;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -70,12 +72,7 @@ public class Main extends Application {
 //		stage.setResizable(false);
 //		stage.show();
 		gameScene = new GameScreen(width, height);
-		
-		//loadingScene = new LoadingScene(width,height);
-
-
-
-		//loadingScene = new LoadingScreen(width,height);
+		loadingScene = new LoadingScreen(width,height);
 
 		startScene = new Scene(startPane, width, height);
 		window.setScene(startScene);
@@ -112,20 +109,19 @@ public class Main extends Application {
 		playButton.setStyle("-fx-background-color: #1E90FF");
 		playButton.setCursor(Cursor.HAND);
 		playButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			
+
 			@Override
 			public void handle(MouseEvent event) {
-				window.setScene(gameScene);
-//				window.setScene(loadingScene);;
+				window.setScene(loadingScene);
+//				window.setScene(gameScene);
+//				window.setScene(loadingScene);
 //				Platform.runLater(new Runnable(){
 //				    	  @Override
 //				    	  public void run() {
 //				    		  
 //				    	  }
 //				      });
-		
-				  
-				
+
 			}
 		});
 		exitButton = new Button("EXIT");
@@ -140,5 +136,66 @@ public class Main extends Application {
 				System.exit(0);
 			}
 		});
+	}
+
+	public void loadingScreen() {
+		startPane.getChildren().clear();
+		
+//		StackPane loadingPane = new StackPane();
+		Canvas loadingCanvas = new Canvas(800, 800);
+		GraphicsContext loadingGC = loadingCanvas.getGraphicsContext2D();
+		
+		startPane.getChildren().add(loadingCanvas);
+		loadingGC.setLineWidth(5);
+		loadingGC.setFill(Color.BLACK);
+		loadingGC.fillRect(0,0,800,800);
+		
+		loadingGC.setFont(Font.font("VERDENA", FontWeight.BOLD, 100));
+		loadingGC.setFill(Color.WHITE);
+		loadingGC.fillText("LOADING...", 150, 400);
+//		
+//		Scene loadingScene = new Scene(loadingPane,width,height);
+		
+//		StackPane loadingScreen = new StackPane();
+//		loadingScreen.setPrefWidth(800);
+//		loadingScreen.setPrefHeight(800);
+		
+		
+//		FadeTransition fadeIn = new FadeTransition(Duration.seconds(3), startPane);
+//		fadeIn.setFromValue(0);
+//		fadeIn.setToValue(1);
+//		fadeIn.setCycleCount(1);
+//
+//		FadeTransition fadeOut = new FadeTransition(Duration.seconds(3), startPane);
+//		fadeOut.setFromValue(1);
+//		fadeOut.setToValue(1);
+//		fadeOut.setCycleCount(1);
+//
+//		fadeIn.play();
+//		Thread loadingMap = new Thread(() -> {
+//			Platform.runLater(new Runnable() {
+//				@Override
+//				public void run() {
+//					window.setScene(gameScene);
+//				}
+//			});
+//
+//		});
+//		loadingMap.start();
+//
+//		Thread finishedMap = new Thread(() -> {
+//			try {
+//				loadingMap.join();
+//				fadeIn.setOnFinished((e) -> {
+//					fadeOut.play();
+//				});
+//			} catch (InterruptedException e) {
+//				throw new RuntimeException(e);
+//			}
+//		});
+//		finishedMap.start();
+//
+//		fadeOut.setOnFinished((e) -> {
+//		});
 	}
 }

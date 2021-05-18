@@ -3,7 +3,7 @@ package entity.base;
 import entity.Bomb;
 import entity.Bullet;
 import entity.PenetratedBullet;
-import logic.GameController;
+import logic.*;
 import sharedObject.*;
 import entity.Player;
 
@@ -39,7 +39,7 @@ public abstract class Entity implements IRenderable {
 	}
 
 	public void remove() {
-
+		GameController.getGameMap().removeEntity(this.x, this.y);
 	}
 
 	public boolean isDestroyed() {
@@ -78,6 +78,10 @@ public abstract class Entity implements IRenderable {
 //			this.destroy = true;
 //			RenderableHolder.getInstance().update();
 //			RenderableHolder.getInstance().add(this);
+			if (targetx != x || targety != y) {
+				RenderableHolder.getInstance().add(new Cell(x, y));
+			}
+			this.remove();
 			this.x = targetx;
 			this.y = targety;
 			return true;

@@ -7,6 +7,7 @@ import item.*;
 import sharedObject.RenderableHolder;
 
 public class GameMap {
+	
 	private Cell[][] cellMap;
 	private int width;
 	private int height;
@@ -86,8 +87,17 @@ public class GameMap {
 		return b;
 	}
 
+	public boolean addBackground(Entity e, int x, int y) {
+		allEntity.add(e);
+		RenderableHolder.getInstance().addBackground(e);
+
+		boolean b = cellMap[y][x].setEntity(e);
+		return b;
+	}
+
 	public void removeEntity(int x, int y) {
-		allEntity.remove(cellMap[x][y].getEntity());
+//		allEntity.remove(cellMap[x][y].getEntity());
+		System.out.println(allEntity.remove(cellMap[x][y].getEntity()));
 		cellMap[x][y].removeEntity();
 	}
 
@@ -134,6 +144,6 @@ public class GameMap {
 	}
 
 	public void logicUpdate() {
-		
+
 	}
 }

@@ -24,7 +24,7 @@ public class GameController {
 		isPlanted = false;
 		player = new Player(x,y);
 		
-		gameMap.addEntity(player, x, y);
+		//gameMap.addEntity(player, x, y);
 		RenderableHolder.getInstance().add(player);
 		
 		isWin = false;
