@@ -57,10 +57,17 @@ public class GameScreen extends Scene {
 		gameMap = MapParser.readMap("map_test.csv");
 		GameController.InitializeMap(gameMap, 1, 6);
 		gameCanvas.requestFocus();
+		
+		Thread drawBG = new Thread(() -> {
+			drawBackground(gameGC);
+		});
+		drawBG.start();
+			
 		AnimationTimer animation = new AnimationTimer() {
 			public void handle(long now) {
 				drawMap(gameGC);
 				RenderableHolder.getInstance().update();
+				
 			}
 		};
 		animation.start();
@@ -79,7 +86,7 @@ public class GameScreen extends Scene {
 //		
 		InputUtility.addEventListener(this, gameGC);
 	}
- 
+
 	public void drawBulletCount(GraphicsContext gc) {
 		gc.setLineWidth(2);
 		gc.setFill(Color.BLACK);
@@ -151,6 +158,16 @@ public class GameScreen extends Scene {
 				}
 			}
 		});
+	}
 
+	public void drawBackground(GraphicsContext gc) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				for (IRenderable entity : RenderableHolder.getInstance().getBackground()) {
+					entity.draw(gc);
+				}
+			}
+		});
 	}
 }

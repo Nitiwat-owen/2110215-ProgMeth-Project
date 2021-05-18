@@ -1,27 +1,30 @@
 package sharedObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import entity.Player;
 import entity.SteelWall;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 
-
 public class RenderableHolder {
 	private static final RenderableHolder instance = new RenderableHolder();
 	private List<IRenderable> entities;
+	private List<IRenderable> backgroundEntities;
 	private Comparator<IRenderable> comparator;
 	public static Image mapSprite;
 	public static Image tankSprite;
-	
+
 	static {
 		loadResource();
 	}
 
 	public RenderableHolder() {
 		entities = new ArrayList<IRenderable>();
+		backgroundEntities = new ArrayList<IRenderable>();
 		comparator = (IRenderable o1, IRenderable o2) -> {
 			if (o1.getZ() > o2.getZ())
 				return 1;
@@ -37,10 +40,15 @@ public class RenderableHolder {
 		mapSprite = new Image(ClassLoader.getSystemResource("image-sheet.png").toString());
 		tankSprite = new Image(ClassLoader.getSystemResource("tankImage.png").toString());
 	}
-	public void add(IRenderable entity) {
 
+	public void add(IRenderable entity) {
 		entities.add(entity);
 		Collections.sort(entities, comparator);
+	}
+
+	public void addBackground(IRenderable entity) {
+		backgroundEntities.add(entity);
+		Collections.sort(backgroundEntities, comparator);
 	}
 
 	public void update() {
@@ -53,5 +61,8 @@ public class RenderableHolder {
 	public List<IRenderable> getEntities() {
 		return entities;
 	}
-	
+
+	public List<IRenderable> getBackground() {
+		return backgroundEntities;
+	}
 }

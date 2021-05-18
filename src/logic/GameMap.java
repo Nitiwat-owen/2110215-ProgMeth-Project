@@ -36,7 +36,7 @@ public class GameMap {
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
 				cellMap[i][j] = new Cell(j, i);
-				RenderableHolder.getInstance().add(cellMap[i][j]);
+				RenderableHolder.getInstance().addBackground(cellMap[i][j]);
 				switch (map[i][j]) {
 				case "0":
 					break;
@@ -134,6 +134,6 @@ public class GameMap {
 	}
 
 	public void logicUpdate() {
-
+		
 	}
 }

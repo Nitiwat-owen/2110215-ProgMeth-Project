@@ -19,6 +19,8 @@ public class Player extends Entity {
 		this.y = y;
 		z = 20;
 		this.angle = 0;
+		this.visible = true;
+		this.destroy = false;
 	}
 
 	public int getAngle() {
@@ -53,12 +55,12 @@ public class Player extends Entity {
 
 	@Override
 	public boolean isVisible() {
-		return true;
+		return visible;
 	}
 
 	@Override
 	public boolean isDestroyed() {
-		return false;
+		return destroy;
 	}
 
 	@Override
