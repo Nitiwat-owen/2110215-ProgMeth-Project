@@ -31,7 +31,7 @@ public class LoadingScreen extends Scene {
 
 		gc.setFont(Font.font("VERDENA", FontWeight.BOLD, 50));
 		gc.setFill(Color.WHITE);
-		gc.fillText("LOADING...", 300, 400);
+		gc.fillText("LOADING...", 200, 200);
 
 		FadeTransition fade = new FadeTransition();
 		

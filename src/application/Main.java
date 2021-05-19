@@ -44,21 +44,19 @@ public class Main extends Application {
 
 	private Button playButton;
 	private Button exitButton;
+	private Button helpButton;
+	private Button creditButton;
 	private VBox startPane = new VBox();
 	private Pane gamePane = new VBox();
-	private static final int width = 800;
-	private static final int height = 800;
-	Canvas startCanvas = new Canvas(800, 200);
+	private static final int width = 540;
+	private static final int height = 600;
+	Canvas startCanvas = new Canvas(width, 200);
 	GraphicsContext startGC = startCanvas.getGraphicsContext2D();
 
-//	Canvas topPaneCanvas = new Canvas(800, 50);
-//	GraphicsContext topPaneGC = topPaneCanvas.getGraphicsContext2D();
-	GameScreen topCanvas = new GameScreen(800, 50);
+	GameScreen topCanvas = new GameScreen(width, 60);
 	GraphicsContext topPaneGC = topCanvas.getGraphicsContext2D();
 
-//	Canvas gameCanvas = new Canvas(800, 750);
-//	GraphicsContext gameGC = gameCanvas.getGraphicsContext2D();
-	GameScreen gameCanvas = new GameScreen(800, 750);
+	GameScreen gameCanvas = new GameScreen(width, 540);
 	GraphicsContext gameGC = gameCanvas.getGraphicsContext2D();
 
 	private static Image background = new Image("firstScene_Background.png");
@@ -69,10 +67,7 @@ public class Main extends Application {
 
 	private String[][] gameMap;
 	private Thread thread;
-	private Thread topPaneThread;
-	private Thread t;
 	private Thread drawingThread;
-	private int time = 180;
 
 	private GameScreen gameScreen;
 
@@ -85,15 +80,14 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		window = primaryStage;
-		// startPane
-		startPane.setSpacing(50);
+		startPane.setSpacing(20);
 		startPane.setAlignment(Pos.CENTER);
 
 		InitializeButton();
 
 		drawNameText(startGC);
 		drawBackground();
-		startPane.getChildren().addAll(startCanvas, playButton, exitButton);
+		startPane.getChildren().addAll(startCanvas, playButton, helpButton, creditButton, exitButton);
 
 		startScene = new Scene(startPane, width, height);
 		window.setScene(startScene);
@@ -114,17 +108,25 @@ public class Main extends Application {
 		playPane.getChildren().add(gameCanvas);
 		gamePane.getChildren().add(playPane);
 
-		gameMap = MapParser.readMap("map_test.csv");
+		gameMap = MapParser.readMap("map.csv");
 		GameController.InitializeMap(gameMap, 1, 6);
 
 		gameCanvas.requestFocus();
 		topCanvas.requestFocus();
 
-		gameCanvas.drawBackground(gameGC);
-		topCanvas.drawBulletCount(topPaneGC);
-		topCanvas.drawPenetBulletCount(topPaneGC);
-		topCanvas.drawBombCount(topPaneGC);
-		gameCanvas.drawMap(gameGC);
+		Thread t = new Thread(() -> {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					gameCanvas.drawBackground(gameGC);
+					topCanvas.drawBulletCount(topPaneGC);
+					topCanvas.drawPenetBulletCount(topPaneGC);
+					topCanvas.drawBombCount(topPaneGC);
+					gameCanvas.drawMap(gameGC);
+				}
+			});
+		});
+		t.start();
 
 		addEventListener(gameScene, gameCanvas, gameGC);
 //		topPaneThread = new Thread(() -> {
@@ -212,8 +214,8 @@ public class Main extends Application {
 		Font font = Font.font("Verdana", FontWeight.BOLD, 60);
 		gc.setFont(font);
 
-		gc.strokeText("Labyrinth Escape", 100, 100);
-		gc.fillText("Labyrinth Escape", 100, 100);
+		gc.strokeText("Labyrinth Escape", 20, 100, 500);
+		gc.fillText("Labyrinth Escape", 20, 100, 500);
 	}
 
 	public void drawBackground() {
@@ -225,41 +227,31 @@ public class Main extends Application {
 
 	public void InitializeButton() {
 		playButton = new Button("PLAY");
-		playButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 40));
+		playButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		playButton.setPrefWidth(200);
-		playButton.setPrefHeight(50);
+		playButton.setPrefHeight(30);
 		playButton.setStyle("-fx-background-color: #1E90FF");
 		playButton.setCursor(Cursor.HAND);
 		playButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent event) {
-				System.out.println("Start loading Scene");
 				window.setScene(loadingScene);
-				System.out.println("Finish loading Scene");
-
 				Thread changingScene = new Thread(() -> {
-
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-
-							System.out.println("Start changing Scene");
 							window.setScene(gameScene);
-							System.out.println("Finish changing Scene");
-							window.show();
-							System.out.println("Show window");
 						}
 					});
-					System.out.println("Finish runLater");
 				});
 				changingScene.start();
 			}
 		});
+
 		exitButton = new Button("EXIT");
-		exitButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 40));
+		exitButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		exitButton.setPrefWidth(200);
-		exitButton.setPrefHeight(50);
+		exitButton.setPrefHeight(30);
 		exitButton.setStyle("-fx-background-color: #1E90FF");
 		exitButton.setCursor(Cursor.HAND);
 		exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -268,6 +260,20 @@ public class Main extends Application {
 				System.exit(0);
 			}
 		});
+
+		helpButton = new Button("HELP");
+		helpButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
+		helpButton.setPrefWidth(200);
+		helpButton.setPrefHeight(30);
+		helpButton.setStyle("-fx-background-color: #1E90FF");
+		helpButton.setCursor(Cursor.HAND);
+
+		creditButton = new Button("CREDIT");
+		creditButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
+		creditButton.setPrefWidth(200);
+		creditButton.setPrefHeight(30);
+		creditButton.setStyle("-fx-background-color: #1E90FF");
+		creditButton.setCursor(Cursor.HAND);
 	}
 
 	public void addEventListener(Scene scene, Canvas canvas, GraphicsContext gc) {
@@ -287,7 +293,7 @@ public class Main extends Application {
 				GameController.movePlayer("D");
 				break;
 			case SPACE:
-				
+
 				GameController.shoot();
 			case B:
 				GameController.plantedBomb();
@@ -305,7 +311,6 @@ public class Main extends Application {
 
 			});
 			drawingThread.start();
-
 		});
 
 	}

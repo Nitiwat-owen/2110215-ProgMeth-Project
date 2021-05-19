@@ -31,7 +31,7 @@ public class BombItem extends Entity implements Interactable {
 	@Override
 	public void draw(GraphicsContext gc) {
 		WritableImage croppedImage = new WritableImage(RenderableHolder.mapSprite.getPixelReader(),
-				this.getIndex() * 48, 0, 48, 48);
-		gc.drawImage(croppedImage, x * 48, y * 48);
+				this.getIndex() * 36, 0, 36, 36);
+		gc.drawImage(croppedImage, x * 36, y * 36);
 	}
 }

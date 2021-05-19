@@ -131,41 +131,41 @@ public class GameScreen extends Canvas {
 	public void drawBulletCount(GraphicsContext gc) {
 		gc.setLineWidth(2);
 		gc.setFill(Color.BLACK);
-		gc.fillRect(0, 0, 200, 100);
+		gc.fillRect(0, 0, 135, 60);
 
 		gc.setFill(Color.AQUA);
 		gc.setStroke(Color.BLUE);
 
-		gc.setFont(Font.font("VERDANA", 50));
+		gc.setFont(Font.font("VERDANA", 40));
 		int bulletCount = logic.GameController.getBullet_count();
-		gc.fillText("BULLET : " + Integer.toString(bulletCount), 0, 50, 200);
-		gc.strokeText("BULLET : " + Integer.toString(bulletCount), 0, 50, 200);
+		gc.fillText("BULLET : " + Integer.toString(bulletCount), 0, 50, 135);
+		gc.strokeText("BULLET : " + Integer.toString(bulletCount), 0, 50, 135);
 	}
 
 	public void drawPenetBulletCount(GraphicsContext gc) {
 		gc.setLineWidth(2);
 		gc.setFill(Color.BLACK);
-		gc.fillRect(200, 0, 300, 100);
+		gc.fillRect(135, 0, 270, 60);
 
 		gc.setFill(Color.YELLOW);
 		gc.setStroke(Color.RED);
-		gc.setFont(Font.font("VERDANA", 50));
+		gc.setFont(Font.font("VERDANA", 40));
 		int penetBulletCount = logic.GameController.getPenetrated_count();
-		gc.fillText("PENETRATEDBULLET : " + Integer.toString(penetBulletCount), 200, 50, 300);
-		gc.strokeText("PENETRATEDBULLET : " + Integer.toString(penetBulletCount), 200, 50, 300);
+		gc.fillText("PENETRATEDBULLET : " + Integer.toString(penetBulletCount), 135, 50, 270);
+		gc.strokeText("PENETRATEDBULLET : " + Integer.toString(penetBulletCount), 135, 50, 270);
 	}
 
 	public void drawBombCount(GraphicsContext gc) {
 		gc.setLineWidth(2);
 		gc.setFill(Color.BLACK);
-		gc.fillRect(500, 0, 200, 100);
+		gc.fillRect(405, 0, 135, 60);
 
 		gc.setFill(Color.AQUA);
 		gc.setStroke(Color.BLUE);
-		gc.setFont(Font.font("VERDANA", 50));
+		gc.setFont(Font.font("VERDANA", 40));
 		int bombCount = logic.GameController.getBomb_count();
-		gc.fillText("BOMB : " + Integer.toString(bombCount), 500, 50, 200);
-		gc.strokeText("BOMB : " + Integer.toString(bombCount), 500, 50, 200);
+		gc.fillText("BOMB : " + Integer.toString(bombCount), 405, 50, 135);
+		gc.strokeText("BOMB : " + Integer.toString(bombCount), 405, 50, 135);
 	}
 
 	public void drawTimeOut(GraphicsContext gc, int time) {

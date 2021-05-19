@@ -12,7 +12,7 @@ public class Bullet extends Weapon {
 		this.x = x;
 		this.y = y;
 		this.damage = 20;
-		this.speed = 96;
+		this.speed = 72;
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class Bullet extends Weapon {
 	@Override
 	public void draw(GraphicsContext gc) {
 		gc.setFill(Color.BLACK);
-		gc.fillOval(x + 24, y + 24, 12, 12);
+		gc.fillOval(x + 18, y + 18, 12, 12);
 	}
 
 	@Override

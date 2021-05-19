@@ -22,7 +22,7 @@ public class Bomb extends Weapon {
 	@Override
 	public void draw(GraphicsContext gc) {
 		gc.setFill(Color.BLACK);
-		gc.fillOval(x + 24, y + 24, 18, 18);
+		gc.fillOval(x + 18, y + 18, 15, 15);
 	}
 
 	@Override

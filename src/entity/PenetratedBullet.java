@@ -12,7 +12,7 @@ public class PenetratedBullet extends Weapon {
 		this.x = x;
 		this.y = y;
 		this.damage = 50;
-		this.speed = 144;
+		this.speed = 108;
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class PenetratedBullet extends Weapon {
 	@Override
 	public void draw(GraphicsContext gc) {
 		gc.setFill(Color.RED);
-		gc.fillOval(x + 24, y + 24, 12, 12);
+		gc.fillOval(x + 18, y + 18, 12, 12);
 	}
 
 	@Override

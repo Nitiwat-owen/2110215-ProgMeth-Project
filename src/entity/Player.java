@@ -13,9 +13,9 @@ public class Player extends Entity {
 //	private int bullets;
 //	private int penetratedBullets;
 //	private int bombs;
-	//private int angle;
-	//private String dir;
-	
+	// private int angle;
+	// private String dir;
+
 	public Player(int x, int y) {
 //		bullets = 10;
 //		penetratedBullets = 0;
@@ -23,11 +23,11 @@ public class Player extends Entity {
 		this.x = x;
 		this.y = y;
 		this.z = 50;
-		//this.angle = 0;
+		// this.angle = 0;
 		this.dir = "W";
 		this.visible = true;
 		this.destroy = false;
-		this.speed = 48;
+		this.speed = 36;
 	}
 
 //	public int getAngle() {
@@ -96,11 +96,11 @@ public class Player extends Entity {
 
 	@Override
 	public void draw(GraphicsContext gc) {
-		WritableImage tankImage = new WritableImage(RenderableHolder.tankSprite.getPixelReader(), this.getIndex() * 48,
-				0, 48, 48);
-		gc.drawImage(tankImage, x * 48, y * 48);
+		WritableImage tankImage = new WritableImage(RenderableHolder.tankSprite.getPixelReader(), this.getIndex() * 36,
+				0, 36, 36);
+		gc.drawImage(tankImage, x * 36, y * 36);
 	}
-	
+
 	public void update() {
 		if (InputUtility.getCode().equals("W")) {
 			this.move("W");

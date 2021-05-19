@@ -38,7 +38,7 @@ public class RenderableHolder {
 	}
 
 	public static void loadResource() {
-		mapSprite = new Image(ClassLoader.getSystemResource("image-sheet.png").toString());
+		mapSprite = new Image(ClassLoader.getSystemResource("image.png").toString());
 		tankSprite = new Image(ClassLoader.getSystemResource("tankImage.png").toString());
 	}
 

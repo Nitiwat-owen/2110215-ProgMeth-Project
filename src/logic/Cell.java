@@ -70,8 +70,8 @@ public class Cell implements IRenderable {
 		for (int x = 0; x <= GameController.getGameMap().getWidth(); x++) {
 			for (int y = 0; y <= GameController.getGameMap().getHeight(); y++) {
 				WritableImage croppedImage = new WritableImage(RenderableHolder.mapSprite.getPixelReader(),
-						this.getIndex() * 48, 0, 48, 48);
-				gc.drawImage(croppedImage, x * 48, y * 48);
+						this.getIndex() * 36, 0, 36, 36);
+				gc.drawImage(croppedImage, x * 36, y * 36);
 			}
 		}
 	}
