@@ -17,9 +17,9 @@ public class BulletItem extends Entity implements Interactable {
 
 	public boolean interact(Entity e) {
 		this.remove();
-		if(visible) {
+		//if(visible) {
 			GameController.addBulletCount();
-		}
+		//}
 		visible = false;
 		destroy = true;
 		return true;
@@ -28,16 +28,6 @@ public class BulletItem extends Entity implements Interactable {
 	@Override
 	public int getIndex() {
 		return 0;
-	}
-
-	@Override
-	public boolean isVisible() {
-		return visible;
-	}
-
-	@Override
-	public boolean isDestroyed() {
-		return destroy;
 	}
 
 	@Override

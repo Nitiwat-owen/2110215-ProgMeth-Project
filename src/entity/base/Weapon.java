@@ -11,6 +11,6 @@ public abstract class Weapon extends Entity{
 		this.damage = damage;
 	}
 	
-		
-	
+	public abstract void update();	
+
 }

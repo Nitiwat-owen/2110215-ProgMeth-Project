@@ -10,21 +10,10 @@ public class Wall extends Entity implements Interactable, Destroyable {
 	public Wall(int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.z = 5;
 		this.health = 100;
 		visible = true;
 		destroy = false;
-	}
-
-	public void setHealth(int health) {
-		if (health > 0) {
-			this.health = health;
-		} else {
-			this.health = 0;
-		}
-	}
-
-	public int getHealth() {
-		return this.health;
 	}
 
 	@Override
@@ -46,21 +35,6 @@ public class Wall extends Entity implements Interactable, Destroyable {
 			this.remove();
 		}
 		return false;
-	}
-	
-	@Override
-	public int getZ() {
-		return 5;
-	}
-	
-	@Override
-	public boolean isVisible() {
-		return visible;
-	}
-	
-	@Override
-	public boolean isDestroyed() {
-		return destroy;
 	}
 	
 	@Override

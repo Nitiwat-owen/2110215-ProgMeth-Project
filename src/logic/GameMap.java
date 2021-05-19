@@ -7,8 +7,9 @@ import item.*;
 import sharedObject.RenderableHolder;
 
 public class GameMap {
-	
+
 	private Cell[][] cellMap;
+
 	private int width;
 	private int height;
 
@@ -79,6 +80,14 @@ public class GameMap {
 		this.height = height;
 	}
 
+	public Cell[][] getCellMap() {
+		return cellMap;
+	}
+
+	public void setCellMap(Cell[][] cellMap) {
+		this.cellMap = cellMap;
+	}
+
 	public boolean addEntity(Entity e, int x, int y) {
 		allEntity.add(e);
 		RenderableHolder.getInstance().add(e);
@@ -131,6 +140,63 @@ public class GameMap {
 		return false;
 	}
 
+	public void shooting(int x, int y, String dir) {
+		int targetX = x, targetY = y;
+		switch (dir) {
+		case "W":
+			targetX = x;
+			targetY = y - 1;
+			break;
+		case "A":
+			targetX = x - 1;
+			targetY = y;
+			break;
+		case "S":
+			targetX = x;
+			targetY = y + 1;
+			break;
+		case "D":
+			targetX = x + 1;
+			targetY = y;
+			break;
+		default:
+			break;
+		}
+		if (cellMap[targetY][targetX].IsEmpty()) {
+			if (GameController.isBullet()) {
+				addEntity(new Bullet(targetX, targetY), targetX, targetY);
+			} else {
+				addEntity(new PenetratedBullet(targetX, targetY), targetX, targetY);
+			}
+		}
+	}
+	
+	public void planting(int x, int y, String dir) {
+		int targetX = x, targetY = y;
+		switch (dir) {
+		case "W":
+			targetX = x;
+			targetY = y - 1;
+			break;
+		case "A":
+			targetX = x - 1;
+			targetY = y;
+			break;
+		case "S":
+			targetX = x;
+			targetY = y + 1;
+			break;
+		case "D":
+			targetX = x + 1;
+			targetY = y;
+			break;
+		default:
+			break;
+		}
+		if (cellMap[targetY][targetX].IsEmpty()) {
+			addEntity(new Bomb(targetX, targetY), targetX, targetY);
+		}
+	}
 	public ArrayList<Entity> getAllEntity() {
 		return this.allEntity;
 	}

@@ -9,6 +9,7 @@ import entity.Player;
 import entity.SteelWall;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
+import logic.GameController;
 
 public class RenderableHolder {
 	private static final RenderableHolder instance = new RenderableHolder();

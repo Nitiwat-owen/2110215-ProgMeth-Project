@@ -19,22 +19,35 @@ public class GameController {
 
 	private static int bomb_count;
 
+	private static boolean isBullet;
+
 	public static void InitializeMap(String[][] map, int x, int y) {
 		gameMap = new GameMap(map);
 		isPlanted = false;
-		player = new Player(x,y);
-		
-		//gameMap.addEntity(player, x, y);
+		player = new Player(x, y);
+
+		// gameMap.addEntity(player, x, y);
 		RenderableHolder.getInstance().add(player);
-		
+
 		isWin = false;
 		bullet_count = 0;
 		penetrated_count = 0;
 		bomb_count = 0;
+		isBullet = true;
 	}
+
+	public static boolean isBullet() {
+		return isBullet;
+	}
+
+	public static void setBullet(boolean isBullet) {
+		GameController.isBullet = isBullet;
+	}
+
 	public static void movePlayer(String dir) {
 		player.move(dir);
 	}
+
 	public static void addBombCount() {
 		GameController.bomb_count++;
 	}
@@ -106,9 +119,22 @@ public class GameController {
 	public static void setGameMap(GameMap gameMap) {
 		GameController.gameMap = gameMap;
 	}
-	
+
 	public static void update() {
 		player.update();
 	}
-	
+
+	public static void shoot() {
+		String currentDir = player.getDir();
+		int x = player.getX();
+		int y = player.getY();
+		GameController.getGameMap().shooting(x, y, currentDir);
+	}
+
+	public static void plantedBomb() {
+		String currentDir = player.getDir();
+		int x = player.getX();
+		int y = player.getY();
+		GameController.getGameMap().planting(x, y, currentDir);
+	}
 }

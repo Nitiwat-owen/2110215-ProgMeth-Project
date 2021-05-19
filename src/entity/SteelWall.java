@@ -9,28 +9,14 @@ public class SteelWall extends Entity {
 	public SteelWall(int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.z = 8;
 		visible = true;
 		destroy = false;
 	}
 
 	@Override
-	public int getZ() {
-		return 8;
-	}
-
-	@Override
 	public int getIndex() {
 		return 4;
-	}
-
-	@Override
-	public boolean isVisible() {
-		return visible;
-	}
-
-	@Override
-	public boolean isDestroyed() {
-		return destroy;
 	}
 
 	@Override

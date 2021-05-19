@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import application.GameScreen;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import logic.*;
@@ -11,6 +12,7 @@ import logic.*;
 public class InputUtility {
 	private static ArrayList<KeyCode> keyPressed = new ArrayList<>();
 	private static String code = "";
+
 	public static String getCode() {
 		return code;
 	}
@@ -68,31 +70,31 @@ public class InputUtility {
 //		}
 //	}
 //
-//	public static void addEventListener(Scene sc, GraphicsContext gc) {
-//		sc.setOnKeyPressed((event) -> {
-//			KeyCode keycode = event.getCode();
-//			switch (keycode) {
-//			case W:
-//				GameController.movePlayer("W");
-//				break;
-//			case A:
-//				GameController.movePlayer("A");
-//				break;
-//			case S:
-//				GameController.movePlayer("S");
-//				break;
-//			case D:
-//				GameController.movePlayer("D");
-//				break;
-//			default:
-//				break;
-//			}
-////			Thread t = new Thread(() -> {
-////				((GameScreen) sc).drawMap(gc);
-////			});
-////			t.start();
-//
-//		});
-//	}
+	public static void addEventListener(Canvas canvas, GraphicsContext gc) {
+		canvas.setOnKeyPressed((event) -> {
+			KeyCode keycode = event.getCode();
+			switch (keycode) {
+			case W:
+				GameController.movePlayer("W");
+				break;
+			case A:
+				GameController.movePlayer("A");
+				break;
+			case S:
+				GameController.movePlayer("S");
+				break;
+			case D:
+				GameController.movePlayer("D");
+				break;
+			default:
+				break;
+			}
+			Thread t = new Thread(() -> {
+				((GameScreen) canvas).drawMap(gc);
+			});
+			t.start();
+
+		});
+	}
 
 }

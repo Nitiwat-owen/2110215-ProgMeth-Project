@@ -29,16 +29,6 @@ public class BombItem extends Entity implements Interactable {
 	}
 
 	@Override
-	public boolean isVisible() {
-		return visible;
-	}
-
-	@Override
-	public boolean isDestroyed() {
-		return destroy;
-	}
-
-	@Override
 	public void draw(GraphicsContext gc) {
 		WritableImage croppedImage = new WritableImage(RenderableHolder.mapSprite.getPixelReader(),
 				this.getIndex() * 48, 0, 48, 48);
