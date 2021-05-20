@@ -10,7 +10,7 @@ import javafx.scene.input.KeyCode;
 import logic.*;
 
 public class InputUtility {
-	private static ArrayList<KeyCode> keyPressed = new ArrayList<>();
+	//private static ArrayList<KeyCode> keyPressed = new ArrayList<>();
 	private static String code = "";
 
 	public static String getCode() {

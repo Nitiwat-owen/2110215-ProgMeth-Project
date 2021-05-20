@@ -1,11 +1,13 @@
 package entity.base;
 
+import application.Main;
 import entity.Bomb;
 import entity.Bullet;
 import entity.PenetratedBullet;
 import logic.*;
 import sharedObject.*;
 import entity.Player;
+import javafx.scene.image.WritableImage;
 
 public abstract class Entity implements IRenderable {
 
@@ -90,51 +92,61 @@ public abstract class Entity implements IRenderable {
 
 		switch (dir) {
 		case "W":
-			targety -= speed / 48;
+			targety -= speed / 36;
 			this.setDir("W");
 			break;
 		case "A":
-			targetx -= speed / 48;
+			targetx -= speed / 36;
 			this.setDir("A");
 			break;
 		case "S":
-			targety += speed / 48;
+			targety += speed / 36;
 			this.setDir("S");
 			break;
 		case "D":
-			targetx += speed / 48;
+			targetx += speed / 36;
 			this.setDir("D");
 			break;
 		default:
 			break;
 		}
 		if (GameController.getGameMap().isMovable(targetx, targety, this)) {
-//			this.x = targetx;
-//			this.y = targety;
-			this.destroy = true;
-			this.remove();
-			RenderableHolder.getInstance().update();
-			if (this instanceof Player) {
-				Player player = new Player(targetx, targety);
-				GameController.setPlayer(player);
-				GameController.getGameMap().addEntity(player, targetx, targety);
-			}
-			if (this instanceof Bullet) {
-				Bullet bullet = new Bullet(targetx, targety);
-				GameController.getGameMap().addEntity(bullet, targetx, targety);
-			}
-			if (this instanceof PenetratedBullet) {
-				PenetratedBullet penetBullet = new PenetratedBullet(targetx, targety);
-				GameController.getGameMap().addEntity(penetBullet, targetx, targety);
-			}
+
+//			this.destroy = true;
+			//this.remove();
+//			RenderableHolder.getInstance().update();
+//			if (this instanceof Player) {
+//				Player player = new Player(targetx, targety);
+//				GameController.setPlayer(player);
+//				GameController.getGameMap().addEntity(player, targetx, targety);
+//			}
+//			if (this instanceof Bullet) {
+//				Bullet bullet = new Bullet(targetx, targety);
+//				GameController.getGameMap().addEntity(bullet, targetx, targety);
+//			}
+//			if (this instanceof PenetratedBullet) {
+//				PenetratedBullet penetBullet = new PenetratedBullet(targetx, targety);
+//				GameController.getGameMap().addEntity(penetBullet, targetx, targety);
+//			}
 //			RenderableHolder.getInstance().update();
 //			RenderableHolder.getInstance().add(this);
+			
 			if (targetx != x || targety != y) {
 				RenderableHolder.getInstance().add(new Cell(x, y));
 			}
+			this.x = targetx;
+			this.y = targety;
 			return true;
 		}
 		return false;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	public void setDestroy(boolean destroy) {
+		this.destroy = destroy;
 	}
 
 }

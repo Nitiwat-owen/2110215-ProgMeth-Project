@@ -33,20 +33,20 @@ public class LoadingScreen extends Scene {
 		gc.setFill(Color.WHITE);
 		gc.fillText("LOADING...", 200, 200);
 
-		FadeTransition fade = new FadeTransition();
-		
-		fade.setDuration(Duration.seconds(1));
-		
-		fade.setFromValue(1);
-		fade.setToValue(0.2);
-		
-		fade.setCycleCount(100);
-		
-		fade.setAutoReverse(true);
-		
-		fade.setNode(canvas);
-		
-		fade.play();
+//		FadeTransition fade = new FadeTransition();
+//		
+//		fade.setDuration(Duration.seconds(1));
+//		
+//		fade.setFromValue(1);
+//		fade.setToValue(0.2);
+//		
+//		fade.setCycleCount(100);
+//		
+//		fade.setAutoReverse(true);
+//		
+//		fade.setNode(canvas);
+//		
+//		fade.play();
 	}
 //	private static Pane pane = new StackPane();
 //	private ProgressBar prog;

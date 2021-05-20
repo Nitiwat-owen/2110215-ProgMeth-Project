@@ -18,7 +18,6 @@ public class PenetratedBulletItem extends Entity implements Interactable {
 	public boolean interact(Entity e) {
 		this.remove();
 		GameController.addPenetratedCount();
-		visible = false;
 		destroy = true;
 		return true;
 	}

@@ -1,5 +1,7 @@
 package entity.base;
 
+import javafx.scene.canvas.GraphicsContext;
+
 public abstract class Weapon extends Entity{
 	protected int damage;
 
@@ -11,6 +13,6 @@ public abstract class Weapon extends Entity{
 		this.damage = damage;
 	}
 	
-	public abstract void update();	
+	public abstract void update(GraphicsContext gc);	
 
 }

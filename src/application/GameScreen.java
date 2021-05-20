@@ -30,10 +30,10 @@ public class GameScreen extends Canvas {
 
 	public GameScreen(int width, int height) {
 		super(width, height);
-		addListener();
+		// addListener();
 	}
 
-//	public GameScreen(int width, int height) {
+/*	public GameScreen(int width, int height) {
 //		super(pane, width, height);
 //		//addListener();
 //		Pane topPane = new Pane();
@@ -114,7 +114,7 @@ public class GameScreen extends Canvas {
 ////		
 //		 InputUtility.addEventListener(this, gameGC);
 //	}
-//
+//*/
 	public void addListener() {
 		this.setOnKeyPressed((KeyEvent event) -> {
 			String new_code = event.getCode().toString();
@@ -188,12 +188,28 @@ public class GameScreen extends Canvas {
 		gc.fillText(currentTime, 700, 50, 100);
 	}
 
-	public void drawMap(GraphicsContext gc) {
+	public static void drawMap(GraphicsContext gc) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				for (IRenderable entity : RenderableHolder.getInstance().getEntities()) {
 					if (entity.isVisible() && !entity.isDestroyed()) {
+						entity.draw(gc);
+					}
+				}
+			}
+		});
+	}
+
+	public void drawWeapon(GraphicsContext gc) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				for (IRenderable entity : RenderableHolder.getInstance().getWeapon()) {
+//					if (entity.isVisible() && !entity.isDestroyed()) {
+//						entity.draw(gc);
+//					}
+					while(entity.isVisible() && !entity.isDestroyed()) {
 						entity.draw(gc);
 					}
 				}

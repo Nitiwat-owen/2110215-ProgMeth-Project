@@ -5,13 +5,24 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
 import sharedObject.RenderableHolder;
 
-public class SteelWall extends Entity {
+public class SteelWall extends Entity implements Interactable {
 	public SteelWall(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.z = 8;
 		visible = true;
 		destroy = false;
+	}
+
+	@Override
+	public boolean interact(Entity e) {
+		if (e instanceof Weapon) {
+			//e.remove();
+			e.setDestroy(true);
+			e.setVisible(false);
+			return true;
+		}
+		return false;
 	}
 
 	@Override

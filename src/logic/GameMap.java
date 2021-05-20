@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import entity.base.*;
 import entity.*;
 import item.*;
+import javafx.scene.canvas.GraphicsContext;
 import sharedObject.RenderableHolder;
 
 public class GameMap {
@@ -105,9 +106,9 @@ public class GameMap {
 	}
 
 	public void removeEntity(int x, int y) {
-		allEntity.remove(cellMap[x][y].getEntity());
+		allEntity.remove(cellMap[y][x].getEntity());
 //		System.out.println(allEntity.remove(cellMap[x][y].getEntity()));
-		cellMap[x][y].removeEntity();
+		cellMap[y][x].removeEntity();
 	}
 
 	public boolean isMovable(int x, int y, Entity e) {
@@ -140,7 +141,7 @@ public class GameMap {
 		return false;
 	}
 
-	public void shooting(int x, int y, String dir) {
+	public void shooting(int x, int y, String dir, GraphicsContext gc) {
 		int targetX = x, targetY = y;
 		switch (dir) {
 		case "W":
@@ -164,13 +165,19 @@ public class GameMap {
 		}
 		if (cellMap[targetY][targetX].IsEmpty()) {
 			if (GameController.isBullet()) {
-				addEntity(new Bullet(targetX, targetY), targetX, targetY);
+				Bullet bullet = new Bullet(targetX, targetY);
+				bullet.setDir(dir);
+				RenderableHolder.getInstance().add(bullet);
+				// RenderableHolder.getInstance().addWeapon(bullet);
+				System.out.println("GameMap shooting");
 			} else {
-				addEntity(new PenetratedBullet(targetX, targetY), targetX, targetY);
+				PenetratedBullet penetBullet = new PenetratedBullet(targetX, targetY);
+				penetBullet.setDir(dir);
+				addEntity(penetBullet, targetX, targetY);
 			}
 		}
 	}
-	
+
 	public void planting(int x, int y, String dir) {
 		int targetX = x, targetY = y;
 		switch (dir) {
@@ -197,6 +204,7 @@ public class GameMap {
 			addEntity(new Bomb(targetX, targetY), targetX, targetY);
 		}
 	}
+
 	public ArrayList<Entity> getAllEntity() {
 		return this.allEntity;
 	}

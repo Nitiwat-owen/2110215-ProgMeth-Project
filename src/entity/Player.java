@@ -3,6 +3,7 @@ package entity;
 import entity.base.*;
 import input.InputUtility;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import logic.Cell;
@@ -15,7 +16,7 @@ public class Player extends Entity {
 //	private int bombs;
 	// private int angle;
 	// private String dir;
-
+	
 	public Player(int x, int y) {
 //		bullets = 10;
 //		penetratedBullets = 0;
@@ -113,9 +114,6 @@ public class Player extends Entity {
 		}
 		if (InputUtility.getCode().equals("D")) {
 			this.move("D");
-		}
-		if (InputUtility.getCode().equals(" ")) {
-
 		}
 	}
 }

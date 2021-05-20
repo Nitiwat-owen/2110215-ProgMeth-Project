@@ -30,6 +30,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -47,17 +48,17 @@ public class Main extends Application {
 	private Button helpButton;
 	private Button creditButton;
 	private VBox startPane = new VBox();
-	private Pane gamePane = new VBox();
+	public static Pane gamePane = new VBox();
 	private static final int width = 540;
 	private static final int height = 600;
-	Canvas startCanvas = new Canvas(width, 200);
-	GraphicsContext startGC = startCanvas.getGraphicsContext2D();
+	public static Canvas startCanvas = new Canvas(width, 200);
+	public static GraphicsContext startGC = startCanvas.getGraphicsContext2D();
 
-	GameScreen topCanvas = new GameScreen(width, 60);
-	GraphicsContext topPaneGC = topCanvas.getGraphicsContext2D();
+	public static GameScreen topCanvas = new GameScreen(width, 60);
+	public static GraphicsContext topPaneGC = topCanvas.getGraphicsContext2D();
 
-	GameScreen gameCanvas = new GameScreen(width, 540);
-	GraphicsContext gameGC = gameCanvas.getGraphicsContext2D();
+	public static GameScreen gameCanvas = new GameScreen(width, 540);
+	public static GraphicsContext gameGC = gameCanvas.getGraphicsContext2D();
 
 	private static Image background = new Image("firstScene_Background.png");
 	private Scene startScene;
@@ -68,7 +69,7 @@ public class Main extends Application {
 	private String[][] gameMap;
 	private Thread thread;
 	private Thread drawingThread;
-
+	private Thread drawingWeapon;
 	private GameScreen gameScreen;
 
 	private AnimationTimer animation;
@@ -103,6 +104,7 @@ public class Main extends Application {
 		gamePane.getChildren().add(topPane);
 
 		gameScene = new Scene(gamePane, width, height);
+		drawGameBackground();
 
 		Pane playPane = new Pane();
 		playPane.getChildren().add(gameCanvas);
@@ -118,7 +120,7 @@ public class Main extends Application {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					gameCanvas.drawBackground(gameGC);
+					// gameCanvas.drawBackground(gameGC);
 					topCanvas.drawBulletCount(topPaneGC);
 					topCanvas.drawPenetBulletCount(topPaneGC);
 					topCanvas.drawBombCount(topPaneGC);
@@ -127,82 +129,31 @@ public class Main extends Application {
 			});
 		});
 		t.start();
+		// addListener(gameScene);
+		addEventListener(gameScene);
+	}
 
-		addEventListener(gameScene, gameCanvas, gameGC);
-//		topPaneThread = new Thread(() -> {
-//			while (true) {
-//				try {
-//					Thread.sleep(1000);
-//					time--;
-//					System.out.println("Start draw top Pane");
-//					topCanvas.drawTimeOut(topPaneGC, time);
-//					topCanvas.drawBulletCount(topPaneGC);
-//					topCanvas.drawPenetBulletCount(topPaneGC);
-//					topCanvas.drawBombCount(topPaneGC);
-//					System.out.println("Finish draw Top Pane");
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//					break;
-//				}
-//			}
-//		});
-//		topPaneThread.start();
-
-//		animation = new AnimationTimer() {
-//			public void handle(long now) {
-//				System.out.println("Start draw top Pane");
-////				topCanvas.drawTimeOut(topPaneGC, time);
-//				topCanvas.drawBulletCount(topPaneGC);
-//				topCanvas.drawPenetBulletCount(topPaneGC);
-//				topCanvas.drawBombCount(topPaneGC);
-//				System.out.println("Finish draw Top Pane");
-//				System.out.println("Start drawing");
-//				gameCanvas.drawMap(gameGC);
-//				System.out.println("Finish drawing");
-//				System.out.println("Start update RenderabelHolder");
-//				RenderableHolder.getInstance().update();
-//				System.out.println("Finish update RenderableHolder");
-//				System.out.println("Start update GameController");
-//				GameController.update();
-//				System.out.println("Finish update GameController");
-//			}
-//		};
-//		animation.start();
-
-//		thread = new Thread(() -> {
-//			Platform.runLater(new Runnable() {
-//				@Override
-//				public void run() {
-//					while (true) {
-//						System.out.println("Start draw top Pane");
-////						topCanvas.drawTimeOut(topPaneGC, time);
-//						topCanvas.drawBulletCount(topPaneGC);
-//						topCanvas.drawPenetBulletCount(topPaneGC);
-//						topCanvas.drawBombCount(topPaneGC);
-//						System.out.println("Finish draw Top Pane");
-//						System.out.println("Start drawing");
-//						gameCanvas.drawMap(gameGC);
-//						System.out.println("Finish drawing");
-//						System.out.println("Start update RenderabelHolder");
-//						RenderableHolder.getInstance().update();
-//						System.out.println("Finish update RenderableHolder");
-//						System.out.println("Start update GameController");
-//						GameController.update();
-//						System.out.println("Finish update GameController");
-//					}
-//				}
-//			});
-//		});
-//		thread.start();
-
+	public void addListener(Scene scene) {
+		scene.setOnKeyPressed((KeyEvent event) -> {
+			String new_code = event.getCode().toString();
+			if (!InputUtility.getPressed()) {
+				InputUtility.setTriggered(new_code, true);
+				System.out.println(new_code);
+			}
+			InputUtility.setPressed(true);
+		});
+		scene.setOnKeyReleased((KeyEvent event) -> {
+			InputUtility.setPressed(false);
+		});
 	}
 
 	@Override
 	public void stop() throws Exception {
 		// TODO Auto-generated method stub
 		// this.topPaneThread.interrupt();
-		// thread.interrupt();
+		thread.interrupt();
 		drawingThread.interrupt();
+		drawingWeapon.interrupt();
 		// animation.stop();
 	}
 
@@ -225,6 +176,13 @@ public class Main extends Application {
 		startPane.setBackground(new Background(Background));
 	}
 
+	public void drawGameBackground() {
+		BackgroundImage gameBackground = new BackgroundImage(new Image("fieldBackground.png", 0, 0, false, true),
+				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT);
+		gamePane.setBackground(new Background(gameBackground));
+	}
+
 	public void InitializeButton() {
 		playButton = new Button("PLAY");
 		playButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
@@ -235,15 +193,33 @@ public class Main extends Application {
 		playButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				window.setScene(loadingScene);
-				Thread changingScene = new Thread(() -> {
+				Thread loading = new Thread(() -> {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							window.setScene(gameScene);
+							window.setScene(loadingScene);
 						}
 					});
+					System.out.println("Loading SCene finish");
 				});
+				// window.setScene(loadingScene);
+				Thread changingScene = new Thread(() -> {
+					try {
+						Thread.sleep(1000);
+						loading.join();
+						System.out.println("Start changing Scene");
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								window.setScene(gameScene);
+							}
+						});
+					} catch (InterruptedException e) {
+
+					}
+
+				});
+				loading.start();
 				changingScene.start();
 			}
 		});
@@ -276,41 +252,54 @@ public class Main extends Application {
 		creditButton.setCursor(Cursor.HAND);
 	}
 
-	public void addEventListener(Scene scene, Canvas canvas, GraphicsContext gc) {
+	public void addEventListener(Scene scene) {
 		scene.setOnKeyPressed((event) -> {
 			KeyCode keycode = event.getCode();
 			switch (keycode) {
 			case W:
 				GameController.movePlayer("W");
+
 				break;
 			case A:
 				GameController.movePlayer("A");
+
 				break;
 			case S:
 				GameController.movePlayer("S");
+
 				break;
 			case D:
 				GameController.movePlayer("D");
+
 				break;
 			case SPACE:
-
-				GameController.shoot();
+				GameController.shoot(gameGC);
+				break;
 			case B:
-				GameController.plantedBomb();
+				// GameController.plantedBomb();
+				break;
 			default:
 				break;
 			}
 			RenderableHolder.getInstance().update();
 			drawingThread = new Thread(() -> {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						((GameScreen) canvas).drawMap(gc);
-					}
-				});
-
+				topCanvas.drawBulletCount(topPaneGC);
+				topCanvas.drawPenetBulletCount(topPaneGC);
+				topCanvas.drawBombCount(topPaneGC);
+				gameCanvas.drawMap(gameGC);
 			});
+
+//			drawingWeapon = new Thread(() -> {
+//				try {
+//					drawingThread.join();
+//					gameCanvas.drawWeapon(gameGC);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			});
+
 			drawingThread.start();
+			//drawingWeapon.start();
 		});
 
 	}
