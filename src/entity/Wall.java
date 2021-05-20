@@ -1,12 +1,17 @@
 package entity;
 
+import application.Main;
 import entity.base.*;
+import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.WritableImage;
 import sharedObject.RenderableHolder;
 
 public class Wall extends Entity implements Interactable, Destroyable {
-
+	
+	private ProgressBar healthBar;
+	
 	public Wall(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -14,6 +19,7 @@ public class Wall extends Entity implements Interactable, Destroyable {
 		this.health = 100;
 		visible = true;
 		destroy = false;
+		healthBar = new ProgressBar();
 	}
 
 	@Override
@@ -24,6 +30,7 @@ public class Wall extends Entity implements Interactable, Destroyable {
 			e.setDestroy(true);
 			e.setVisible(false);
 			this.Destroyable(e);
+			healthBar.setVisible(true);
 			System.out.println(health);
 			return true;
 		}
@@ -36,6 +43,7 @@ public class Wall extends Entity implements Interactable, Destroyable {
 			destroy = true;
 			visible = false;
 			this.remove();
+			Main.gameCanvas.drawMap(Main.gameGC);
 		}
 		return false;
 	}
@@ -49,5 +57,7 @@ public class Wall extends Entity implements Interactable, Destroyable {
 		WritableImage croppedImage = new WritableImage(RenderableHolder.mapSprite.getPixelReader(),
 				this.getIndex() * 36, 0, 36, 36);
 		gc.drawImage(croppedImage, x * 36, y * 36);
+		
+		
 	}
 }

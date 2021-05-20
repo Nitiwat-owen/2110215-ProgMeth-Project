@@ -33,88 +33,34 @@ public class GameScreen extends Canvas {
 		// addListener();
 	}
 
-/*	public GameScreen(int width, int height) {
-//		super(pane, width, height);
-//		//addListener();
-//		Pane topPane = new Pane();
-//		topPane.getChildren().add(canvas);
-//
-//		pane.getChildren().add(topPane);
-//
-//		topPaneThread = new Thread(() -> {
-//			while (true) {
-//				System.out.println("A");
-//				try {
-//					Thread.sleep(1000);
-//					time--;
-//					drawTimeOut(gc);
-//					drawBulletCount(gc);
-//					drawPenetBulletCount(gc);
-//					drawBombCount(gc);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//					break;
-//				}
-//				System.out.println("B");
-//			}
-//		});
-//		topPaneThread.start();
-//		
-//
-//		Pane gamePane = new Pane();
-//		gamePane.getChildren().add(gameCanvas);
-//		pane.getChildren().add(gamePane);
-//
-//		gameMap = MapParser.readMap("map_test.csv");
-//		GameController.InitializeMap(gameMap, 1, 6);
-//		gameCanvas.requestFocus();
-//
-////		Thread drawBG = new Thread(() -> {
-////			Platform.runLater(new Runnable() {
-////				@Override
-////				public void run() {
-//					drawBackground(gameGC);
-//					//drawMap(gameGC);
-////				}
-////			});
-////			
-////		});
-////		drawBG.start();
-////		Platform.runLater(new Runnable() {
-////			@Override
-////			public void run() {
-////				drawBackground(gameGC);
-////				drawMap(gameGC);
-////			}
-////		});
-//
-//		AnimationTimer animation = new AnimationTimer() {
-//			public void handle(long now) {
-//				System.out.println("X");
-//				drawMap(gameGC);
-//				System.out.println("Y");
-//				RenderableHolder.getInstance().update();
-//				System.out.println("Z");
-//				//GameController.update();
-//			}
-//		};
-//		animation.start();
-////		
-////		Thread gameThread = new Thread(() -> {
-////			Platform.runLater(new Runnable() {
-////				@Override
-////				public void run() {
-////					drawMap(gameGC);
-////					RenderableHolder.getInstance().update();
-////				}
-////			});
-////
-////		});
-////		gameThread.start();
-////		
-//		 InputUtility.addEventListener(this, gameGC);
-//	}
-//*/
+	/*
+	 * public GameScreen(int width, int height) { // super(pane, width, height); //
+	 * //addListener(); // Pane topPane = new Pane(); //
+	 * topPane.getChildren().add(canvas); // // pane.getChildren().add(topPane); //
+	 * // topPaneThread = new Thread(() -> { // while (true) { //
+	 * System.out.println("A"); // try { // Thread.sleep(1000); // time--; //
+	 * drawTimeOut(gc); // drawBulletCount(gc); // drawPenetBulletCount(gc); //
+	 * drawBombCount(gc); // } catch (InterruptedException e) { //
+	 * e.printStackTrace(); // break; // } // System.out.println("B"); // } // });
+	 * // topPaneThread.start(); // // // Pane gamePane = new Pane(); //
+	 * gamePane.getChildren().add(gameCanvas); // pane.getChildren().add(gamePane);
+	 * // // gameMap = MapParser.readMap("map_test.csv"); //
+	 * GameController.InitializeMap(gameMap, 1, 6); // gameCanvas.requestFocus(); //
+	 * //// Thread drawBG = new Thread(() -> { //// Platform.runLater(new Runnable()
+	 * { //// @Override //// public void run() { // drawBackground(gameGC); //
+	 * //drawMap(gameGC); //// } //// }); //// //// }); //// drawBG.start(); ////
+	 * Platform.runLater(new Runnable() { //// @Override //// public void run() {
+	 * //// drawBackground(gameGC); //// drawMap(gameGC); //// } //// }); // //
+	 * AnimationTimer animation = new AnimationTimer() { // public void handle(long
+	 * now) { // System.out.println("X"); // drawMap(gameGC); //
+	 * System.out.println("Y"); // RenderableHolder.getInstance().update(); //
+	 * System.out.println("Z"); // //GameController.update(); // } // }; //
+	 * animation.start(); //// //// Thread gameThread = new Thread(() -> { ////
+	 * Platform.runLater(new Runnable() { //// @Override //// public void run() {
+	 * //// drawMap(gameGC); //// RenderableHolder.getInstance().update(); //// }
+	 * //// }); //// //// }); //// gameThread.start(); //// //
+	 * InputUtility.addEventListener(this, gameGC); // } //
+	 */
 	public void addListener() {
 		this.setOnKeyPressed((KeyEvent event) -> {
 			String new_code = event.getCode().toString();
@@ -129,63 +75,59 @@ public class GameScreen extends Canvas {
 	}
 
 	public void drawBulletCount(GraphicsContext gc) {
-		gc.setLineWidth(2);
-		gc.setFill(Color.BLACK);
-		gc.fillRect(0, 0, 135, 60);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gc.setLineWidth(2);
+				gc.setFill(Color.BLACK);
+				gc.fillRect(0, 0, 135, 60);
 
-		gc.setFill(Color.AQUA);
-		gc.setStroke(Color.BLUE);
+				gc.setFill(Color.AQUA);
+				gc.setStroke(Color.BLUE);
 
-		gc.setFont(Font.font("VERDANA", 40));
-		int bulletCount = logic.GameController.getBullet_count();
-		gc.fillText("BULLET : " + Integer.toString(bulletCount), 0, 50, 135);
-		gc.strokeText("BULLET : " + Integer.toString(bulletCount), 0, 50, 135);
+				gc.setFont(Font.font("VERDANA", 40));
+				int bulletCount = logic.GameController.getBullet_count();
+				gc.fillText("BULLET : " + Integer.toString(bulletCount), 0, 50, 135);
+				gc.strokeText("BULLET : " + Integer.toString(bulletCount), 0, 50, 135);
+			}
+		});
 	}
 
 	public void drawPenetBulletCount(GraphicsContext gc) {
-		gc.setLineWidth(2);
-		gc.setFill(Color.BLACK);
-		gc.fillRect(135, 0, 270, 60);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gc.setLineWidth(2);
+				gc.setFill(Color.BLACK);
+				gc.fillRect(135, 0, 270, 60);
 
-		gc.setFill(Color.YELLOW);
-		gc.setStroke(Color.RED);
-		gc.setFont(Font.font("VERDANA", 40));
-		int penetBulletCount = logic.GameController.getPenetrated_count();
-		gc.fillText("PENETRATEDBULLET : " + Integer.toString(penetBulletCount), 135, 50, 270);
-		gc.strokeText("PENETRATEDBULLET : " + Integer.toString(penetBulletCount), 135, 50, 270);
+				gc.setFill(Color.YELLOW);
+				gc.setStroke(Color.RED);
+				gc.setFont(Font.font("VERDANA", 40));
+				int penetBulletCount = logic.GameController.getPenetrated_count();
+				gc.fillText("PENETRATEDBULLET : " + Integer.toString(penetBulletCount), 135, 50, 270);
+				gc.strokeText("PENETRATEDBULLET : " + Integer.toString(penetBulletCount), 135, 50, 270);
+			}
+		});
 	}
 
 	public void drawBombCount(GraphicsContext gc) {
-		gc.setLineWidth(2);
-		gc.setFill(Color.BLACK);
-		gc.fillRect(405, 0, 135, 60);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gc.setLineWidth(2);
+				gc.setFill(Color.BLACK);
+				gc.fillRect(405, 0, 135, 60);
 
-		gc.setFill(Color.AQUA);
-		gc.setStroke(Color.BLUE);
-		gc.setFont(Font.font("VERDANA", 40));
-		int bombCount = logic.GameController.getBomb_count();
-		gc.fillText("BOMB : " + Integer.toString(bombCount), 405, 50, 135);
-		gc.strokeText("BOMB : " + Integer.toString(bombCount), 405, 50, 135);
-	}
+				gc.setFill(Color.AQUA);
+				gc.setStroke(Color.BLUE);
+				gc.setFont(Font.font("VERDANA", 40));
+				int bombCount = logic.GameController.getBomb_count();
+				gc.fillText("BOMB : " + Integer.toString(bombCount), 405, 50, 135);
+				gc.strokeText("BOMB : " + Integer.toString(bombCount), 405, 50, 135);
+			}
+		});
 
-	public void drawTimeOut(GraphicsContext gc, int time) {
-		gc.setFill(Color.BLACK);
-		gc.fillRect(700, 0, 200, 100);
-		int minute = time / 60;
-		int second = time % 60;
-
-		// int digitSecond = Integer.toString(second).length();
-
-		gc.setFont(Font.font("VERDENA", 40));
-		gc.setFill(Color.WHITE);
-
-		String currentTime = "0" + minute + ":";
-		if (Integer.toString(second).length() < 2) {
-			currentTime = currentTime + "0" + second;
-		} else {
-			currentTime = currentTime + second;
-		}
-		gc.fillText(currentTime, 700, 50, 100);
 	}
 
 	public static void drawMap(GraphicsContext gc) {
@@ -209,7 +151,7 @@ public class GameScreen extends Canvas {
 //					if (entity.isVisible() && !entity.isDestroyed()) {
 //						entity.draw(gc);
 //					}
-					while(entity.isVisible() && !entity.isDestroyed()) {
+					while (entity.isVisible() && !entity.isDestroyed()) {
 						entity.draw(gc);
 					}
 				}

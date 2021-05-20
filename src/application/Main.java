@@ -118,16 +118,16 @@ public class Main extends Application {
 		topCanvas.requestFocus();
 
 		Thread t = new Thread(() -> {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					// gameCanvas.drawBackground(gameGC);
-					topCanvas.drawBulletCount(topPaneGC);
-					topCanvas.drawPenetBulletCount(topPaneGC);
-					topCanvas.drawBombCount(topPaneGC);
-					gameCanvas.drawMap(gameGC);
-				}
-			});
+//			Platform.runLater(new Runnable() {
+//				@Override
+//				public void run() {
+			// gameCanvas.drawBackground(gameGC);
+			topCanvas.drawBulletCount(topPaneGC);
+			topCanvas.drawPenetBulletCount(topPaneGC);
+			topCanvas.drawBombCount(topPaneGC);
+			gameCanvas.drawMap(gameGC);
+//				}
+//			});
 		});
 		t.start();
 		// addListener(gameScene);
@@ -198,7 +198,7 @@ public class Main extends Application {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							window.setScene(loadingScene);
+							loadingScreen();
 						}
 					});
 					System.out.println("Loading SCene finish");
@@ -263,7 +263,7 @@ public class Main extends Application {
 				creditScreen();
 			}
 		});
-		
+
 		backButton = new Button("BACK");
 		backButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		backButton.setPrefWidth(200);
@@ -275,8 +275,8 @@ public class Main extends Application {
 			public void handle(MouseEvent event) {
 				startPane.getChildren().clear();
 				startPane.getChildren().addAll(startCanvas, playButton, helpButton, creditButton, exitButton);
-				//startScene = new Scene(startPane, width, height);
-				//window.setScene(startScene);
+				// startScene = new Scene(startPane, width, height);
+				// window.setScene(startScene);
 			}
 		});
 	}
@@ -328,26 +328,28 @@ public class Main extends Application {
 //			});
 
 			drawingThread.start();
-			//drawingWeapon.start();
+			// drawingWeapon.start();
 		});
 
 	}
 
 	public void loadingScreen() {
+
 		startPane.getChildren().clear();
 
-//		StackPane loadingPane = new StackPane();
-		Canvas loadingCanvas = new Canvas(800, 800);
+		Canvas loadingCanvas = new Canvas(width, height);
 		GraphicsContext loadingGC = loadingCanvas.getGraphicsContext2D();
 
-		startPane.getChildren().add(loadingCanvas);
+		startPane.getChildren().addAll(loadingCanvas);
+		drawBackground();
+
 		loadingGC.setLineWidth(5);
 		loadingGC.setFill(Color.BLACK);
-		loadingGC.fillRect(0, 0, 800, 800);
+		loadingGC.fillRect(0, 0, width, height);
 
-		loadingGC.setFont(Font.font("VERDENA", FontWeight.BOLD, 100));
+		loadingGC.setFont(Font.font("VERDENA", FontWeight.BOLD, 50));
 		loadingGC.setFill(Color.WHITE);
-		loadingGC.fillText("LOADING...", 150, 400);
+		loadingGC.fillText("LOADING...", 200, 200);
 //		
 //		Scene loadingScene = new Scene(loadingPane,width,height);
 
@@ -392,13 +394,14 @@ public class Main extends Application {
 //		fadeOut.setOnFinished((e) -> {
 //		});
 	}
+
 	public void helpScreen() {
 		startPane.getChildren().clear();
 
 		Canvas helpCanvas = new Canvas(width, 500);
 		GraphicsContext helpGC = helpCanvas.getGraphicsContext2D();
 
-		startPane.getChildren().addAll(helpCanvas,backButton);
+		startPane.getChildren().addAll(helpCanvas, backButton);
 		drawBackground();
 
 		helpGC.setFont(Font.font("VERDENA", FontWeight.MEDIUM, 35));
@@ -408,14 +411,15 @@ public class Main extends Application {
 		helpGC.fillText("A - TURN LEFT", 50, 180);
 		helpGC.fillText("S - MOVE DOWN", 50, 230);
 		helpGC.fillText("D - TURN RIGHT", 50, 280);
-		
+
 	}
+
 	public void creditScreen() {
 		startPane.getChildren().clear();
 		Canvas creditCanvas = new Canvas(width, 500);
 		GraphicsContext creditGC = creditCanvas.getGraphicsContext2D();
 
-		startPane.getChildren().addAll(creditCanvas,backButton);
+		startPane.getChildren().addAll(creditCanvas, backButton);
 		drawBackground();
 
 		creditGC.setFont(Font.font("VERDENA", FontWeight.MEDIUM, 35));
@@ -423,6 +427,6 @@ public class Main extends Application {
 		creditGC.fillText("CREDITS", 200, 100);
 		creditGC.fillText("Theerachot Dejsuwannakij", 50, 180);
 		creditGC.fillText("Nitiwat Jongruktrakoon", 50, 270);
-		
+
 	}
 }
