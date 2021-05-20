@@ -47,6 +47,7 @@ public class Main extends Application {
 	private Button exitButton;
 	private Button helpButton;
 	private Button creditButton;
+	private Button backButton;
 	private VBox startPane = new VBox();
 	public static Pane gamePane = new VBox();
 	private static final int width = 540;
@@ -243,6 +244,12 @@ public class Main extends Application {
 		helpButton.setPrefHeight(30);
 		helpButton.setStyle("-fx-background-color: #1E90FF");
 		helpButton.setCursor(Cursor.HAND);
+		helpButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				helpScreen();
+			}
+		});
 
 		creditButton = new Button("CREDIT");
 		creditButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
@@ -250,6 +257,28 @@ public class Main extends Application {
 		creditButton.setPrefHeight(30);
 		creditButton.setStyle("-fx-background-color: #1E90FF");
 		creditButton.setCursor(Cursor.HAND);
+		creditButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				creditScreen();
+			}
+		});
+		
+		backButton = new Button("BACK");
+		backButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
+		backButton.setPrefWidth(200);
+		backButton.setPrefHeight(30);
+		backButton.setStyle("-fx-background-color: #1E90FF");
+		backButton.setCursor(Cursor.HAND);
+		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				startPane.getChildren().clear();
+				startPane.getChildren().addAll(startCanvas, playButton, helpButton, creditButton, exitButton);
+				//startScene = new Scene(startPane, width, height);
+				//window.setScene(startScene);
+			}
+		});
 	}
 
 	public void addEventListener(Scene scene) {
@@ -362,5 +391,38 @@ public class Main extends Application {
 //
 //		fadeOut.setOnFinished((e) -> {
 //		});
+	}
+	public void helpScreen() {
+		startPane.getChildren().clear();
+
+		Canvas helpCanvas = new Canvas(width, 500);
+		GraphicsContext helpGC = helpCanvas.getGraphicsContext2D();
+
+		startPane.getChildren().addAll(helpCanvas,backButton);
+		drawBackground();
+
+		helpGC.setFont(Font.font("VERDENA", FontWeight.MEDIUM, 35));
+		helpGC.setFill(Color.WHITE);
+		helpGC.fillText("KEY CONTROLS", 150, 50);
+		helpGC.fillText("W - MOVE UP", 50, 130);
+		helpGC.fillText("A - TURN LEFT", 50, 180);
+		helpGC.fillText("S - MOVE DOWN", 50, 230);
+		helpGC.fillText("D - TURN RIGHT", 50, 280);
+		
+	}
+	public void creditScreen() {
+		startPane.getChildren().clear();
+		Canvas creditCanvas = new Canvas(width, 500);
+		GraphicsContext creditGC = creditCanvas.getGraphicsContext2D();
+
+		startPane.getChildren().addAll(creditCanvas,backButton);
+		drawBackground();
+
+		creditGC.setFont(Font.font("VERDENA", FontWeight.MEDIUM, 35));
+		creditGC.setFill(Color.WHITE);
+		creditGC.fillText("CREDITS", 200, 100);
+		creditGC.fillText("Theerachot Dejsuwannakij", 50, 180);
+		creditGC.fillText("Nitiwat Jongruktrakoon", 50, 270);
+		
 	}
 }
