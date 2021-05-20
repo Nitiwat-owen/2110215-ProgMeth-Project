@@ -18,49 +18,10 @@ import javafx.scene.input.KeyEvent;
 
 public class GameScreen extends Canvas {
 
-//	private static Pane pane = new VBox();
-//	Canvas canvas = new Canvas(800, 50);
-//	Canvas gameCanvas = new Canvas(800, 750);
-//	GraphicsContext gc = canvas.getGraphicsContext2D();
-//	GraphicsContext gameGC = gameCanvas.getGraphicsContext2D();
-//	private int time = 180;
-//	private Thread topPaneThread;
-//	private String[][] gameMap;
-//	
-
 	public GameScreen(int width, int height) {
 		super(width, height);
-		// addListener();
 	}
 
-	/*
-	 * public GameScreen(int width, int height) { // super(pane, width, height); //
-	 * //addListener(); // Pane topPane = new Pane(); //
-	 * topPane.getChildren().add(canvas); // // pane.getChildren().add(topPane); //
-	 * // topPaneThread = new Thread(() -> { // while (true) { //
-	 * System.out.println("A"); // try { // Thread.sleep(1000); // time--; //
-	 * drawTimeOut(gc); // drawBulletCount(gc); // drawPenetBulletCount(gc); //
-	 * drawBombCount(gc); // } catch (InterruptedException e) { //
-	 * e.printStackTrace(); // break; // } // System.out.println("B"); // } // });
-	 * // topPaneThread.start(); // // // Pane gamePane = new Pane(); //
-	 * gamePane.getChildren().add(gameCanvas); // pane.getChildren().add(gamePane);
-	 * // // gameMap = MapParser.readMap("map_test.csv"); //
-	 * GameController.InitializeMap(gameMap, 1, 6); // gameCanvas.requestFocus(); //
-	 * //// Thread drawBG = new Thread(() -> { //// Platform.runLater(new Runnable()
-	 * { //// @Override //// public void run() { // drawBackground(gameGC); //
-	 * //drawMap(gameGC); //// } //// }); //// //// }); //// drawBG.start(); ////
-	 * Platform.runLater(new Runnable() { //// @Override //// public void run() {
-	 * //// drawBackground(gameGC); //// drawMap(gameGC); //// } //// }); // //
-	 * AnimationTimer animation = new AnimationTimer() { // public void handle(long
-	 * now) { // System.out.println("X"); // drawMap(gameGC); //
-	 * System.out.println("Y"); // RenderableHolder.getInstance().update(); //
-	 * System.out.println("Z"); // //GameController.update(); // } // }; //
-	 * animation.start(); //// //// Thread gameThread = new Thread(() -> { ////
-	 * Platform.runLater(new Runnable() { //// @Override //// public void run() {
-	 * //// drawMap(gameGC); //// RenderableHolder.getInstance().update(); //// }
-	 * //// }); //// //// }); //// gameThread.start(); //// //
-	 * InputUtility.addEventListener(this, gameGC); // } //
-	 */
 	public void addListener() {
 		this.setOnKeyPressed((KeyEvent event) -> {
 			String new_code = event.getCode().toString();
@@ -148,23 +109,9 @@ public class GameScreen extends Canvas {
 			@Override
 			public void run() {
 				for (IRenderable entity : RenderableHolder.getInstance().getWeapon()) {
-//					if (entity.isVisible() && !entity.isDestroyed()) {
-//						entity.draw(gc);
-//					}
 					while (entity.isVisible() && !entity.isDestroyed()) {
 						entity.draw(gc);
 					}
-				}
-			}
-		});
-	}
-
-	public void drawBackground(GraphicsContext gc) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				for (IRenderable entity : RenderableHolder.getInstance().getBackground()) {
-					entity.draw(gc);
 				}
 			}
 		});

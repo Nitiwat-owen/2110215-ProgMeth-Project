@@ -22,7 +22,7 @@ public class GameController {
 
 	private static int bomb_count;
 
-	private static boolean isBullet;
+	private static boolean isSimpleBullet;
 
 	private static ArrayList<Bullet> bulletField;
 
@@ -38,16 +38,16 @@ public class GameController {
 		bullet_count = 0;
 		penetrated_count = 0;
 		bomb_count = 0;
-		isBullet = true;
+		isSimpleBullet = true;
 		bulletField = new ArrayList<Bullet>();
 	}
 
 	public static boolean isBullet() {
-		return isBullet;
+		return isSimpleBullet;
 	}
 
-	public static void setBullet(boolean isBullet) {
-		GameController.isBullet = isBullet;
+	public static void setSimpleBullet(boolean isBullet) {
+		GameController.isSimpleBullet = isBullet;
 	}
 
 	public static void movePlayer(String dir) {

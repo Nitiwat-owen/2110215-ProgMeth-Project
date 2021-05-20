@@ -48,10 +48,13 @@ public class Main extends Application {
 	private Button helpButton;
 	private Button creditButton;
 	private Button backButton;
+	
 	private VBox startPane = new VBox();
 	public static Pane gamePane = new VBox();
+	
 	private static final int width = 540;
 	private static final int height = 600;
+	
 	public static Canvas startCanvas = new Canvas(width, 200);
 	public static GraphicsContext startGC = startCanvas.getGraphicsContext2D();
 
@@ -61,16 +64,12 @@ public class Main extends Application {
 	public static GameScreen gameCanvas = new GameScreen(width, 540);
 	public static GraphicsContext gameGC = gameCanvas.getGraphicsContext2D();
 
-	private static Image background = new Image("firstScene_Background.png");
 	private Scene startScene;
 	private Scene gameScene;
-	private LoadingScreen loadingScene;
 	private Stage window;
 
 	private String[][] gameMap;
-	private Thread thread;
 	private Thread drawingThread;
-	private Thread drawingWeapon;
 	private GameScreen gameScreen;
 
 	private AnimationTimer animation;
@@ -97,8 +96,6 @@ public class Main extends Application {
 		window.setResizable(false);
 		window.show();
 
-		loadingScene = new LoadingScreen(width, height);
-
 		Pane topPane = new Pane();
 		topPane.getChildren().add(topCanvas);
 
@@ -117,20 +114,14 @@ public class Main extends Application {
 		gameCanvas.requestFocus();
 		topCanvas.requestFocus();
 
-		Thread t = new Thread(() -> {
-//			Platform.runLater(new Runnable() {
-//				@Override
-//				public void run() {
-			// gameCanvas.drawBackground(gameGC);
+		drawingThread = new Thread(() -> {
 			topCanvas.drawBulletCount(topPaneGC);
 			topCanvas.drawPenetBulletCount(topPaneGC);
 			topCanvas.drawBombCount(topPaneGC);
 			gameCanvas.drawMap(gameGC);
-//				}
-//			});
 		});
-		t.start();
-		// addListener(gameScene);
+		drawingThread.start();
+
 		addEventListener(gameScene);
 	}
 
@@ -150,12 +141,7 @@ public class Main extends Application {
 
 	@Override
 	public void stop() throws Exception {
-		// TODO Auto-generated method stub
-		// this.topPaneThread.interrupt();
-		thread.interrupt();
 		drawingThread.interrupt();
-		drawingWeapon.interrupt();
-		// animation.stop();
 	}
 
 	public void drawNameText(GraphicsContext gc) {
@@ -203,7 +189,6 @@ public class Main extends Application {
 					});
 					System.out.println("Loading SCene finish");
 				});
-				// window.setScene(loadingScene);
 				Thread changingScene = new Thread(() -> {
 					try {
 						Thread.sleep(1000);
@@ -216,9 +201,8 @@ public class Main extends Application {
 							}
 						});
 					} catch (InterruptedException e) {
-
+						e.printStackTrace();
 					}
-
 				});
 				loading.start();
 				changingScene.start();
@@ -307,6 +291,9 @@ public class Main extends Application {
 			case B:
 				// GameController.plantedBomb();
 				break;
+			case Q:
+				GameController.setSimpleBullet(false);
+			
 			default:
 				break;
 			}
@@ -350,49 +337,6 @@ public class Main extends Application {
 		loadingGC.setFont(Font.font("VERDENA", FontWeight.BOLD, 50));
 		loadingGC.setFill(Color.WHITE);
 		loadingGC.fillText("LOADING...", 200, 200);
-//		
-//		Scene loadingScene = new Scene(loadingPane,width,height);
-
-//		StackPane loadingScreen = new StackPane();
-//		loadingScreen.setPrefWidth(800);
-//		loadingScreen.setPrefHeight(800);
-
-//		FadeTransition fadeIn = new FadeTransition(Duration.seconds(3), startPane);
-//		fadeIn.setFromValue(0);
-//		fadeIn.setToValue(1);
-//		fadeIn.setCycleCount(1);
-//
-//		FadeTransition fadeOut = new FadeTransition(Duration.seconds(3), startPane);
-//		fadeOut.setFromValue(1);
-//		fadeOut.setToValue(1);
-//		fadeOut.setCycleCount(1);
-//
-//		fadeIn.play();
-//		Thread loadingMap = new Thread(() -> {
-//			Platform.runLater(new Runnable() {
-//				@Override
-//				public void run() {
-//					window.setScene(gameScene);
-//				}
-//			});
-//
-//		});
-//		loadingMap.start();
-//
-//		Thread finishedMap = new Thread(() -> {
-//			try {
-//				loadingMap.join();
-//				fadeIn.setOnFinished((e) -> {
-//					fadeOut.play();
-//				});
-//			} catch (InterruptedException e) {
-//				throw new RuntimeException(e);
-//			}
-//		});
-//		finishedMap.start();
-//
-//		fadeOut.setOnFinished((e) -> {
-//		});
 	}
 
 	public void helpScreen() {
@@ -427,6 +371,5 @@ public class Main extends Application {
 		creditGC.fillText("CREDITS", 200, 100);
 		creditGC.fillText("Theerachot Dejsuwannakij", 50, 180);
 		creditGC.fillText("Nitiwat Jongruktrakoon", 50, 270);
-
 	}
 }

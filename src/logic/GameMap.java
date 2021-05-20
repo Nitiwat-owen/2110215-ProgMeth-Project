@@ -168,12 +168,12 @@ public class GameMap {
 				Bullet bullet = new Bullet(targetX, targetY);
 				bullet.setDir(dir);
 				RenderableHolder.getInstance().add(bullet);
-				// RenderableHolder.getInstance().addWeapon(bullet);
-				System.out.println("GameMap shooting");
+				System.out.println("GameMap shooting bullet");
 			} else {
 				PenetratedBullet penetBullet = new PenetratedBullet(targetX, targetY);
 				penetBullet.setDir(dir);
-				addEntity(penetBullet, targetX, targetY);
+				RenderableHolder.getInstance().add(penetBullet);
+				System.out.println("GameMap shooting penetratedBullet");
 			}
 		}
 	}
