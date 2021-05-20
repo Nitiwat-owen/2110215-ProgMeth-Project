@@ -33,7 +33,7 @@ public class GameController {
 		RenderableHolder.getInstance().add(player);
 
 		isWin = false;
-		bullet_count = 0;
+		bullet_count = 10;
 		penetrated_count = 0;
 		bomb_count = 0;
 		isSimpleBullet = true;
@@ -91,27 +91,27 @@ public class GameController {
 		GameController.isWin = isWin;
 	}
 
-	public static int getBullet_count() {
+	public static int getBulletCount() {
 		return bullet_count;
 	}
 
-	public static void setBullet_count(int bullet_count) {
+	public static void setBulletCount(int bullet_count) {
 		GameController.bullet_count = bullet_count;
 	}
 
-	public static int getPenetrated_count() {
+	public static int getPenetratedCount() {
 		return penetrated_count;
 	}
 
-	public static void setPenetrated_count(int penetrated_count) {
+	public static void setPenetratedCount(int penetrated_count) {
 		GameController.penetrated_count = penetrated_count;
 	}
 
-	public static int getBomb_count() {
+	public static int getBombCount() {
 		return bomb_count;
 	}
 
-	public static void setBomb_count(int bomb_count) {
+	public static void setBombCount(int bomb_count) {
 		GameController.bomb_count = bomb_count;
 	}
 

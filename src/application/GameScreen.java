@@ -50,7 +50,7 @@ public class GameScreen extends Canvas {
 					gc.setStroke(Color.BLUE);
 				}
 				gc.setFont(Font.font("VERDANA", 40));
-				int bulletCount = logic.GameController.getBullet_count();
+				int bulletCount = logic.GameController.getBulletCount();
 				gc.fillText("BULLET : " + Integer.toString(bulletCount), 0, 50, 135);
 				gc.strokeText("BULLET : " + Integer.toString(bulletCount), 0, 50, 135);
 			}
@@ -72,7 +72,7 @@ public class GameScreen extends Canvas {
 					gc.setStroke(Color.BLUE);
 				}
 				gc.setFont(Font.font("VERDANA", 40));
-				int penetBulletCount = logic.GameController.getPenetrated_count();
+				int penetBulletCount = logic.GameController.getPenetratedCount();
 				gc.fillText("PENETRATEDBULLET : " + Integer.toString(penetBulletCount), 135, 50, 270);
 				gc.strokeText("PENETRATEDBULLET : " + Integer.toString(penetBulletCount), 135, 50, 270);
 			}
@@ -90,7 +90,7 @@ public class GameScreen extends Canvas {
 				gc.setFill(Color.AQUA);
 				gc.setStroke(Color.BLUE);
 				gc.setFont(Font.font("VERDANA", 40));
-				int bombCount = logic.GameController.getBomb_count();
+				int bombCount = logic.GameController.getBombCount();
 				gc.fillText("BOMB : " + Integer.toString(bombCount), 405, 50, 135);
 				gc.strokeText("BOMB : " + Integer.toString(bombCount), 405, 50, 135);
 			}

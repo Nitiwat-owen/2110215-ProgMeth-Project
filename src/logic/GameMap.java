@@ -166,15 +166,17 @@ public class GameMap {
 			break;
 		}
 		if (cellMap[targetY][targetX].IsEmpty()) {
-			if (GameController.isSimpleBullet()) {
+			if (GameController.isSimpleBullet() && GameController.getBulletCount() > 0) {
 				Bullet bullet = new Bullet(targetX, targetY);
 				bullet.setDir(dir);
 				RenderableHolder.getInstance().add(bullet);
+				GameController.setBulletCount(GameController.getBulletCount() - 1);
 				System.out.println("GameMap shooting bullet");
-			} else {
+			} else if (!GameController.isSimpleBullet() && GameController.getPenetratedCount() > 0) {
 				PenetratedBullet penetBullet = new PenetratedBullet(targetX, targetY);
 				penetBullet.setDir(dir);
 				RenderableHolder.getInstance().add(penetBullet);
+				GameController.setPenetratedCount(GameController.getPenetratedCount() - 1);
 				System.out.println("GameMap shooting penetratedBullet");
 			}
 		}
@@ -202,8 +204,9 @@ public class GameMap {
 		default:
 			break;
 		}
-		if (cellMap[targetY][targetX].IsEmpty()) {
+		if (cellMap[targetY][targetX].IsEmpty() && GameController.getBombCount() > 0) {
 			RenderableHolder.getInstance().add(new Bomb(targetX, targetY));
+			GameController.setBombCount(GameController.getBombCount() - 1);
 			System.out.println("GameMap planting Bomb");
 		}
 	}

@@ -24,6 +24,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -33,10 +34,16 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -48,13 +55,16 @@ public class Main extends Application {
 	private Button helpButton;
 	private Button creditButton;
 	private Button backButton;
-	
+	private Button resumeButton;
+
 	private VBox startPane = new VBox();
-	public static Pane gamePane = new VBox();
-	
+	public static StackPane secondPane = new StackPane();
+	public static VBox gamePane = new VBox();
+	public static VBox menuPane = new VBox();
+
 	private static final int width = 540;
 	private static final int height = 600;
-	
+
 	public static Canvas startCanvas = new Canvas(width, 200);
 	public static GraphicsContext startGC = startCanvas.getGraphicsContext2D();
 
@@ -96,12 +106,14 @@ public class Main extends Application {
 		window.setResizable(false);
 		window.show();
 
+		secondPane.getChildren().addAll(gamePane);
+
 		Pane topPane = new Pane();
 		topPane.getChildren().add(topCanvas);
 
 		gamePane.getChildren().add(topPane);
 
-		gameScene = new Scene(gamePane, width, height);
+		gameScene = new Scene(secondPane, width, height);
 		drawGameBackground();
 
 		Pane playPane = new Pane();
@@ -257,12 +269,26 @@ public class Main extends Application {
 		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				startPane.getChildren().clear();
-				startPane.getChildren().addAll(startCanvas, playButton, helpButton, creditButton, exitButton);
+//				startPane.getChildren().clear();
+//				startPane.getChildren().addAll(startCanvas, playButton, helpButton, creditButton, exitButton);
 				// startScene = new Scene(startPane, width, height);
-				// window.setScene(startScene);
+				window.setScene(startScene);
 			}
 		});
+
+		resumeButton = new Button("RESUME");
+		resumeButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
+		resumeButton.setPrefWidth(200);
+		resumeButton.setPrefHeight(30);
+		resumeButton.setStyle("-fx-background-color: #1E90FF");
+		resumeButton.setCursor(Cursor.HAND);
+		resumeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				secondPane.getChildren().remove(menuPane);
+			}
+		});
+
 	}
 
 	public void addEventListener(Scene scene) {
@@ -294,6 +320,7 @@ public class Main extends Application {
 			case Q:
 				GameController.setSimpleBullet(!GameController.isSimpleBullet());
 			case P:
+				creatingMenuPane();
 			default:
 				break;
 			}
@@ -305,18 +332,33 @@ public class Main extends Application {
 				gameCanvas.drawMap(gameGC);
 			});
 
-/*			drawingWeapon = new Thread(() -> {
-//				try {
-//					drawingThread.join();
-//					gameCanvas.drawWeapon(gameGC);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			});*/
+			/*
+			 * drawingWeapon = new Thread(() -> { // try { // drawingThread.join(); //
+			 * gameCanvas.drawWeapon(gameGC); // } catch (InterruptedException e) { //
+			 * e.printStackTrace(); // } // });
+			 */
 
 			drawingThread.start();
 			// drawingWeapon.start();
 		});
+
+	}
+
+	public void creatingMenuPane() {
+		menuPane = new VBox();
+		menuPane.setAlignment(Pos.CENTER);
+		secondPane.getChildren().add(menuPane);
+//		menuPane.setPrefWidth(250);
+//		menuPane.setPrefHeight(150);
+		menuPane.setMaxHeight(150);
+		menuPane.setMaxWidth(250);
+		menuPane.setBorder(new Border(
+				new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		menuPane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
+
+		menuPane.setSpacing(10);
+
+		menuPane.getChildren().addAll(resumeButton, backButton, exitButton);
 
 	}
 
