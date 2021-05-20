@@ -293,6 +293,7 @@ public class Main extends Application {
 				break;
 			case Q:
 				GameController.setSimpleBullet(!GameController.isSimpleBullet());
+			case P:
 			default:
 				break;
 			}

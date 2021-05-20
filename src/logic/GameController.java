@@ -24,8 +24,6 @@ public class GameController {
 
 	private static boolean isSimpleBullet;
 
-	private static ArrayList<Bullet> bulletField;
-
 	public static void InitializeMap(String[][] map, int x, int y) {
 		gameMap = new GameMap(map);
 		isPlanted = false;
@@ -39,7 +37,6 @@ public class GameController {
 		penetrated_count = 0;
 		bomb_count = 0;
 		isSimpleBullet = true;
-		bulletField = new ArrayList<Bullet>();
 	}
 
 	public static boolean isSimpleBullet() {
@@ -142,13 +139,5 @@ public class GameController {
 		int x = player.getX();
 		int y = player.getY();
 		GameController.getGameMap().planting(x, y, currentDir);
-	}
-
-	public void addBullet(int x, int y) {
-		bulletField.add(new Bullet(x, y));
-	}
-
-	public ArrayList<Bullet> getBulletField() {
-		return bulletField;
 	}
 }

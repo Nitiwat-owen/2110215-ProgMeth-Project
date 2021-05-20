@@ -36,14 +36,9 @@ public class Bullet extends Weapon {
 
 	@Override
 	public void draw(GraphicsContext gc) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				gc.setLineWidth(5);
-				gc.setFill(Color.BLACK);
-				gc.fillOval(x * 36 + 12, y * 36 + 9, 12, 12);
-			}
-		});
+		gc.setLineWidth(5);
+		gc.setFill(Color.BLACK);
+		gc.fillOval(x * 36 + 12, y * 36 + 9, 12, 12);
 		Thread t = new Thread(() -> {
 			while (visible) {
 				try {

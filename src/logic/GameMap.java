@@ -126,13 +126,15 @@ public class GameMap {
 
 	public boolean bombExplosion(Entity e) {
 		if (e instanceof Bomb) {
+			System.out.println("IsBomb");
 			int targetX = e.getX();
 			int targetY = e.getY();
 			for (int i = targetY - 1; i <= targetY + 1; i++) {
-				for (int j = targetX - 1; i <= targetX + 1; i++) {
+				for (int j = targetX - 1; j <= targetX + 1; j++) {
 					Entity targetEntity = cellMap[i][j].getEntity();
 					if (targetEntity instanceof Interactable) {
 						((Interactable) targetEntity).interact(e);
+						System.out.println("BOMB!!");
 					}
 				}
 			}
@@ -201,7 +203,8 @@ public class GameMap {
 			break;
 		}
 		if (cellMap[targetY][targetX].IsEmpty()) {
-			addEntity(new Bomb(targetX, targetY), targetX, targetY);
+			RenderableHolder.getInstance().add(new Bomb(targetX, targetY));
+			System.out.println("GameMap planting Bomb");
 		}
 	}
 

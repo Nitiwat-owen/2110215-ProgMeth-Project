@@ -99,16 +99,16 @@ public class GameScreen extends Canvas {
 	}
 
 	public static void drawMap(GraphicsContext gc) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				for (IRenderable entity : RenderableHolder.getInstance().getEntities()) {
-					if (entity.isVisible() && !entity.isDestroyed()) {
+		for (IRenderable entity : RenderableHolder.getInstance().getEntities()) {
+			if (entity.isVisible() && !entity.isDestroyed()) {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
 						entity.draw(gc);
 					}
-				}
+				});
 			}
-		});
+		}
 	}
 
 	public void drawWeapon(GraphicsContext gc) {
