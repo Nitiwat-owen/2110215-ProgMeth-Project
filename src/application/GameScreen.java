@@ -42,10 +42,13 @@ public class GameScreen extends Canvas {
 				gc.setLineWidth(2);
 				gc.setFill(Color.BLACK);
 				gc.fillRect(0, 0, 135, 60);
-
-				gc.setFill(Color.AQUA);
-				gc.setStroke(Color.BLUE);
-
+				if (GameController.isSimpleBullet()) {
+					gc.setFill(Color.YELLOW);
+					gc.setStroke(Color.RED);
+				} else {
+					gc.setFill(Color.AQUA);
+					gc.setStroke(Color.BLUE);
+				}
 				gc.setFont(Font.font("VERDANA", 40));
 				int bulletCount = logic.GameController.getBullet_count();
 				gc.fillText("BULLET : " + Integer.toString(bulletCount), 0, 50, 135);
@@ -61,9 +64,13 @@ public class GameScreen extends Canvas {
 				gc.setLineWidth(2);
 				gc.setFill(Color.BLACK);
 				gc.fillRect(135, 0, 270, 60);
-
-				gc.setFill(Color.YELLOW);
-				gc.setStroke(Color.RED);
+				if (!GameController.isSimpleBullet()) {
+					gc.setFill(Color.YELLOW);
+					gc.setStroke(Color.RED);
+				} else {
+					gc.setFill(Color.AQUA);
+					gc.setStroke(Color.BLUE);
+				}
 				gc.setFont(Font.font("VERDANA", 40));
 				int penetBulletCount = logic.GameController.getPenetrated_count();
 				gc.fillText("PENETRATEDBULLET : " + Integer.toString(penetBulletCount), 135, 50, 270);

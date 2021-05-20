@@ -164,7 +164,7 @@ public class GameMap {
 			break;
 		}
 		if (cellMap[targetY][targetX].IsEmpty()) {
-			if (GameController.isBullet()) {
+			if (GameController.isSimpleBullet()) {
 				Bullet bullet = new Bullet(targetX, targetY);
 				bullet.setDir(dir);
 				RenderableHolder.getInstance().add(bullet);

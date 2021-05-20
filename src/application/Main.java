@@ -289,11 +289,10 @@ public class Main extends Application {
 				GameController.shoot(gameGC);
 				break;
 			case B:
-				// GameController.plantedBomb();
+				GameController.plantedBomb();
 				break;
 			case Q:
-				GameController.setSimpleBullet(false);
-			
+				GameController.setSimpleBullet(!GameController.isSimpleBullet());
 			default:
 				break;
 			}
@@ -305,14 +304,14 @@ public class Main extends Application {
 				gameCanvas.drawMap(gameGC);
 			});
 
-//			drawingWeapon = new Thread(() -> {
+/*			drawingWeapon = new Thread(() -> {
 //				try {
 //					drawingThread.join();
 //					gameCanvas.drawWeapon(gameGC);
 //				} catch (InterruptedException e) {
 //					e.printStackTrace();
 //				}
-//			});
+//			});*/
 
 			drawingThread.start();
 			// drawingWeapon.start();

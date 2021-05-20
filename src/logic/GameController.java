@@ -42,7 +42,7 @@ public class GameController {
 		bulletField = new ArrayList<Bullet>();
 	}
 
-	public static boolean isBullet() {
+	public static boolean isSimpleBullet() {
 		return isSimpleBullet;
 	}
 
@@ -134,7 +134,6 @@ public class GameController {
 		String currentDir = player.getDir();
 		int x = player.getX();
 		int y = player.getY();
-		bullet_count -= 1;
 		gameMap.shooting(x, y, currentDir, gc);
 	}
 
