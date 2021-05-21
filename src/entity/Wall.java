@@ -9,7 +9,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import sharedObject.RenderableHolder;
 
-public class Wall extends Entity implements Interactable, Destroyable {
+public class Wall extends CollidableEntity implements Interactable, Destroyable {
 
 	private double percentage;
 	private boolean barVisible;
@@ -18,6 +18,9 @@ public class Wall extends Entity implements Interactable, Destroyable {
 		this.x = x;
 		this.y = y;
 		this.z = 7;
+		this.radius = 18;
+		this.centerX = x + radius;
+		this.centerY = y + radius;
 		this.health = 100;
 		visible = true;
 		destroy = false;
@@ -26,13 +29,12 @@ public class Wall extends Entity implements Interactable, Destroyable {
 
 	@Override
 	public boolean interact(Entity e) {
-		if (e instanceof Weapon) {
+		if (e instanceof Weapon && isCollide(e)) {
 			setHealth(getHealth() - ((Weapon) e).getDamage());
 			e.setDestroy(true);
 			e.setVisible(false);
 			this.Destroyable(e);
 			this.barVisible = true;
-			Main.gameCanvas.drawMap(Main.gameGC);
 			return true;
 		}
 		return false;
@@ -43,8 +45,6 @@ public class Wall extends Entity implements Interactable, Destroyable {
 		if (health <= 0) {
 			destroy = true;
 			visible = false;
-			this.remove();
-			Main.gameCanvas.drawMap(Main.gameGC);
 		}
 		return false;
 	}
@@ -67,7 +67,7 @@ public class Wall extends Entity implements Interactable, Destroyable {
 			gc.strokeRect(x * 36 + 3, y * 36 + 30, 30, 6);
 
 			percentage = health / 100.0;
-			
+
 			if (percentage >= 0.5) {
 				gc.setFill(Color.GREEN);
 				gc.fillRect(x * 36 + 3, y * 36 + 30, percentage * 30, 6);

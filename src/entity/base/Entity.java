@@ -12,14 +12,14 @@ import javafx.scene.image.WritableImage;
 public abstract class Entity implements IRenderable {
 
 	protected int x, y, z;
+	protected double centerX, centerY;
 	protected boolean visible, destroy;
 	protected int health;
 	protected int speed;
+	protected int radius;
 	protected String dir;
 
 	public abstract int getIndex();
-
-	public abstract boolean isCollide(Entity e);
 
 	public void setHealth(int health) {
 		if (health > 0) {
@@ -54,6 +54,22 @@ public abstract class Entity implements IRenderable {
 		this.z = z;
 	}
 
+	public double getCenterX() {
+		return centerX;
+	}
+
+	public void setCenterX(double centerX) {
+		this.centerX = centerX;
+	}
+
+	public double getCenterY() {
+		return centerY;
+	}
+
+	public void setCenterY(double centerY) {
+		this.centerY = centerY;
+	}
+
 	public int getHealth() {
 		return this.health;
 	}
@@ -72,6 +88,14 @@ public abstract class Entity implements IRenderable {
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+
+	public int getRadius() {
+		return radius;
+	}
+
+	public void setRadius(int radius) {
+		this.radius = radius;
 	}
 
 	public void remove() {
@@ -113,26 +137,6 @@ public abstract class Entity implements IRenderable {
 			break;
 		}
 		if (GameController.getGameMap().isMovable(targetx, targety, this)) {
-
-//			this.destroy = true;
-			// this.remove();
-//			RenderableHolder.getInstance().update();
-//			if (this instanceof Player) {
-//				Player player = new Player(targetx, targety);
-//				GameController.setPlayer(player);
-//				GameController.getGameMap().addEntity(player, targetx, targety);
-//			}
-//			if (this instanceof Bullet) {
-//				Bullet bullet = new Bullet(targetx, targety);
-//				GameController.getGameMap().addEntity(bullet, targetx, targety);
-//			}
-//			if (this instanceof PenetratedBullet) {
-//				PenetratedBullet penetBullet = new PenetratedBullet(targetx, targety);
-//				GameController.getGameMap().addEntity(penetBullet, targetx, targety);
-//			}
-//			RenderableHolder.getInstance().update();
-//			RenderableHolder.getInstance().add(this);
-
 			if (targetx != x || targety != y) {
 				RenderableHolder.getInstance().add(new Cell(x, y));
 			}
