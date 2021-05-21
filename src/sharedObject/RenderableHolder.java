@@ -17,6 +17,7 @@ public class RenderableHolder {
 	private Comparator<IRenderable> comparator;
 	public static Image mapSprite;
 	public static Image tankSprite;
+	public static AudioClip timerSound, explosionSound;
 
 	static {
 		loadResource();
@@ -38,6 +39,7 @@ public class RenderableHolder {
 	public static void loadResource() {
 		mapSprite = new Image(ClassLoader.getSystemResource("image.png").toString());
 		tankSprite = new Image(ClassLoader.getSystemResource("tankImage.png").toString());
+		explosionSound = new AudioClip(ClassLoader.getSystemResource("ExplosionSound.wav").toString());
 	}
 
 	public void add(IRenderable entity) {

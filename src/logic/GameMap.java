@@ -113,10 +113,12 @@ public class GameMap {
 						itr1.remove();
 						cellMap[e1.getY()][e1.getX()].setIsEmpty(true);
 						cellMap[e1.getY()][e1.getX()].setEntity(null);
-						System.out.println(cellMap[e1.getY()][e1.getX()].IsEmpty());
 					}
 					if (e2.isDestroyed()) {
 						itr2.remove();
+						if (e2 instanceof Bomb) {
+							bombExplosion(e2);
+						}
 					}
 				}
 			}
@@ -142,23 +144,19 @@ public class GameMap {
 
 	}
 
-	public boolean bombExplosion(Entity e) {
-		if (e instanceof Bomb) {
-			System.out.println("IsBomb");
-			int targetX = e.getX();
-			int targetY = e.getY();
-			for (int i = targetY - 1; i <= targetY + 1; i++) {
-				for (int j = targetX - 1; j <= targetX + 1; j++) {
-					Entity targetEntity = cellMap[i][j].getEntity();
-					if (targetEntity instanceof Interactable) {
-						((Interactable) targetEntity).interact(e);
-						System.out.println("BOMB!!");
-					}
+	public void bombExplosion(Entity e) {
+		int targetX = e.getX();
+		int targetY = e.getY();
+		for (int i = targetY - 1; i <= targetY + 1; i++) {
+			for (int j = targetX - 1; j <= targetX + 1; j++) {
+				Entity targetEntity = cellMap[i][j].getEntity();
+				if (targetEntity instanceof Interactable) {
+					((Interactable) targetEntity).interact(e);
+					cellMap[targetEntity.getY()][targetEntity.getX()].setIsEmpty(true);
+					cellMap[targetEntity.getY()][targetEntity.getX()].setEntity(null);
 				}
 			}
-			return true;
 		}
-		return false;
 	}
 
 	public void shooting(int x, int y, String dir) {

@@ -19,7 +19,7 @@ public class PenetratedBullet extends WeaponEntity implements Updatable {
 		this.centerX = x * 36 + 12;
 		this.centerY = y * 36 + 12;
 		this.damage = 50;
-		this.speed = 5.0;
+		this.speed = 10.0;
 		this.visible = true;
 		this.destroy = false;
 

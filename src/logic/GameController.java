@@ -26,6 +26,9 @@ public class GameController {
 	private static int bomb_count;
 
 	private static boolean isSimpleBullet;
+	
+	
+	private static boolean isExplosionPlay;
 
 	public static void InitializeMap(String[][] map, int x, int y) {
 		gameMap = new GameMap(map);
@@ -37,9 +40,10 @@ public class GameController {
 
 		isWin = false;
 		bullet_count = 10;
-		penetrated_count = 0;
+		penetrated_count = 10;
 		bomb_count = 0;
 		isSimpleBullet = true;
+		isExplosionPlay = false;
 	}
 
 	public static boolean isSimpleBullet() {
@@ -161,4 +165,14 @@ public class GameController {
 		int y = player.getY();
 		GameController.getGameMap().planting(x, y, currentDir);
 	}
+
+
+	public static boolean isExplosionPlay() {
+		return isExplosionPlay;
+	}
+
+	public static void setExplosionPlay(boolean isExplosionPlay) {
+		GameController.isExplosionPlay = isExplosionPlay;
+	}
+	
 }

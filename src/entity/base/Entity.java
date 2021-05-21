@@ -145,6 +145,7 @@ public abstract class Entity implements IRenderable {
 			if(this instanceof PenetratedBullet) {
 				System.out.println("BULLET : x = " + centerX + ", y = " + centerY);
 				System.out.println("Bullet : indexX = " + x + ", indexY = " + y);
+				System.out.println(this.destroy);
 			}
 			
 			InputUtility.setCode(KeyCode.UNDEFINED);
