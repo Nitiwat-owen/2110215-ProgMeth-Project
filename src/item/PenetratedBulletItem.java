@@ -1,5 +1,6 @@
 package item;
 
+import entity.Player;
 import entity.base.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
@@ -18,10 +19,15 @@ public class PenetratedBulletItem extends CollidableEntity {
 		destroy = false;
 	}
 
-	public void interact(Entity e) {
-		this.remove();
-		GameController.addPenetratedCount();
+	@Override
+	public boolean interact(Entity e) {
+		if (e instanceof Player) {
+			GameController.addPenetratedCount();
+		} else {
+			e.setDestroy(true);
+		}
 		destroy = true;
+		return true;
 	}
 
 	@Override

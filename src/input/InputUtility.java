@@ -54,22 +54,6 @@ public class InputUtility {
 	public static void postUpdate() {
 		triggered = false;
 	}
-
-//	public static boolean getKeyPressed(KeyCode keyCode) {
-//		return keyPressed.contains(keyCode);
-//	}
-//
-//	public static void setKeyPressed(KeyCode keyCode, boolean pressed) {
-//		if (pressed) {
-//			if (!keyPressed.contains(keyCode)) {
-//				keyPressed.add(keyCode);
-//			} else {
-//				keyPressed.remove(keyCode);
-//			}
-//			System.out.println(keyPressed);
-//		}
-//	}
-//
 	public static void addEventListener(Canvas canvas, GraphicsContext gc) {
 		canvas.setOnKeyPressed((event) -> {
 			KeyCode keycode = event.getCode();

@@ -14,8 +14,6 @@ import logic.GameController;
 public class RenderableHolder {
 	private static final RenderableHolder instance = new RenderableHolder();
 	private List<IRenderable> entities;
-	private List<IRenderable> backgroundEntities;
-	private List<IRenderable> weaponEntities;
 	private Comparator<IRenderable> comparator;
 	public static Image mapSprite;
 	public static Image tankSprite;
@@ -26,8 +24,6 @@ public class RenderableHolder {
 
 	public RenderableHolder() {
 		entities = new ArrayList<IRenderable>();
-		backgroundEntities = new ArrayList<IRenderable>();
-		weaponEntities = new ArrayList<IRenderable>();
 		comparator = (IRenderable o1, IRenderable o2) -> {
 			if (o1.getZ() > o2.getZ())
 				return 1;
@@ -49,16 +45,6 @@ public class RenderableHolder {
 		Collections.sort(entities, comparator);
 	}
 
-	public void addBackground(IRenderable entity) {
-		backgroundEntities.add(entity);
-		Collections.sort(backgroundEntities, comparator);
-	}
-
-	public void addWeapon(IRenderable entity) {
-		weaponEntities.add(entity);
-		Collections.sort(weaponEntities, comparator);
-	}
-
 	public void update() {
 		for (int i = entities.size() - 1; i >= 0; i--) {
 			if (entities.get(i).isDestroyed())
@@ -68,13 +54,5 @@ public class RenderableHolder {
 
 	public List<IRenderable> getEntities() {
 		return entities;
-	}
-
-	public List<IRenderable> getBackground() {
-		return backgroundEntities;
-	}
-
-	public List<IRenderable> getWeapon() {
-		return weaponEntities;
 	}
 }

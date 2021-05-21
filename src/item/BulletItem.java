@@ -1,5 +1,6 @@
 package item;
 
+import entity.Player;
 import entity.base.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
@@ -18,11 +19,15 @@ public class BulletItem extends CollidableEntity {
 		destroy = false;
 	}
 
-	public void interact(Entity e) {
-		this.remove();
-		GameController.addBulletCount();
+	@Override
+	public boolean interact(Entity e) {
+		if (e instanceof Player) {
+			GameController.addBulletCount();
+		} else {
+			e.setDestroy(true);
+		}
 		destroy = true;
-		e.setDestroy(true);
+		return true;
 	}
 
 	@Override

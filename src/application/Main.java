@@ -79,8 +79,6 @@ public class Main extends Application {
 	private Stage window;
 
 	private String[][] gameMap;
-	private Thread drawingThread;
-	private GameScreen gameScreen;
 
 	private AnimationTimer animation;
 
@@ -101,10 +99,7 @@ public class Main extends Application {
 		startPane.getChildren().addAll(startCanvas, playButton, helpButton, creditButton, exitButton);
 
 		startScene = new Scene(startPane, width, height);
-		window.setScene(startScene);
-		window.setTitle("Labyrinth Escape");
-		window.setResizable(false);
-		window.show();
+		
 
 		secondPane.getChildren().addAll(gamePane);
 
@@ -125,35 +120,29 @@ public class Main extends Application {
 
 		gameCanvas.requestFocus();
 		topCanvas.requestFocus();
-
-		drawingThread = new Thread(() -> {
-			topCanvas.drawBulletCount(topPaneGC);
-			topCanvas.drawPenetBulletCount(topPaneGC);
-			topCanvas.drawBombCount(topPaneGC);
-			gameCanvas.drawMap(gameGC);
-		});
-		drawingThread.start();
-
-		addEventListener(gameScene);
-	}
-
-	public void addListener(Scene scene) {
-		scene.setOnKeyPressed((KeyEvent event) -> {
-			String new_code = event.getCode().toString();
-			if (!InputUtility.getPressed()) {
-				InputUtility.setTriggered(new_code, true);
-				System.out.println(new_code);
+		
+		addListener(gameScene);
+		window.setScene(gameScene);
+		window.setTitle("Labyrinth Escape");
+		window.setResizable(false);
+		window.show();
+		
+		animation = new AnimationTimer() {
+			public void handle(long now) {
+				topCanvas.drawBulletCount(topPaneGC);
+				System.out.println("drawBulletCount");
+				topCanvas.drawPenetBulletCount(topPaneGC);
+				System.out.println("drawPenetBulletCount");
+				topCanvas.drawBombCount(topPaneGC);
+				System.out.println("drawBombCount");
+				gameCanvas.drawMap(gameGC);
+				System.out.println("drawMap");
+				GameController.getGameMap().update();
+				RenderableHolder.getInstance().update();
 			}
-			InputUtility.setPressed(true);
-		});
-		scene.setOnKeyReleased((KeyEvent event) -> {
-			InputUtility.setPressed(false);
-		});
-	}
-
-	@Override
-	public void stop() throws Exception {
-		drawingThread.interrupt();
+		};
+		animation.start();
+//		addEventListener(gameScene);
 	}
 
 	public void drawNameText(GraphicsContext gc) {
@@ -325,31 +314,35 @@ public class Main extends Application {
 				break;
 			}
 			RenderableHolder.getInstance().update();
-			drawingThread = new Thread(() -> {
+			Thread drawingThread = new Thread(() -> {
 				topCanvas.drawBulletCount(topPaneGC);
 				topCanvas.drawPenetBulletCount(topPaneGC);
 				topCanvas.drawBombCount(topPaneGC);
 				gameCanvas.drawMap(gameGC);
 			});
 
-			/*
-			 * drawingWeapon = new Thread(() -> { // try { // drawingThread.join(); //
-			 * gameCanvas.drawWeapon(gameGC); // } catch (InterruptedException e) { //
-			 * e.printStackTrace(); // } // });
-			 */
-
 			drawingThread.start();
-			// drawingWeapon.start();
 		});
 
 	}
-
+	
+	public void addListener(Scene scene) {
+		scene.setOnKeyPressed((KeyEvent event) -> {
+			String new_code = event.getCode().toString();
+			if (!InputUtility.getPressed()) {
+				InputUtility.setTriggered(new_code, true);
+			}
+			InputUtility.setPressed(true);
+		});
+		scene.setOnKeyReleased((KeyEvent event) -> {
+			InputUtility.setPressed(false);
+		});
+	}
+	
 	public void creatingMenuPane() {
 		menuPane = new VBox();
 		menuPane.setAlignment(Pos.CENTER);
 		secondPane.getChildren().add(menuPane);
-//		menuPane.setPrefWidth(250);
-//		menuPane.setPrefHeight(150);
 		menuPane.setMaxHeight(150);
 		menuPane.setMaxWidth(250);
 		menuPane.setBorder(new Border(

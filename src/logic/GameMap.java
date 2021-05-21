@@ -29,9 +29,12 @@ public class GameMap {
 		int column = map[0].length;
 		int row = map.length;
 
-//		setWidth(column);
-//		setHeight(row);
+		setWidth(column);
+		setHeight(row);
 
+		cellMap = new Cell[row][column];
+		collidableEntity = new ArrayList<CollidableEntity>();
+		movableEntity = new ArrayList<Entity>();
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
 				cellMap[j][i] = new Cell(j, i);
@@ -61,47 +64,55 @@ public class GameMap {
 		}
 	}
 
-//	public int getWidth() {
-//		return width;
-//	}
-//
-//	public void setWidth(int width) {
-//		this.width = width;
-//	}
-//
-//	public int getHeight() {
-//		return height;
-//	}
-//
-//	public void setHeight(int height) {
-//		this.height = height;
-//	}
-
-	public boolean addCollidableEntity(CollidableEntity e, int x, int y) {
-		collidableEntity.add(e);
-		RenderableHolder.getInstance().add(e);
-		boolean b = cellMap[y][x].setEntity(e);
-		return b;
+	public int getWidth() {
+		return width;
 	}
 
-	public boolean addMovableEntity(Entity e, int x, int y) {
-		movableEntity.add(e);
-		RenderableHolder.getInstance().add(e);
-		boolean b = cellMap[y][x].setEntity(e);
-		return b;
+	public void setWidth(int width) {
+		this.width = width;
 	}
 
-//	public void removeEntity(int x, int y) {
-//		allEntity.remove(cellMap[y][x].getEntity());
-//		cellMap[y][x].removeEntity();
-//	}
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void addCollidableEntity(CollidableEntity e, int y, int x) {
+		if (cellMap[y][x].IsEmpty()) {
+			collidableEntity.add(e);
+			RenderableHolder.getInstance().add(e);
+			cellMap[y][x].setEntity(e);
+			cellMap[y][x].setIsEmpty(false);
+		}
+	}
+
+	public void addMovableEntity(Entity e, int x, int y) {
+		if (cellMap[y][x].IsEmpty()) {
+			movableEntity.add(e);
+			RenderableHolder.getInstance().add(e);
+			cellMap[y][x].setEntity(e);
+			cellMap[y][x].setIsEmpty(false);
+		}
+	}
 
 	public void update() {
+		GameController.getPlayer().update();
 		for (CollidableEntity e1 : collidableEntity) {
 			for (Entity e2 : movableEntity) {
 				if (e1.isCollide(e2)) {
-					e2.update();
+					((Updatable) e2).update();
 					e1.interact(e2);
+					if (e1.isDestroyed()) {
+						collidableEntity.remove(e1);
+						cellMap[e1.getY()][e1.getX()].setIsEmpty(true);
+						cellMap[e1.getY()][e1.getX()].setEntity(null);
+					}
+					if (e2.isDestroyed()) {
+						movableEntity.remove(e2);
+					}
 				}
 			}
 		}
@@ -115,7 +126,7 @@ public class GameMap {
 			return true;
 		}
 		if (cellMap[y][x].getEntity() instanceof Interactable) {
-			return ((Interactable) cellMap[y][x].getEntity()).interact(e);
+			return true;
 		}
 		return false;
 	}

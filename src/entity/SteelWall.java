@@ -18,9 +18,10 @@ public class SteelWall extends CollidableEntity {
 	}
 
 	@Override
-	public void interact(Entity e) {
+	public boolean interact(Entity e) {
 		e.setDestroy(true);
 		e.setVisible(false);
+		return false;
 	}
 
 	@Override

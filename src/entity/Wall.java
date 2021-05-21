@@ -28,12 +28,16 @@ public class Wall extends CollidableEntity implements Destroyable {
 	}
 
 	@Override
-	public void interact(Entity e) {
+	public boolean interact(Entity e) {
+		if (e instanceof WeaponEntity) {
 			setHealth(getHealth() - ((WeaponEntity) e).getDamage());
 			e.setDestroy(true);
 			e.setVisible(false);
 			this.Destroyable(e);
 			this.barVisible = true;
+			return true;
+		}
+		return false;
 	}
 
 	@Override

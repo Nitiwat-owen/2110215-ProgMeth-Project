@@ -12,8 +12,8 @@ public class Cell extends Entity {
 	private int x, y;
 
 	public Cell(int x, int y) {
-		isEmpty = true;
 		entity = null;
+		isEmpty = true;
 		this.x = x;
 		this.y = y;
 		this.z = -999;
@@ -21,32 +21,22 @@ public class Cell extends Entity {
 		this.destroy = false;
 	}
 
-	public boolean IsEmpty() {
-		return isEmpty;
-	}
-
-	public boolean setEntity(Entity e) {
-		if (isEmpty) {
-			isEmpty = false;
-			entity = e;
-			return true;
-		} else {
-			if (e instanceof WeaponEntity) {
-				Interactable e1 = (Interactable) entity;
-				return e1.interact(e);
-			} else {
-				return false;
-			}
-		}
-	}
-
 	public Entity getEntity() {
 		return entity;
 	}
 
-	public void removeEntity() {
-		entity = null;
-		isEmpty = true;
+	public void setEntity(Entity e) {
+		if(IsEmpty()) {
+			this.entity = entity;
+		}
+	}
+
+	public boolean IsEmpty() {
+		return isEmpty;
+	}
+
+	public void setIsEmpty(boolean isEmpty) {
+		this.isEmpty = isEmpty;
 	}
 
 	public int getIndex() {
@@ -55,12 +45,12 @@ public class Cell extends Entity {
 
 	@Override
 	public void draw(GraphicsContext gc) {
-		for (int x = 0; x <= GameController.getGameMap().getWidth(); x++) {
-			for (int y = 0; y <= GameController.getGameMap().getHeight(); y++) {
-				WritableImage croppedImage = new WritableImage(RenderableHolder.mapSprite.getPixelReader(),
-						this.getIndex() * 36, 0, 36, 36);
-				gc.drawImage(croppedImage, x * 36, y * 36);
-			}
-		}
+//		for (int x = 0; x <= GameController.getGameMap().getWidth(); x++) {
+//			for (int y = 0; y <= GameController.getGameMap().getHeight(); y++) {
+		WritableImage croppedImage = new WritableImage(RenderableHolder.mapSprite.getPixelReader(),
+				this.getIndex() * 36, 0, 36, 36);
+		gc.drawImage(croppedImage, x * 36, y * 36);
+//			}
+//		}
 	}
 }

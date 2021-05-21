@@ -15,7 +15,7 @@ public class PenetratedBullet extends WeaponEntity implements Updatable {
 		this.x = x;
 		this.y = y;
 		this.damage = 50;
-		this.speed = 36;
+		this.speed = 10.0;
 		this.visible = true;
 		this.destroy = false;
 		this.z = 5;
@@ -82,6 +82,7 @@ public class PenetratedBullet extends WeaponEntity implements Updatable {
 
 	@Override
 	public void update() {
+		this.move(dir);
 	}
 
 	@Override

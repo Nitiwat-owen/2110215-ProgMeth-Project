@@ -11,35 +11,21 @@ import logic.GameController;
 import sharedObject.RenderableHolder;
 
 public class Player extends Entity implements Updatable {
-//	private int bullets;
-//	private int penetratedBullets;
-//	private int bombs;
-	// private int angle;
-	// private String dir;
-	
+
 	public Player(int x, int y) {
-//		bullets = 10;
-//		penetratedBullets = 0;
-//		bombs = 0;
 		this.x = x;
 		this.y = y;
 		this.z = 50;
-		// this.angle = 0;
+		this.radius = 16;
+		this.centerX = x * 36 + radius;
+		this.centerY = y * 36 + radius;
 		this.dir = "W";
 		this.visible = true;
 		this.destroy = false;
-		this.speed = 36;
+		this.speed = 36.0;
 	}
 
-//	public int getAngle() {
-//		return angle;
-//	}
-//
-//	public void setAngle(int angle) {
-//		this.angle = angle;
-//	}
-//
-//	public boolean move(String dir) {
+/*	public boolean move(String dir) {
 //		int targetx = x;
 //		int targety = y;
 //
@@ -76,7 +62,7 @@ public class Player extends Entity implements Updatable {
 //			return true;
 //		}
 //		return false;
-//	}
+//	} */
 
 	@Override
 	public int getIndex() {
@@ -101,18 +87,24 @@ public class Player extends Entity implements Updatable {
 				0, 36, 36);
 		gc.drawImage(tankImage, x * 36, y * 36);
 	}
+
 	@Override
 	public void update() {
 		if (InputUtility.getCode().equals("W")) {
+			System.out.println("W");
 			this.move("W");
 		}
 		if (InputUtility.getCode().equals("A")) {
+			System.out.println("A");
 			this.move("A");
+
 		}
 		if (InputUtility.getCode().equals("S")) {
+			System.out.println("S");
 			this.move("S");
 		}
 		if (InputUtility.getCode().equals("D")) {
+			System.out.println("D");
 			this.move("D");
 		}
 	}

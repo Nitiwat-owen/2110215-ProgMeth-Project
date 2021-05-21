@@ -1,6 +1,7 @@
 package entity;
 
 import entity.base.*;
+import input.InputUtility;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -14,19 +15,16 @@ import sharedObject.RenderableHolder;
 import application.GameScreen;
 import application.Main;
 
-public class Bullet extends WeaponEntity implements Updatable{
-
-	private ImageView imageView;
+public class Bullet extends WeaponEntity implements Updatable {
 
 	public Bullet(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.damage = 20;
-		this.speed = 36;
+		this.speed = 5.0;
 		this.visible = true;
 		this.destroy = false;
 		this.z = 5;
-		imageView = new ImageView(new Image("bullet.png"));
 	}
 
 	@Override
@@ -191,11 +189,12 @@ public class Bullet extends WeaponEntity implements Updatable{
 
 		t.start();
 	}
-	
+
 	@Override
 	public void update() {
-		
+		this.move(dir);
 	}
+
 	@Override
 	public void update(GraphicsContext gc) {
 //		Thread t = new Thread(() -> {

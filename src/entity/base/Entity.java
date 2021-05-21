@@ -7,6 +7,7 @@ import entity.PenetratedBullet;
 import logic.*;
 import sharedObject.*;
 import entity.Player;
+import input.InputUtility;
 import javafx.scene.image.WritableImage;
 
 public abstract class Entity implements IRenderable {
@@ -15,7 +16,7 @@ public abstract class Entity implements IRenderable {
 	protected double centerX, centerY;
 	protected boolean visible, destroy;
 	protected int health;
-	protected int speed;
+	protected double speed;
 	protected int radius;
 	protected String dir;
 
@@ -82,11 +83,11 @@ public abstract class Entity implements IRenderable {
 		this.dir = dir;
 	}
 
-	public int getSpeed() {
+	public double getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(int speed) {
+	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
 
@@ -98,9 +99,9 @@ public abstract class Entity implements IRenderable {
 		this.radius = radius;
 	}
 
-	public void remove() {
-		GameController.getGameMap().removeEntity(this.x, this.y);
-	}
+//	public void remove() {
+//		GameController.getGameMap().removeEntity(this.x, this.y);
+//	}
 
 	@Override
 	public boolean isDestroyed() {
@@ -112,39 +113,41 @@ public abstract class Entity implements IRenderable {
 		return visible;
 	}
 
-	public boolean move(String dir) {
-		int targetx = x;
-		int targety = y;
+	public void move(String dir) {
+		double targetx = centerX;
+		double targety = centerY;
 
 		switch (dir) {
 		case "W":
-			targety -= speed / 36;
+			targety -= speed;
 			this.setDir("W");
 			break;
 		case "A":
-			targetx -= speed / 36;
+			targetx -= speed;
 			this.setDir("A");
 			break;
 		case "S":
-			targety += speed / 36;
+			targety += speed;
 			this.setDir("S");
 			break;
 		case "D":
-			targetx += speed / 36;
+			targetx += speed;
 			this.setDir("D");
 			break;
 		default:
 			break;
 		}
-		if (GameController.getGameMap().isMovable(targetx, targety, this)) {
-			if (targetx != x || targety != y) {
-				RenderableHolder.getInstance().add(new Cell(x, y));
-			}
-			this.x = targetx;
-			this.y = targety;
-			return true;
+		int indexX = (int) (targetx / 36);
+		int indexY = (int) (targety / 36);
+
+		if (GameController.getGameMap().isMovable(indexX, indexY, this)) {
+			this.x = indexX;
+			this.y = indexY;
+			this.centerX = targetx;
+			this.centerY = targety;
+			System.out.println("MOVE COMPLETE!!!");
+			InputUtility.setCode("");
 		}
-		return false;
 	}
 
 	public void setVisible(boolean visible) {
