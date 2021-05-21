@@ -25,45 +25,6 @@ public class Player extends Entity implements Updatable {
 		this.speed = 36.0;
 	}
 
-/*	public boolean move(String dir) {
-//		int targetx = x;
-//		int targety = y;
-//
-//		switch (dir) {
-//		case "W":
-//			targety -= 1;
-//			this.setAngle(0);
-//			break;
-//		case "A":
-//			targetx -= 1;
-//			this.setAngle(270);
-//			break;
-//		case "S":
-//			targety += 1;
-//			this.setAngle(180);
-//			break;
-//		case "D":
-//			targetx += 1;
-//			this.setAngle(90);
-//			break;
-//		default:
-//			break;
-//		}
-//		if (GameController.getGameMap().isMovable(targetx, targety, this)) {
-////			this.destroy = true;
-////			RenderableHolder.getInstance().update();
-////			RenderableHolder.getInstance().add(this);
-//			if (targetx != x || targety != y) {
-//				RenderableHolder.getInstance().add(new Cell(x, y));
-//			}
-//			this.remove();
-//			this.x = targetx;
-//			this.y = targety;
-//			return true;
-//		}
-//		return false;
-//	} */
-
 	@Override
 	public int getIndex() {
 		switch (dir) {
@@ -90,22 +51,22 @@ public class Player extends Entity implements Updatable {
 
 	@Override
 	public void update() {
-		if (InputUtility.getCode().equals("W")) {
-			System.out.println("W");
+		KeyCode code = InputUtility.getCode();
+		switch(code) {
+		case W:
 			this.move("W");
-		}
-		if (InputUtility.getCode().equals("A")) {
-			System.out.println("A");
+			break;
+		case A:
 			this.move("A");
-
-		}
-		if (InputUtility.getCode().equals("S")) {
-			System.out.println("S");
+			break;
+		case S:
 			this.move("S");
-		}
-		if (InputUtility.getCode().equals("D")) {
-			System.out.println("D");
+			break;
+		case D:
 			this.move("D");
+			break;
+		default :
+			break;
 		}
 	}
 }

@@ -19,8 +19,8 @@ public class Wall extends CollidableEntity implements Destroyable {
 		this.y = y;
 		this.z = 7;
 		this.radius = 18;
-		this.centerX = x + radius;
-		this.centerY = y + radius;
+		this.centerX = x * 36 + 12;
+		this.centerY = y * 36+ 12;
 		this.health = 100;
 		visible = true;
 		destroy = false;
@@ -29,22 +29,26 @@ public class Wall extends CollidableEntity implements Destroyable {
 
 	@Override
 	public boolean interact(Entity e) {
-		if (e instanceof WeaponEntity) {
-			setHealth(getHealth() - ((WeaponEntity) e).getDamage());
-			e.setDestroy(true);
-			e.setVisible(false);
-			this.Destroyable(e);
-			this.barVisible = true;
-			return true;
+		if(visible) {
+			if (e instanceof WeaponEntity) {
+				setHealth(getHealth() - ((WeaponEntity) e).getDamage());
+				System.out.println(health);
+				e.setDestroy(true);
+				e.setVisible(false);
+				this.Destroyable();
+				this.barVisible = true;
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
-	public boolean Destroyable(Entity e) {
+	public boolean Destroyable() {
 		if (health <= 0) {
-			destroy = true;
-			visible = false;
+			this.destroy = true;
+			this.visible = false;
+			return true;
 		}
 		return false;
 	}

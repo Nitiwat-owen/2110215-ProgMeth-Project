@@ -84,10 +84,4 @@ public class PenetratedBullet extends WeaponEntity implements Updatable {
 	public void update() {
 		this.move(dir);
 	}
-
-	@Override
-	public void update(GraphicsContext gc) {
-		// TODO Auto-generated method stub
-		
-	}
 }

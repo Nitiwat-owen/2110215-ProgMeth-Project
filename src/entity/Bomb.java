@@ -77,9 +77,4 @@ public class Bomb extends WeaponEntity {
 		});
 		t.start();
 	}
-
-	@Override
-	public void update(GraphicsContext gc) {
-
-	}
 }

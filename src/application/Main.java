@@ -109,7 +109,6 @@ public class Main extends Application {
 		gamePane.getChildren().add(topPane);
 
 		gameScene = new Scene(secondPane, width, height);
-		drawGameBackground();
 
 		Pane playPane = new Pane();
 		playPane.getChildren().add(gameCanvas);
@@ -130,13 +129,9 @@ public class Main extends Application {
 		animation = new AnimationTimer() {
 			public void handle(long now) {
 				topCanvas.drawBulletCount(topPaneGC);
-				System.out.println("drawBulletCount");
 				topCanvas.drawPenetBulletCount(topPaneGC);
-				System.out.println("drawPenetBulletCount");
 				topCanvas.drawBombCount(topPaneGC);
-				System.out.println("drawBombCount");
 				gameCanvas.drawMap(gameGC);
-				System.out.println("drawMap");
 				GameController.getGameMap().update();
 				RenderableHolder.getInstance().update();
 			}
@@ -162,13 +157,6 @@ public class Main extends Application {
 				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
 		startPane.setBackground(new Background(Background));
-	}
-
-	public void drawGameBackground() {
-		BackgroundImage gameBackground = new BackgroundImage(new Image("fieldBackground.png", 0, 0, false, true),
-				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		gamePane.setBackground(new Background(gameBackground));
 	}
 
 	public void InitializeButton() {
@@ -280,7 +268,7 @@ public class Main extends Application {
 
 	}
 
-	public void addEventListener(Scene scene) {
+/*	public void addEventListener(Scene scene) {
 		scene.setOnKeyPressed((event) -> {
 			KeyCode keycode = event.getCode();
 			switch (keycode) {
@@ -324,11 +312,11 @@ public class Main extends Application {
 			drawingThread.start();
 		});
 
-	}
+	}*/
 	
 	public void addListener(Scene scene) {
 		scene.setOnKeyPressed((KeyEvent event) -> {
-			String new_code = event.getCode().toString();
+			KeyCode new_code = event.getCode();
 			if (!InputUtility.getPressed()) {
 				InputUtility.setTriggered(new_code, true);
 			}

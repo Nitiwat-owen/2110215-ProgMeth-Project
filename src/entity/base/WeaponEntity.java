@@ -12,7 +12,4 @@ public abstract class WeaponEntity extends Entity{
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
-	
-	public abstract void update(GraphicsContext gc);	
-
 }

@@ -9,6 +9,7 @@ import sharedObject.*;
 import entity.Player;
 import input.InputUtility;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
 
 public abstract class Entity implements IRenderable {
 
@@ -145,8 +146,8 @@ public abstract class Entity implements IRenderable {
 			this.y = indexY;
 			this.centerX = targetx;
 			this.centerY = targety;
-			System.out.println("MOVE COMPLETE!!!");
-			InputUtility.setCode("");
+			System.out.println(centerX +","+ centerY);
+			InputUtility.setCode(KeyCode.UNDEFINED);
 		}
 	}
 

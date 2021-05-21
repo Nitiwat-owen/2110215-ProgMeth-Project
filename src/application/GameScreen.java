@@ -23,18 +23,18 @@ public class GameScreen extends Canvas {
 		//addListener();
 	}
 
-	public void addListener() {
-		this.setOnKeyPressed((KeyEvent event) -> {
-			String new_code = event.getCode().toString();
-			if (!InputUtility.getPressed()) {
-				InputUtility.setTriggered(new_code, true);
-			}
-			InputUtility.setPressed(true);
-		});
-		this.setOnKeyReleased((KeyEvent event) -> {
-			InputUtility.setPressed(false);
-		});
-	}
+//	public void addListener() {
+//		this.setOnKeyPressed((KeyEvent event) -> {
+//			String new_code = event.getCode().toString();
+//			if (!InputUtility.getPressed()) {
+//				InputUtility.setTriggered(new_code, true);
+//			}
+//			InputUtility.setPressed(true);
+//		});
+//		this.setOnKeyReleased((KeyEvent event) -> {
+//			InputUtility.setPressed(false);
+//		});
+//	}
 
 	public void drawBulletCount(GraphicsContext gc) {
 //		Platform.runLater(new Runnable() {

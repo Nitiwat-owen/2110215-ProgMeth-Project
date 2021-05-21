@@ -27,7 +27,7 @@ public class Cell extends Entity {
 
 	public void setEntity(Entity e) {
 		if(IsEmpty()) {
-			this.entity = entity;
+			this.entity = e;
 		}
 	}
 

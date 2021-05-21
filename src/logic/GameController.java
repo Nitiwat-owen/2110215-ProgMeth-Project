@@ -2,6 +2,7 @@ package logic;
 
 import java.util.ArrayList;
 
+import application.Main;
 import entity.*;
 import javafx.scene.canvas.GraphicsContext;
 import sharedObject.RenderableHolder;
@@ -127,11 +128,11 @@ public class GameController {
 		player.update();
 	}
 
-	public static void shoot(GraphicsContext gc) {
+	public static void shoot() {
 		String currentDir = player.getDir();
 		int x = player.getX();
 		int y = player.getY();
-		gameMap.shooting(x, y, currentDir, gc);
+		gameMap.shooting(x, y, currentDir);
 	}
 
 	public static void plantedBomb() {

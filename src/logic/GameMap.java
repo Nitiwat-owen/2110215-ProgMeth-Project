@@ -2,9 +2,11 @@ package logic;
 
 import java.util.ArrayList;
 import entity.base.*;
+import input.InputUtility;
 import entity.*;
 import item.*;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import sharedObject.RenderableHolder;
 
 public class GameMap {
@@ -37,8 +39,8 @@ public class GameMap {
 		movableEntity = new ArrayList<Entity>();
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
-				cellMap[j][i] = new Cell(j, i);
-				RenderableHolder.getInstance().add(cellMap[j][i]);
+				cellMap[i][j] = new Cell(j, i);
+				RenderableHolder.getInstance().add(cellMap[i][j]);
 				switch (map[i][j]) {
 				case "0":
 					break;
@@ -80,7 +82,7 @@ public class GameMap {
 		this.height = height;
 	}
 
-	public void addCollidableEntity(CollidableEntity e, int y, int x) {
+	public void addCollidableEntity(CollidableEntity e, int x, int y) {
 		if (cellMap[y][x].IsEmpty()) {
 			collidableEntity.add(e);
 			RenderableHolder.getInstance().add(e);
@@ -93,20 +95,19 @@ public class GameMap {
 		if (cellMap[y][x].IsEmpty()) {
 			movableEntity.add(e);
 			RenderableHolder.getInstance().add(e);
-			cellMap[y][x].setEntity(e);
-			cellMap[y][x].setIsEmpty(false);
 		}
 	}
 
 	public void update() {
 		GameController.getPlayer().update();
-		for (CollidableEntity e1 : collidableEntity) {
-			for (Entity e2 : movableEntity) {
+		for (Entity e2 : movableEntity) {
+			// ((Updatable) e2).update();
+			for (CollidableEntity e1 : collidableEntity) {
 				if (e1.isCollide(e2)) {
-					((Updatable) e2).update();
 					e1.interact(e2);
 					if (e1.isDestroyed()) {
 						collidableEntity.remove(e1);
+						System.out.println("REMOVE...");
 						cellMap[e1.getY()][e1.getX()].setIsEmpty(true);
 						cellMap[e1.getY()][e1.getX()].setEntity(null);
 					}
@@ -115,6 +116,10 @@ public class GameMap {
 					}
 				}
 			}
+		}
+		if (InputUtility.getCode() == KeyCode.SPACE) {
+			GameController.shoot();
+			InputUtility.setCode(KeyCode.UNDEFINED);
 		}
 	}
 
@@ -126,7 +131,7 @@ public class GameMap {
 			return true;
 		}
 		if (cellMap[y][x].getEntity() instanceof Interactable) {
-			return true;
+			return ((Interactable) cellMap[y][x].getEntity()).interact(e);
 		}
 		return false;
 	}
@@ -150,7 +155,7 @@ public class GameMap {
 		return false;
 	}
 
-	public void shooting(int x, int y, String dir, GraphicsContext gc) {
+	public void shooting(int x, int y, String dir) {
 		int targetX = x, targetY = y;
 		switch (dir) {
 		case "W":
@@ -176,15 +181,13 @@ public class GameMap {
 			if (GameController.isSimpleBullet() && GameController.getBulletCount() > 0) {
 				Bullet bullet = new Bullet(targetX, targetY);
 				bullet.setDir(dir);
-				RenderableHolder.getInstance().add(bullet);
+				addMovableEntity(bullet, targetX, targetY);
 				GameController.setBulletCount(GameController.getBulletCount() - 1);
-				System.out.println("GameMap shooting bullet");
 			} else if (!GameController.isSimpleBullet() && GameController.getPenetratedCount() > 0) {
 				PenetratedBullet penetBullet = new PenetratedBullet(targetX, targetY);
 				penetBullet.setDir(dir);
-				RenderableHolder.getInstance().add(penetBullet);
+				addMovableEntity(penetBullet, targetX, targetY);
 				GameController.setPenetratedCount(GameController.getPenetratedCount() - 1);
-				System.out.println("GameMap shooting penetratedBullet");
 			}
 		}
 	}
