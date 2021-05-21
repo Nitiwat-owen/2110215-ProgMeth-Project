@@ -6,20 +6,23 @@ import javafx.scene.image.WritableImage;
 import logic.*;
 import sharedObject.RenderableHolder;
 
-public class BombItem extends Entity implements Interactable {
+public class BombItem extends CollidableEntity {
 	public BombItem(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.z = 10;
+		this.radius = 15;
+		this.centerX = x + radius;
+		this.centerY = y + radius;
 		visible = true;
 		destroy = false;
 	}
 
-	public boolean interact(Entity e) {
+	public void interact(Entity e) {
 		this.remove();
 		GameController.addBombCount();
 		destroy = true;
-		return true;
+		e.setDestroy(true);
 	}
 
 	@Override

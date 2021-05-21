@@ -6,7 +6,7 @@ import javafx.scene.image.WritableImage;
 import sharedObject.IRenderable;
 import sharedObject.RenderableHolder;
 
-public class Cell implements IRenderable {
+public class Cell extends Entity {
 	private Entity entity;
 	private boolean isEmpty;
 	private int x, y;
@@ -16,6 +16,9 @@ public class Cell implements IRenderable {
 		entity = null;
 		this.x = x;
 		this.y = y;
+		this.z = -999;
+		this.visible = true;
+		this.destroy = false;
 	}
 
 	public boolean IsEmpty() {
@@ -28,7 +31,7 @@ public class Cell implements IRenderable {
 			entity = e;
 			return true;
 		} else {
-			if (e instanceof Weapon) {
+			if (e instanceof WeaponEntity) {
 				Interactable e1 = (Interactable) entity;
 				return e1.interact(e);
 			} else {
@@ -48,21 +51,6 @@ public class Cell implements IRenderable {
 
 	public int getIndex() {
 		return 3;
-	}
-
-	@Override
-	public boolean isDestroyed() {
-		return false;
-	}
-
-	@Override
-	public boolean isVisible() {
-		return true;
-	}
-
-	@Override
-	public int getZ() {
-		return -999;
 	}
 
 	@Override

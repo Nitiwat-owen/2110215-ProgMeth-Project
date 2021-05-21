@@ -2,7 +2,7 @@ package entity.base;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public abstract class Weapon extends Entity{
+public abstract class WeaponEntity extends Entity{
 	protected int damage;
 
 	public int getDamage() {

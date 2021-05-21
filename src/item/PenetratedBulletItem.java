@@ -6,20 +6,22 @@ import javafx.scene.image.WritableImage;
 import logic.GameController;
 import sharedObject.RenderableHolder;
 
-public class PenetratedBulletItem extends Entity implements Interactable {
+public class PenetratedBulletItem extends CollidableEntity {
 	public PenetratedBulletItem(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.z = 12;
+		this.radius = 15;
+		this.centerX = x + radius;
+		this.centerY = y + radius;
 		visible = true;
 		destroy = false;
 	}
 
-	public boolean interact(Entity e) {
+	public void interact(Entity e) {
 		this.remove();
 		GameController.addPenetratedCount();
 		destroy = true;
-		return true;
 	}
 
 	@Override

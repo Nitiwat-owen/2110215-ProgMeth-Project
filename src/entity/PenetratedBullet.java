@@ -9,7 +9,7 @@ import logic.Cell;
 import logic.GameController;
 import sharedObject.RenderableHolder;
 
-public class PenetratedBullet extends Weapon {
+public class PenetratedBullet extends WeaponEntity {
 
 	public PenetratedBullet(int x, int y) {
 		this.x = x;

@@ -14,7 +14,7 @@ import sharedObject.RenderableHolder;
 import application.GameScreen;
 import application.Main;
 
-public class Bullet extends Weapon {
+public class Bullet extends WeaponEntity {
 
 	private ImageView imageView;
 

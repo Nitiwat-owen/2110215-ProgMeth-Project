@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 import logic.Cell;
 import logic.GameController;
 
-public class Bomb extends Weapon {
+public class Bomb extends WeaponEntity {
 
 	private boolean flashing;
 	private int flashingCount;

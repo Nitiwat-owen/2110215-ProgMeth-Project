@@ -9,12 +9,11 @@ import sharedObject.RenderableHolder;
 
 public class GameMap {
 
-	private Cell[][] cellMap;
-
 	private int width;
 	private int height;
-
-	private ArrayList<Entity> allEntity;
+	private Cell[][] cellMap;
+	private ArrayList<CollidableEntity> collidableEntity;
+	private ArrayList<WeaponEntity> weaponEntity;
 
 	/*
 	 * public GameMap(int column, int row) { allEntity = new ArrayList<Entity>();
@@ -26,7 +25,6 @@ public class GameMap {
 	 */
 
 	public GameMap(String[][] map) {
-		allEntity = new ArrayList<Entity>();
 
 		int column = map[0].length;
 		int row = map.length;
@@ -34,29 +32,27 @@ public class GameMap {
 		setWidth(column);
 		setHeight(row);
 
-		cellMap = new Cell[row][column];
-
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
-				cellMap[i][j] = new Cell(j, i);
-				RenderableHolder.getInstance().addBackground(cellMap[i][j]);
+				cellMap[j][i] = new Cell(j, i);
+				RenderableHolder.getInstance().add(cellMap[j][i]);
 				switch (map[i][j]) {
 				case "0":
 					break;
 				case "B":
-					addEntity(new BulletItem(j, i), j, i);
+					addCollidableEntity(new BulletItem(j, i), j, i);
 					break;
 				case "BM":
-					addEntity(new BombItem(j, i), j, i);
+					addCollidableEntity(new BombItem(j, i), j, i);
 					break;
 				case "PB":
-					addEntity(new PenetratedBulletItem(j, i), j, i);
+					addCollidableEntity(new PenetratedBulletItem(j, i), j, i);
 					break;
 				case "SW":
-					addEntity(new SteelWall(j, i), j, i);
+					addCollidableEntity(new SteelWall(j, i), j, i);
 					break;
 				case "W":
-					addEntity(new Wall(j, i), j, i);
+					addCollidableEntity(new Wall(j, i), j, i);
 					break;
 				default:
 					break;
@@ -81,34 +77,34 @@ public class GameMap {
 		this.height = height;
 	}
 
-	public Cell[][] getCellMap() {
-		return cellMap;
-	}
-
-	public void setCellMap(Cell[][] cellMap) {
-		this.cellMap = cellMap;
-	}
-
-	public boolean addEntity(Entity e, int x, int y) {
-		allEntity.add(e);
+	public boolean addCollidableEntity(CollidableEntity e, int x, int y) {
+		collidableEntity.add(e);
 		RenderableHolder.getInstance().add(e);
-
 		boolean b = cellMap[y][x].setEntity(e);
 		return b;
 	}
 
-	public boolean addBackground(Entity e, int x, int y) {
-		allEntity.add(e);
-		RenderableHolder.getInstance().addBackground(e);
-
+	public boolean addWeaponEntity(WeaponEntity e, int x, int y) {
+		weaponEntity.add(e);
+		RenderableHolder.getInstance().add(e);
 		boolean b = cellMap[y][x].setEntity(e);
 		return b;
 	}
 
-	public void removeEntity(int x, int y) {
-		allEntity.remove(cellMap[y][x].getEntity());
-//		System.out.println(allEntity.remove(cellMap[x][y].getEntity()));
-		cellMap[y][x].removeEntity();
+//	public void removeEntity(int x, int y) {
+//		allEntity.remove(cellMap[y][x].getEntity());
+//		cellMap[y][x].removeEntity();
+//	}
+
+	public void update() {
+		GameController.getPlayer().update();
+		for (CollidableEntity e1 : collidableEntity) {
+			for (WeaponEntity e2 : weaponEntity) {
+				if (e1.isCollide(e2)) {
+					e1.interact(e2);
+				}
+			}
+		}
 	}
 
 	public boolean isMovable(int x, int y, Entity e) {

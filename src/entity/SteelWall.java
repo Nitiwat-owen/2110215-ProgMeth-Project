@@ -19,7 +19,7 @@ public class SteelWall extends CollidableEntity implements Interactable {
 
 	@Override
 	public boolean interact(Entity e) {
-		if (e instanceof Weapon && isCollide(e)) {
+		if (e instanceof WeaponEntity && isCollide(e)) {
 			e.setDestroy(true);
 			e.setVisible(false);
 			return true;
