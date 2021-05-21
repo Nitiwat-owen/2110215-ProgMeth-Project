@@ -18,7 +18,7 @@ public class Wall extends CollidableEntity implements Destroyable {
 		this.x = x;
 		this.y = y;
 		this.z = 7;
-		this.radius = 18;
+		this.radius = 18.0;
 		this.centerX = x * 36 + 12;
 		this.centerY = y * 36+ 12;
 		this.health = 100;

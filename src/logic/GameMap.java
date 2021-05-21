@@ -1,6 +1,8 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import entity.base.*;
 import input.InputUtility;
 import entity.*;
@@ -100,23 +102,41 @@ public class GameMap {
 
 	public void update() {
 		GameController.getPlayer().update();
-		for (Entity e2 : movableEntity) {
-			// ((Updatable) e2).update();
-			for (CollidableEntity e1 : collidableEntity) {
+		for (Iterator<Entity> itr2 = movableEntity.iterator(); itr2.hasNext();) {
+			Entity e2 = itr2.next();
+			((Updatable) e2).update();
+			for (Iterator<CollidableEntity> itr1 = collidableEntity.iterator(); itr1.hasNext();) {
+				CollidableEntity e1 = itr1.next();
 				if (e1.isCollide(e2)) {
 					e1.interact(e2);
 					if (e1.isDestroyed()) {
-						collidableEntity.remove(e1);
-						System.out.println("REMOVE...");
+						itr1.remove();
 						cellMap[e1.getY()][e1.getX()].setIsEmpty(true);
 						cellMap[e1.getY()][e1.getX()].setEntity(null);
 					}
 					if (e2.isDestroyed()) {
-						movableEntity.remove(e2);
+						itr2.remove();
 					}
 				}
 			}
 		}
+//		for (Entity e2 : movableEntity) {
+//			((Updatable) e2).update();
+//			for (CollidableEntity e1 : collidableEntity) {
+//				if (e1.isCollide(e2)) {
+//					e1.interact(e2);
+//					if (e1.isDestroyed()) {
+//						collidableEntity.remove(e1);
+//						System.out.println("REMOVE...");
+//						cellMap[e1.getY()][e1.getX()].setIsEmpty(true);
+//						cellMap[e1.getY()][e1.getX()].setEntity(null);
+//					}
+//					if (e2.isDestroyed()) {
+//						movableEntity.remove(e2);
+//					}
+//				}
+//			}
+//		}
 		if (InputUtility.getCode() == KeyCode.SPACE) {
 			GameController.shoot();
 			InputUtility.setCode(KeyCode.UNDEFINED);
@@ -131,7 +151,10 @@ public class GameMap {
 			return true;
 		}
 		if (cellMap[y][x].getEntity() instanceof Interactable) {
-			return ((Interactable) cellMap[y][x].getEntity()).interact(e);
+			if (e instanceof Player) {
+				return ((Interactable) cellMap[y][x].getEntity()).interact(e);
+			}
+			return true;
 		}
 		return false;
 	}

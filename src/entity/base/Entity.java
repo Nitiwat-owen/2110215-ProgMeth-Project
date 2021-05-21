@@ -18,7 +18,7 @@ public abstract class Entity implements IRenderable {
 	protected boolean visible, destroy;
 	protected int health;
 	protected double speed;
-	protected int radius;
+	protected double radius;
 	protected String dir;
 
 	public abstract int getIndex();
@@ -92,11 +92,11 @@ public abstract class Entity implements IRenderable {
 		this.speed = speed;
 	}
 
-	public int getRadius() {
+	public double getRadius() {
 		return radius;
 	}
 
-	public void setRadius(int radius) {
+	public void setRadius(double radius) {
 		this.radius = radius;
 	}
 

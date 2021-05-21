@@ -21,7 +21,7 @@ public class Bullet extends WeaponEntity implements Updatable {
 		this.x = x;
 		this.y = y;
 		this.z = 5;
-		this.radius = 10;
+		this.radius = 10.0;
 		this.centerX = x * 36 + 12;
 		this.centerY = y * 36 + 12;
 		this.damage = 20;
@@ -44,7 +44,7 @@ public class Bullet extends WeaponEntity implements Updatable {
 			gc.setFill(Color.GRAY);
 			gc.fillOval(centerX, centerY, radius, radius);
 			gc.strokeOval(centerX, centerY, radius, radius);
-			update();
+			//update();
 		}
 	}
 
