@@ -44,7 +44,6 @@ public class Bullet extends WeaponEntity implements Updatable {
 			gc.setFill(Color.GRAY);
 			gc.fillOval(centerX, centerY, radius, radius);
 			gc.strokeOval(centerX, centerY, radius, radius);
-			//update();
 		}
 	}
 

@@ -113,33 +113,13 @@ public class GameMap {
 						itr1.remove();
 						cellMap[e1.getY()][e1.getX()].setIsEmpty(true);
 						cellMap[e1.getY()][e1.getX()].setEntity(null);
+						System.out.println(cellMap[e1.getY()][e1.getX()].IsEmpty());
 					}
 					if (e2.isDestroyed()) {
 						itr2.remove();
 					}
 				}
 			}
-		}
-//		for (Entity e2 : movableEntity) {
-//			((Updatable) e2).update();
-//			for (CollidableEntity e1 : collidableEntity) {
-//				if (e1.isCollide(e2)) {
-//					e1.interact(e2);
-//					if (e1.isDestroyed()) {
-//						collidableEntity.remove(e1);
-//						System.out.println("REMOVE...");
-//						cellMap[e1.getY()][e1.getX()].setIsEmpty(true);
-//						cellMap[e1.getY()][e1.getX()].setEntity(null);
-//					}
-//					if (e2.isDestroyed()) {
-//						movableEntity.remove(e2);
-//					}
-//				}
-//			}
-//		}
-		if (InputUtility.getCode() == KeyCode.SPACE) {
-			GameController.shoot();
-			InputUtility.setCode(KeyCode.UNDEFINED);
 		}
 	}
 
@@ -153,10 +133,13 @@ public class GameMap {
 		if (cellMap[y][x].getEntity() instanceof Interactable) {
 			if (e instanceof Player) {
 				return ((Interactable) cellMap[y][x].getEntity()).interact(e);
+			} else {
+				return true;
 			}
-			return true;
+
 		}
 		return false;
+
 	}
 
 	public boolean bombExplosion(Entity e) {
@@ -238,9 +221,8 @@ public class GameMap {
 			break;
 		}
 		if (cellMap[targetY][targetX].IsEmpty() && GameController.getBombCount() > 0) {
-			RenderableHolder.getInstance().add(new Bomb(targetX, targetY));
 			GameController.setBombCount(GameController.getBombCount() - 1);
-			System.out.println("GameMap planting Bomb");
+			addMovableEntity(new Bomb(targetX, targetY), targetX, targetY);
 		}
 	}
 
@@ -251,4 +233,13 @@ public class GameMap {
 			GameController.setWin(true);
 		}
 	}
+
+	public Cell[][] getCellMap() {
+		return cellMap;
+	}
+
+	public void setCellMap(Cell[][] cellMap) {
+		this.cellMap = cellMap;
+	}
+
 }

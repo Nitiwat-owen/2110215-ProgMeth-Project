@@ -14,11 +14,15 @@ public class PenetratedBullet extends WeaponEntity implements Updatable {
 	public PenetratedBullet(int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.z = 5;
+		this.radius = 12.0;
+		this.centerX = x * 36 + 12;
+		this.centerY = y * 36 + 12;
 		this.damage = 50;
-		this.speed = 10.0;
+		this.speed = 5.0;
 		this.visible = true;
 		this.destroy = false;
-		this.z = 5;
+
 	}
 
 	@Override
@@ -28,56 +32,13 @@ public class PenetratedBullet extends WeaponEntity implements Updatable {
 
 	@Override
 	public void draw(GraphicsContext gc) {
-		gc.setLineWidth(5);
-		gc.setFill(Color.RED);
-		gc.fillOval(x * 36 + 12, y * 36 + 9, 12, 12);
-
-		Thread t = new Thread(() -> {
-			while (visible) {
-				try {
-					Thread.sleep(50);
-					int x = this.getX();
-					int y = this.getY();
-					move(dir);
-					Thread drawBullet = new Thread(() -> {
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								gc.setLineWidth(5);
-								gc.setFill(Color.RED);
-								gc.fillOval(x * 36 + 12, y * 36 + 9, 12, 12);
-							}
-						});
-					});
-
-					Thread AddBackground = new Thread(() -> {
-						try {
-							drawBullet.join();
-							Thread.sleep(50);
-							Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									WritableImage croppedImage = new WritableImage(
-											RenderableHolder.mapSprite.getPixelReader(), 3 * 36, 0, 36, 36);
-									gc.drawImage(croppedImage, x * 36, y * 36);
-								}
-							});
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					});
-
-					drawBullet.start();
-					AddBackground.start();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-		});
-		t.start();
+		if (!destroy) {
+			gc.setLineWidth(1);
+			gc.setStroke(Color.BLACK);
+			gc.setFill(Color.RED);
+			gc.fillOval(centerX, centerY, radius, radius);
+			gc.strokeOval(centerX, centerY, radius, radius);
+		}
 	}
 
 	@Override

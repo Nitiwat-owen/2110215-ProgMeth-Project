@@ -100,10 +100,6 @@ public abstract class Entity implements IRenderable {
 		this.radius = radius;
 	}
 
-//	public void remove() {
-//		GameController.getGameMap().removeEntity(this.x, this.y);
-//	}
-
 	@Override
 	public boolean isDestroyed() {
 		return destroy;
@@ -146,7 +142,11 @@ public abstract class Entity implements IRenderable {
 			this.y = indexY;
 			this.centerX = targetx;
 			this.centerY = targety;
-			System.out.println(centerX +","+ centerY);
+			if(this instanceof PenetratedBullet) {
+				System.out.println("BULLET : x = " + centerX + ", y = " + centerY);
+				System.out.println("Bullet : indexX = " + x + ", indexY = " + y);
+			}
+			
 			InputUtility.setCode(KeyCode.UNDEFINED);
 		}
 	}

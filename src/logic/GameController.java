@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import application.Main;
 import entity.*;
+import input.InputUtility;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import sharedObject.RenderableHolder;
 
 public class GameController {
@@ -126,6 +128,24 @@ public class GameController {
 
 	public static void update() {
 		player.update();
+		gameMap.update();
+		KeyCode code = InputUtility.getCode();
+		switch (code) {
+		case SPACE:
+			shoot();
+			InputUtility.setCode(KeyCode.UNDEFINED);
+			break;
+		case Q:
+			setSimpleBullet(!GameController.isSimpleBullet());
+			InputUtility.setCode(KeyCode.UNDEFINED);
+			break;
+		case B:
+			plantedBomb();
+			InputUtility.setCode(KeyCode.UNDEFINED);
+			break;
+		default:
+			break;
+		}
 	}
 
 	public static void shoot() {

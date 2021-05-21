@@ -21,15 +21,19 @@ public class BulletItem extends CollidableEntity {
 
 	@Override
 	public boolean interact(Entity e) {
-		if(visible) {
+		if (visible) {
 			if (e instanceof Player) {
 				GameController.addBulletCount();
-		
+				System.out.println("Add");
+				visible = false;
+				destroy = true;
+				GameController.getGameMap().getCellMap()[y][x].setIsEmpty(true);
+				GameController.getGameMap().getCellMap()[y][x].setEntity(null);
+
 			} else {
 				e.setDestroy(true);
 			}
-			visible = false;
-			destroy = true;
+
 		}
 		return true;
 	}

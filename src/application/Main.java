@@ -132,7 +132,8 @@ public class Main extends Application {
 				topCanvas.drawPenetBulletCount(topPaneGC);
 				topCanvas.drawBombCount(topPaneGC);
 				gameCanvas.drawMap(gameGC);
-				GameController.getGameMap().update();
+				GameController.update();
+				//GameController.getGameMap().update();
 				RenderableHolder.getInstance().update();
 			}
 		};

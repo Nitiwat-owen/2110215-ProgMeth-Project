@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 import logic.Cell;
 import logic.GameController;
 
-public class Bomb extends WeaponEntity {
+public class Bomb extends WeaponEntity implements Updatable {
 
 	private boolean flashing;
 	private int flashingCount;
@@ -15,12 +15,16 @@ public class Bomb extends WeaponEntity {
 	public Bomb(int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.z = 6;
+		this.centerX = x * 36 + 12;
+		this.centerY = y * 36 + 12;
+		this.radius = 15;
 		damage = 100;
 		this.visible = true;
 		this.destroy = false;
-		this.z = 6;
+
 		flashing = false;
-		flashingCount = 10;
+		flashingCount = 10000;
 	}
 
 	@Override
@@ -30,51 +34,90 @@ public class Bomb extends WeaponEntity {
 
 	@Override
 	public void draw(GraphicsContext gc) {
-		gc.setLineWidth(4);
-		gc.setFill(Color.BLACK);
-		gc.fillOval(x * 36 + 7, y * 36 + 6, 25, 25);
-		flashing = true;
+		while (flashingCount > 0) {
+			if (flashing) {
+				gc.setLineWidth(2);
+				gc.setStroke(Color.BLACK);
+				gc.setFill(Color.RED);
 
-		Thread t = new Thread(() -> {
-			while (visible) {
-				while (flashingCount > 0) {
-					try {
-						Thread.sleep(500);
-						if (flashing) {
-							Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									gc.setStroke(Color.BLACK);
-									gc.setFill(Color.RED);
+				gc.strokeOval(centerX, centerY, radius, radius);
+				gc.fillOval(centerX, centerY, radius, radius);
+				flashing = false;
+				System.out.println("flash");
+			} else {
+				gc.setLineWidth(2);
+				gc.setStroke(Color.BLACK);
+				gc.setFill(Color.BLACK);
 
-									gc.strokeOval(x * 36 + 7, y * 36 + 6, 25, 25);
-									gc.fillOval(x * 36 + 7, y * 36 + 6, 25, 25);
-								}
-							});
-							flashing = false;
-						} else {
-							Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									gc.setStroke(Color.BLACK);
-									gc.setFill(Color.BLACK);
-									gc.strokeOval(x * 36 + 7, y * 36 + 6, 25, 25);
-									gc.fillOval(x * 36 + 7, y * 36 + 6, 25, 25);
-								}
-							});
-							flashing = true;
-						}
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					flashingCount--;
-				}
-				visible = false;
-				destroy = true;
-				GameController.getGameMap().bombExplosion(this);
+				gc.strokeOval(centerX, centerY, radius, radius);
+				gc.fillOval(centerX, centerY, radius, radius);
+				flashing = true;
+				System.out.println("not flash");
 			}
-		});
-		t.start();
+			update();
+		}
+		visible = false;
+		destroy = true;
+		System.out.println("BOMB!!!");
+
+//		gc.setLineWidth(2);
+//		gc.setStroke(Color.BLACK);
+//		gc.setFill(Color.RED);
+//
+//		gc.strokeOval(centerX, centerY, radius, radius);
+//		gc.fillOval(centerX, centerY, radius, radius);
+//		flashing = true;
+//
+//		Thread t = new Thread(() -> {
+//			while (visible) {
+//				while (flashingCount > 0) {
+//					try {
+//						Thread.sleep(500);
+//						if (flashing) {
+//							Platform.runLater(new Runnable() {
+//								@Override
+//								public void run() {
+//									gc.setLineWidth(2);
+//									gc.setStroke(Color.BLACK);
+//									gc.setFill(Color.RED);
+//					
+//									gc.strokeOval(centerX, centerY, radius, radius);
+//									gc.fillOval(centerX, centerY, radius, radius);
+//								}
+//							});
+//							flashing = false;
+//						} else {
+//							Platform.runLater(new Runnable() {
+//								@Override
+//								public void run() {
+//									gc.setLineWidth(2);
+//									gc.setStroke(Color.BLACK);
+//									gc.setFill(Color.BLACK);
+//					
+//									gc.strokeOval(centerX, centerY, radius, radius);
+//									gc.fillOval(centerX, centerY, radius, radius);
+//								}
+//							});
+//							flashing = true;
+//						}
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					flashingCount--;
+//				}
+//				visible = false;
+//				destroy = true;
+//				System.out.println("BOMB");
+//				GameController.getGameMap().bombExplosion(this);
+//			}
+//		});
+//		t.start();
+
+	}
+
+	@Override
+	public void update() {
+		flashingCount--;
 	}
 }
