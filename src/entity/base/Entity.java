@@ -19,6 +19,8 @@ public abstract class Entity implements IRenderable {
 
 	public abstract int getIndex();
 
+	public abstract boolean isCollide(Entity e);
+
 	public void setHealth(int health) {
 		if (health > 0) {
 			this.health = health;
@@ -113,7 +115,7 @@ public abstract class Entity implements IRenderable {
 		if (GameController.getGameMap().isMovable(targetx, targety, this)) {
 
 //			this.destroy = true;
-			//this.remove();
+			// this.remove();
 //			RenderableHolder.getInstance().update();
 //			if (this instanceof Player) {
 //				Player player = new Player(targetx, targety);
@@ -130,7 +132,7 @@ public abstract class Entity implements IRenderable {
 //			}
 //			RenderableHolder.getInstance().update();
 //			RenderableHolder.getInstance().add(this);
-			
+
 			if (targetx != x || targety != y) {
 				RenderableHolder.getInstance().add(new Cell(x, y));
 			}
