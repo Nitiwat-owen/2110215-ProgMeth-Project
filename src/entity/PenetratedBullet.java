@@ -9,7 +9,7 @@ import logic.Cell;
 import logic.GameController;
 import sharedObject.RenderableHolder;
 
-public class PenetratedBullet extends WeaponEntity {
+public class PenetratedBullet extends WeaponEntity implements Updatable {
 
 	public PenetratedBullet(int x, int y) {
 		this.x = x;
@@ -81,8 +81,12 @@ public class PenetratedBullet extends WeaponEntity {
 	}
 
 	@Override
+	public void update() {
+	}
+
+	@Override
 	public void update(GraphicsContext gc) {
-		if (visible) {
-		}
+		// TODO Auto-generated method stub
+		
 	}
 }

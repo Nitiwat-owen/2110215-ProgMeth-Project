@@ -10,7 +10,7 @@ import logic.Cell;
 import logic.GameController;
 import sharedObject.RenderableHolder;
 
-public class Player extends Entity {
+public class Player extends Entity implements Updatable {
 //	private int bullets;
 //	private int penetratedBullets;
 //	private int bombs;
@@ -101,7 +101,7 @@ public class Player extends Entity {
 				0, 36, 36);
 		gc.drawImage(tankImage, x * 36, y * 36);
 	}
-
+	@Override
 	public void update() {
 		if (InputUtility.getCode().equals("W")) {
 			this.move("W");

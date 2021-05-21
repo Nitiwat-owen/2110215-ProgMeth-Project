@@ -9,7 +9,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import sharedObject.RenderableHolder;
 
-public class Wall extends CollidableEntity implements Interactable, Destroyable {
+public class Wall extends CollidableEntity implements Destroyable {
 
 	private double percentage;
 	private boolean barVisible;

@@ -13,7 +13,7 @@ public class GameMap {
 	private int height;
 	private Cell[][] cellMap;
 	private ArrayList<CollidableEntity> collidableEntity;
-	private ArrayList<WeaponEntity> weaponEntity;
+	private ArrayList<Entity> movableEntity;
 
 	/*
 	 * public GameMap(int column, int row) { allEntity = new ArrayList<Entity>();
@@ -29,8 +29,8 @@ public class GameMap {
 		int column = map[0].length;
 		int row = map.length;
 
-		setWidth(column);
-		setHeight(row);
+//		setWidth(column);
+//		setHeight(row);
 
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
@@ -61,21 +61,21 @@ public class GameMap {
 		}
 	}
 
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
+//	public int getWidth() {
+//		return width;
+//	}
+//
+//	public void setWidth(int width) {
+//		this.width = width;
+//	}
+//
+//	public int getHeight() {
+//		return height;
+//	}
+//
+//	public void setHeight(int height) {
+//		this.height = height;
+//	}
 
 	public boolean addCollidableEntity(CollidableEntity e, int x, int y) {
 		collidableEntity.add(e);
@@ -84,8 +84,8 @@ public class GameMap {
 		return b;
 	}
 
-	public boolean addWeaponEntity(WeaponEntity e, int x, int y) {
-		weaponEntity.add(e);
+	public boolean addMovableEntity(Entity e, int x, int y) {
+		movableEntity.add(e);
 		RenderableHolder.getInstance().add(e);
 		boolean b = cellMap[y][x].setEntity(e);
 		return b;
@@ -97,10 +97,10 @@ public class GameMap {
 //	}
 
 	public void update() {
-		GameController.getPlayer().update();
 		for (CollidableEntity e1 : collidableEntity) {
-			for (WeaponEntity e2 : weaponEntity) {
+			for (Entity e2 : movableEntity) {
 				if (e1.isCollide(e2)) {
+					e2.update();
 					e1.interact(e2);
 				}
 			}
@@ -205,10 +205,6 @@ public class GameMap {
 			GameController.setBombCount(GameController.getBombCount() - 1);
 			System.out.println("GameMap planting Bomb");
 		}
-	}
-
-	public ArrayList<Entity> getAllEntity() {
-		return this.allEntity;
 	}
 
 	public void exitGate() {

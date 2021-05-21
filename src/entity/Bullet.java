@@ -14,7 +14,7 @@ import sharedObject.RenderableHolder;
 import application.GameScreen;
 import application.Main;
 
-public class Bullet extends WeaponEntity {
+public class Bullet extends WeaponEntity implements Updatable{
 
 	private ImageView imageView;
 
@@ -191,7 +191,11 @@ public class Bullet extends WeaponEntity {
 
 		t.start();
 	}
-
+	
+	@Override
+	public void update() {
+		
+	}
 	@Override
 	public void update(GraphicsContext gc) {
 //		Thread t = new Thread(() -> {

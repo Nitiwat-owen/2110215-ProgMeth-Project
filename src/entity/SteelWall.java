@@ -5,7 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
 import sharedObject.RenderableHolder;
 
-public class SteelWall extends CollidableEntity implements Interactable {
+public class SteelWall extends CollidableEntity {
 	public SteelWall(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -18,21 +18,16 @@ public class SteelWall extends CollidableEntity implements Interactable {
 	}
 
 	@Override
-	public boolean interact(Entity e) {
-		if (e instanceof WeaponEntity && isCollide(e)) {
-			e.setDestroy(true);
-			e.setVisible(false);
-			return true;
-		}
-		return false;
+	public void interact(Entity e) {
+		e.setDestroy(true);
+		e.setVisible(false);
 	}
-	
+
 	@Override
 	public int getIndex() {
 		return 4;
 	}
-	
-	
+
 	@Override
 	public void draw(GraphicsContext gc) {
 		WritableImage croppedImage = new WritableImage(RenderableHolder.mapSprite.getPixelReader(),
