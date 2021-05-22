@@ -225,11 +225,7 @@ public class GameMap {
 	}
 
 	public void exitGate() {
-		int playerX = GameController.getPlayer().getX();
-		int playerY = GameController.getPlayer().getY();
-		if (playerX == 14 && playerY == 2) {
-			GameController.setWin(true);
-		}
+		GameController.setWin(true);
 	}
 
 	public Cell[][] getCellMap() {

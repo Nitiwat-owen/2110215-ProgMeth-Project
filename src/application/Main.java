@@ -50,15 +50,18 @@ import javafx.scene.layout.StackPane;
 
 public class Main extends Application {
 
-	private Button playButton;
-	private Button exitButton;
-	private Button helpButton;
-	private Button creditButton;
-	private Button backButton;
-	private Button resumeButton;
+	private static Button playButton;
+	private static Button exitButton;
+	private static Button helpButton;
+	private static Button creditButton;
+	private static Button backButton;
+	private static Button resumeButton;
 
 	private VBox startPane = new VBox();
-	public static StackPane secondPane = new StackPane();
+	private VBox endPane = new VBox();
+	public static StackPane playPane = new StackPane();
+	public static Pane topPane = new Pane();
+	public static Pane playingPane = new Pane();
 	public static VBox gamePane = new VBox();
 	public static VBox menuPane = new VBox();
 
@@ -74,13 +77,19 @@ public class Main extends Application {
 	public static GameScreen gameCanvas = new GameScreen(width, 540);
 	public static GraphicsContext gameGC = gameCanvas.getGraphicsContext2D();
 
+	public static Canvas endCanvas = new Canvas(width, 500);
+	public static GraphicsContext endGC = endCanvas.getGraphicsContext2D();
+
 	private Scene startScene;
 	private Scene gameScene;
+	private Scene helpScene;
+	private Scene endScene;
+
 	private Stage window;
 
 	private String[][] gameMap;
 
-	private AnimationTimer animation;
+	public static AnimationTimer animation;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -92,52 +101,60 @@ public class Main extends Application {
 		startPane.setSpacing(20);
 		startPane.setAlignment(Pos.CENTER);
 
-		InitializeButton();
+		InitializePlayButton();
+		InitializeHelpButton();
+		InitializeCreditButton();
+		InitializeExitButton();
+		InitializeBackButton();
+		InitializeResumeButton();
 
 		drawNameText(startGC);
-		drawBackground();
+		drawBackground(startPane);
 		startPane.getChildren().addAll(startCanvas, playButton, helpButton, creditButton, exitButton);
-
 		startScene = new Scene(startPane, width, height);
-		
 
-		secondPane.getChildren().addAll(gamePane);
-
-		Pane topPane = new Pane();
-		topPane.getChildren().add(topCanvas);
-
-		gamePane.getChildren().add(topPane);
-
-		gameScene = new Scene(secondPane, width, height);
-
-		Pane playPane = new Pane();
-		playPane.getChildren().add(gameCanvas);
-		gamePane.getChildren().add(playPane);
-
-		gameMap = MapParser.readMap("map.csv");
-		GameController.InitializeMap(gameMap, 1, 6);
-
-		gameCanvas.requestFocus();
-		topCanvas.requestFocus();
-		
-		addListener(gameScene);
-		window.setScene(gameScene);
+		window.setScene(startScene);
 		window.setTitle("Labyrinth Escape");
 		window.setResizable(false);
 		window.show();
-		
-		animation = new AnimationTimer() {
-			public void handle(long now) {
-				topCanvas.drawBulletCount(topPaneGC);
-				topCanvas.drawPenetBulletCount(topPaneGC);
-				topCanvas.drawBombCount(topPaneGC);
-				gameCanvas.drawMap(gameGC);
-				GameController.update();
-				//GameController.getGameMap().update();
-				RenderableHolder.getInstance().update();
-			}
-		};
-		animation.start();
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+//		drawEndText(endGC);
+//		drawBackground(endPane);
+//		endPane.getChildren().addAll(endCanvas);
+//		endScene = new Scene(endPane, width, height);
+
+		gameScene = new Scene(playPane, width, height);
+		addListener(gameScene);
+
+//		Pane topPane = new Pane();
+//		topPane.getChildren().add(topCanvas);
+//		gamePane.getChildren().add(topPane);
+//
+//		Pane playingPane = new Pane();
+//		playingPane.getChildren().add(gameCanvas);
+//		gamePane.getChildren().add(playingPane);
+//
+//		gameScene = new Scene(playPane, width, height);
+//		addListener(gameScene);
+//		gameMap = MapParser.readMap("map.csv");
+//		GameController.InitializeMap(gameMap, 1, 6);
+//
+//		gameCanvas.requestFocus();
+//		topCanvas.requestFocus();
+
+//		animation = new AnimationTimer() {
+//			public void handle(long now) {
+//				topCanvas.drawBulletCount(topPaneGC);
+//				topCanvas.drawPenetBulletCount(topPaneGC);
+//				topCanvas.drawBombCount(topPaneGC);
+//				gameCanvas.drawMap(gameGC);
+//				GameController.update();
+//				//GameController.getGameMap().update();
+//				RenderableHolder.getInstance().update();
+//			}
+//		};
+//		animation.start();
 //		addEventListener(gameScene);
 	}
 
@@ -153,14 +170,32 @@ public class Main extends Application {
 		gc.fillText("Labyrinth Escape", 20, 100, 500);
 	}
 
-	public void drawBackground() {
+	public void drawEndText(GraphicsContext gc) {
+		gc.setLineWidth(5);
+		gc.setFill(Color.YELLOW);
+		gc.setStroke(Color.RED);
+
+		Font font = Font.font("Verdana", FontWeight.BOLD, 60);
+		gc.setFont(font);
+
+		gc.strokeText("Congratulations", 20, 150, 500);
+		gc.fillText("Congratulations", 20, 150, 500);
+
+		gc.strokeText("You Won!!", 120, 300, 500);
+		gc.fillText("You Won!!", 120, 300, 500);
+
+		gc.strokeText("Press SPACEBAR to Exit", 20, 450, 500);
+		gc.fillText("Press SPACEBAR to Exit", 20, 450, 500);
+	}
+
+	public void drawBackground(Pane pane) {
 		BackgroundImage Background = new BackgroundImage(new Image("firstScene_Background.png", 0, 0, false, true),
 				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
-		startPane.setBackground(new Background(Background));
+		pane.setBackground(new Background(Background));
 	}
 
-	public void InitializeButton() {
+	public void InitializePlayButton() {
 		playButton = new Button("PLAY");
 		playButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		playButton.setPrefWidth(200);
@@ -170,35 +205,28 @@ public class Main extends Application {
 		playButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				Thread loading = new Thread(() -> {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							loadingScreen();
+				loadingScreen();
+				gameScreen();
+				window.setScene(gameScene);
+				animation = new AnimationTimer() {
+					public void handle(long now) {
+						topCanvas.drawBulletCount(topPaneGC);
+						topCanvas.drawPenetBulletCount(topPaneGC);
+						topCanvas.drawBombCount(topPaneGC);
+						gameCanvas.drawMap(gameGC);
+						GameController.update();
+						RenderableHolder.getInstance().update();
+						if (GameController.isGameWin()) {
+							endingScreen();
 						}
-					});
-					System.out.println("Loading SCene finish");
-				});
-				Thread changingScene = new Thread(() -> {
-					try {
-						Thread.sleep(1000);
-						loading.join();
-						System.out.println("Start changing Scene");
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								window.setScene(gameScene);
-							}
-						});
-					} catch (InterruptedException e) {
-						e.printStackTrace();
 					}
-				});
-				loading.start();
-				changingScene.start();
+				};
+				animation.start();
 			}
 		});
+	}
 
+	public void InitializeExitButton() {
 		exitButton = new Button("EXIT");
 		exitButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		exitButton.setPrefWidth(200);
@@ -211,7 +239,9 @@ public class Main extends Application {
 				System.exit(0);
 			}
 		});
+	}
 
+	public void InitializeHelpButton() {
 		helpButton = new Button("HELP");
 		helpButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		helpButton.setPrefWidth(200);
@@ -221,10 +251,27 @@ public class Main extends Application {
 		helpButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				helpScreen();
+				startPane.getChildren().clear();
+				Canvas helpCanvas = new Canvas(width, 500);
+				GraphicsContext helpGC = helpCanvas.getGraphicsContext2D();
+				startPane.getChildren().addAll(helpCanvas, backButton);
+				drawBackground(startPane);
+				helpGC.setFont(Font.font("VERDENA", FontWeight.MEDIUM, 35));
+				helpGC.setFill(Color.WHITE);
+				helpGC.fillText("KEY CONTROLS", 150, 50);
+				helpGC.fillText("W - MOVE UP", 50, 130);
+				helpGC.fillText("A - TURN LEFT", 50, 180);
+				helpGC.fillText("S - MOVE DOWN", 50, 230);
+				helpGC.fillText("D - TURN RIGHT", 50, 280);
+				helpGC.fillText("SPACE - SHOOT A BULLET", 50, 330);
+				helpGC.fillText("Q - SWITCH TYPE OF BULLET", 50, 380);
+				helpGC.fillText("B - PLANT A BOMB", 50, 430);
+				helpGC.fillText("P - PAUSE THE GAME", 50, 480);
 			}
 		});
+	}
 
+	public void InitializeCreditButton() {
 		creditButton = new Button("CREDIT");
 		creditButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		creditButton.setPrefWidth(200);
@@ -234,10 +281,21 @@ public class Main extends Application {
 		creditButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				creditScreen();
+				startPane.getChildren().clear();
+				Canvas creditCanvas = new Canvas(width, 500);
+				GraphicsContext creditGC = creditCanvas.getGraphicsContext2D();
+				startPane.getChildren().addAll(creditCanvas, backButton);
+				drawBackground(startPane);
+				creditGC.setFont(Font.font("VERDENA", FontWeight.MEDIUM, 35));
+				creditGC.setFill(Color.WHITE);
+				creditGC.fillText("CREDITS", 200, 100);
+				creditGC.fillText("Theerachot Dejsuwannakij", 50, 180);
+				creditGC.fillText("Nitiwat Jongruktrakoon", 50, 270);
 			}
 		});
+	}
 
+	public void InitializeBackButton() {
 		backButton = new Button("BACK");
 		backButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		backButton.setPrefWidth(200);
@@ -247,13 +305,16 @@ public class Main extends Application {
 		backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-//				startPane.getChildren().clear();
-//				startPane.getChildren().addAll(startCanvas, playButton, helpButton, creditButton, exitButton);
-				// startScene = new Scene(startPane, width, height);
+				startPane.getChildren().clear();
+				drawNameText(startGC);
+				drawBackground(startPane);
+				startPane.getChildren().addAll(startCanvas, playButton, helpButton, creditButton, exitButton);
 				window.setScene(startScene);
 			}
 		});
+	}
 
+	public void InitializeResumeButton() {
 		resumeButton = new Button("RESUME");
 		resumeButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		resumeButton.setPrefWidth(200);
@@ -263,58 +324,12 @@ public class Main extends Application {
 		resumeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				secondPane.getChildren().remove(menuPane);
+				playPane.getChildren().remove(menuPane);
+				animation.start();
 			}
 		});
-
 	}
 
-/*	public void addEventListener(Scene scene) {
-		scene.setOnKeyPressed((event) -> {
-			KeyCode keycode = event.getCode();
-			switch (keycode) {
-			case W:
-				GameController.movePlayer("W");
-
-				break;
-			case A:
-				GameController.movePlayer("A");
-
-				break;
-			case S:
-				GameController.movePlayer("S");
-
-				break;
-			case D:
-				GameController.movePlayer("D");
-
-				break;
-			case SPACE:
-				GameController.shoot(gameGC);
-				break;
-			case B:
-				GameController.plantedBomb();
-				break;
-			case Q:
-				GameController.setSimpleBullet(!GameController.isSimpleBullet());
-			case P:
-				creatingMenuPane();
-			default:
-				break;
-			}
-			RenderableHolder.getInstance().update();
-			Thread drawingThread = new Thread(() -> {
-				topCanvas.drawBulletCount(topPaneGC);
-				topCanvas.drawPenetBulletCount(topPaneGC);
-				topCanvas.drawBombCount(topPaneGC);
-				gameCanvas.drawMap(gameGC);
-			});
-
-			drawingThread.start();
-		});
-
-	}*/
-	
 	public void addListener(Scene scene) {
 		scene.setOnKeyPressed((KeyEvent event) -> {
 			KeyCode new_code = event.getCode();
@@ -327,32 +342,29 @@ public class Main extends Application {
 			InputUtility.setPressed(false);
 		});
 	}
-	
-	public void creatingMenuPane() {
-		menuPane = new VBox();
+
+	public static void creatingMenuPane() {
+		menuPane.getChildren().clear();
+		
 		menuPane.setAlignment(Pos.CENTER);
-		secondPane.getChildren().add(menuPane);
+		playPane.getChildren().add(menuPane);
 		menuPane.setMaxHeight(150);
 		menuPane.setMaxWidth(250);
 		menuPane.setBorder(new Border(
 				new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		menuPane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
-
 		menuPane.setSpacing(10);
-
 		menuPane.getChildren().addAll(resumeButton, backButton, exitButton);
-
 	}
 
 	public void loadingScreen() {
-
 		startPane.getChildren().clear();
 
 		Canvas loadingCanvas = new Canvas(width, height);
 		GraphicsContext loadingGC = loadingCanvas.getGraphicsContext2D();
 
 		startPane.getChildren().addAll(loadingCanvas);
-		drawBackground();
+		drawBackground(startPane);
 
 		loadingGC.setLineWidth(5);
 		loadingGC.setFill(Color.BLACK);
@@ -360,40 +372,45 @@ public class Main extends Application {
 
 		loadingGC.setFont(Font.font("VERDENA", FontWeight.BOLD, 50));
 		loadingGC.setFill(Color.WHITE);
-		loadingGC.fillText("LOADING...", 200, 200);
+		loadingGC.fillText("LOADING...", 250, 550);
 	}
 
-	public void helpScreen() {
-		startPane.getChildren().clear();
+	public void endingScreen() {
+		drawEndText(endGC);
+		drawBackground(endPane);
+		endPane.getChildren().addAll(endCanvas);
+		endScene = new Scene(endPane, width, height);
 
-		Canvas helpCanvas = new Canvas(width, 500);
-		GraphicsContext helpGC = helpCanvas.getGraphicsContext2D();
-
-		startPane.getChildren().addAll(helpCanvas, backButton);
-		drawBackground();
-
-		helpGC.setFont(Font.font("VERDENA", FontWeight.MEDIUM, 35));
-		helpGC.setFill(Color.WHITE);
-		helpGC.fillText("KEY CONTROLS", 150, 50);
-		helpGC.fillText("W - MOVE UP", 50, 130);
-		helpGC.fillText("A - TURN LEFT", 50, 180);
-		helpGC.fillText("S - MOVE DOWN", 50, 230);
-		helpGC.fillText("D - TURN RIGHT", 50, 280);
-
+		window.setScene(endScene);
+		animation.stop();
+		endScene.setOnKeyPressed((event) -> {
+			KeyCode code = event.getCode();
+			if (code == KeyCode.SPACE) {
+				System.exit(0);
+			}
+		});
 	}
 
-	public void creditScreen() {
-		startPane.getChildren().clear();
-		Canvas creditCanvas = new Canvas(width, 500);
-		GraphicsContext creditGC = creditCanvas.getGraphicsContext2D();
+	public void gameScreen() {
+		gamePane.getChildren().clear();
+		topPane.getChildren().clear();
+		playingPane.getChildren().clear();
+		playPane.getChildren().clear();
+		RenderableHolder.getInstance().getEntities().clear();
 
-		startPane.getChildren().addAll(creditCanvas, backButton);
-		drawBackground();
+		playPane.getChildren().add(gamePane);
 
-		creditGC.setFont(Font.font("VERDENA", FontWeight.MEDIUM, 35));
-		creditGC.setFill(Color.WHITE);
-		creditGC.fillText("CREDITS", 200, 100);
-		creditGC.fillText("Theerachot Dejsuwannakij", 50, 180);
-		creditGC.fillText("Nitiwat Jongruktrakoon", 50, 270);
+		topPane.getChildren().add(topCanvas);
+		gamePane.getChildren().add(topPane);
+
+		playingPane.getChildren().add(gameCanvas);
+		gamePane.getChildren().add(playingPane);
+
+		// gameScene = new Scene(playPane, width, height);
+		gameMap = MapParser.readMap("map.csv");
+		GameController.InitializeMap(gameMap, 1, 6);
+
+		gameCanvas.requestFocus();
+		topCanvas.requestFocus();
 	}
 }

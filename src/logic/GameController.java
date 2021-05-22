@@ -26,8 +26,7 @@ public class GameController {
 	private static int bomb_count;
 
 	private static boolean isSimpleBullet;
-	
-	
+
 	private static boolean isExplosionPlay;
 
 	public static void InitializeMap(String[][] map, int x, int y) {
@@ -147,6 +146,11 @@ public class GameController {
 			plantedBomb();
 			InputUtility.setCode(KeyCode.UNDEFINED);
 			break;
+		case P :
+			Main.animation.stop();
+			Main.creatingMenuPane();
+			InputUtility.setCode(KeyCode.UNDEFINED);
+			break;
 		default:
 			break;
 		}
@@ -166,7 +170,6 @@ public class GameController {
 		GameController.getGameMap().planting(x, y, currentDir);
 	}
 
-
 	public static boolean isExplosionPlay() {
 		return isExplosionPlay;
 	}
@@ -174,5 +177,5 @@ public class GameController {
 	public static void setExplosionPlay(boolean isExplosionPlay) {
 		GameController.isExplosionPlay = isExplosionPlay;
 	}
-	
+
 }

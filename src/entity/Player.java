@@ -51,8 +51,13 @@ public class Player extends Entity implements Updatable {
 
 	@Override
 	public void update() {
+		int playerX = this.getX();
+		int playerY = this.getY();
+		if (playerX == 14 && playerY == 2) {
+			GameController.getGameMap().exitGate();
+		}
 		KeyCode code = InputUtility.getCode();
-		switch(code) {
+		switch (code) {
 		case W:
 			this.move("W");
 			break;
@@ -65,8 +70,10 @@ public class Player extends Entity implements Updatable {
 		case D:
 			this.move("D");
 			break;
-		default :
+		default:
 			break;
+
 		}
+
 	}
 }

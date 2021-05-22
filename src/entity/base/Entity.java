@@ -104,10 +104,18 @@ public abstract class Entity implements IRenderable {
 	public boolean isDestroyed() {
 		return destroy;
 	}
+	
+	public void setDestroy(boolean destroy) {
+		this.destroy = destroy;
+	}
 
 	@Override
 	public boolean isVisible() {
 		return visible;
+	}
+	
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 	public void move(String dir) {
@@ -142,22 +150,8 @@ public abstract class Entity implements IRenderable {
 			this.y = indexY;
 			this.centerX = targetx;
 			this.centerY = targety;
-			if(this instanceof PenetratedBullet) {
-				System.out.println("BULLET : x = " + centerX + ", y = " + centerY);
-				System.out.println("Bullet : indexX = " + x + ", indexY = " + y);
-				System.out.println(this.destroy);
-			}
-			
 			InputUtility.setCode(KeyCode.UNDEFINED);
 		}
-	}
-
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
-	public void setDestroy(boolean destroy) {
-		this.destroy = destroy;
 	}
 
 }
