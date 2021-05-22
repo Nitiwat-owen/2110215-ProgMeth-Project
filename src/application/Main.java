@@ -105,7 +105,6 @@ public class Main extends Application {
 		window.setResizable(false);
 		window.show();
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		gameScene = new Scene(playPane, width, height);
 		addListener(gameScene);
 	}

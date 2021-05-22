@@ -6,6 +6,7 @@ import entity.base.*;
 import entity.*;
 import item.*;
 import sharedObject.RenderableHolder;
+import exception.OutOfWeaponException;
 
 public class GameMap {
 
@@ -182,21 +183,27 @@ public class GameMap {
 			break;
 		}
 		if (cellMap[targetY][targetX].IsEmpty()) {
-			if (GameController.isSimpleBullet() && GameController.getBulletCount() > 0) {
-				Bullet bullet = new Bullet(targetX, targetY);
-				bullet.setDir(dir);
-				addMovableEntity(bullet, targetX, targetY);
-				GameController.setBulletCount(GameController.getBulletCount() - 1);
-				RenderableHolder.bulletSound.play();
-			} else if (!GameController.isSimpleBullet() && GameController.getPenetratedCount() > 0) {
-				PenetratedBullet penetBullet = new PenetratedBullet(targetX, targetY);
-				penetBullet.setDir(dir);
-				addMovableEntity(penetBullet, targetX, targetY);
-				GameController.setPenetratedCount(GameController.getPenetratedCount() - 1);
-				RenderableHolder.penetBulletSound.play();
-			}
-			if (GameController.getBulletCount() == 0 || GameController.getPenetratedCount() == 0) {
-				RenderableHolder.outOfBulletSound.play();
+			try {
+				if (GameController.getBulletCount() == 0 && GameController.isSimpleBullet()) {
+					RenderableHolder.outOfWeaponSound.play();
+					throw new OutOfWeaponException("Bullet");
+				} else if (GameController.getPenetratedCount() == 0 && !GameController.isSimpleBullet()) {
+					RenderableHolder.outOfWeaponSound.play();
+					throw new OutOfWeaponException("PenetratedBullet");
+				} else if (GameController.isSimpleBullet()) {
+					Bullet bullet = new Bullet(targetX, targetY);
+					bullet.setDir(dir);
+					addMovableEntity(bullet, targetX, targetY);
+					GameController.setBulletCount(GameController.getBulletCount() - 1);
+					RenderableHolder.bulletSound.play();
+				} else if (!GameController.isSimpleBullet()) {
+					PenetratedBullet penetBullet = new PenetratedBullet(targetX, targetY);
+					penetBullet.setDir(dir);
+					addMovableEntity(penetBullet, targetX, targetY);
+					GameController.setPenetratedCount(GameController.getPenetratedCount() - 1);
+					RenderableHolder.penetBulletSound.play();
+				}
+			} catch (OutOfWeaponException e) {
 			}
 		}
 	}
@@ -223,9 +230,17 @@ public class GameMap {
 		default:
 			break;
 		}
-		if (cellMap[targetY][targetX].IsEmpty() && GameController.getBombCount() > 0) {
-			GameController.setBombCount(GameController.getBombCount() - 1);
-			addMovableEntity(new Bomb(targetX, targetY), targetX, targetY);
+		if (cellMap[targetY][targetX].IsEmpty()) {
+			try {
+				if (GameController.getBombCount() == 0) {
+					RenderableHolder.outOfWeaponSound.play();
+					throw new OutOfWeaponException("Bomb");
+				}
+				GameController.setBombCount(GameController.getBombCount() - 1);
+				addMovableEntity(new Bomb(targetX, targetY), targetX, targetY);
+			} catch (OutOfWeaponException e) {
+			}
+
 		}
 	}
 
