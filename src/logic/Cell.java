@@ -3,7 +3,6 @@ package logic;
 import entity.base.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
-import sharedObject.IRenderable;
 import sharedObject.RenderableHolder;
 
 public class Cell extends Entity {
@@ -17,8 +16,8 @@ public class Cell extends Entity {
 		this.x = x;
 		this.y = y;
 		this.z = -999;
-		this.visible = true;
-		this.destroy = false;
+		this.isVisible = true;
+		this.isDestroy = false;
 	}
 
 	public Entity getEntity() {

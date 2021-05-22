@@ -13,8 +13,8 @@ public class SteelWall extends CollidableEntity {
 		this.radius = 18;
 		this.centerX = x * 36 + 18;
 		this.centerY = y * 36 + 18;
-		visible = true;
-		destroy = false;
+		isVisible = true;
+		isDestroy = false;
 	}
 
 	@Override

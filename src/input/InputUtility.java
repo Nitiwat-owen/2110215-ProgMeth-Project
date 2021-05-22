@@ -1,13 +1,6 @@
 package input;
 
-import java.util.ArrayList;
-
-import application.GameScreen;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
-import logic.*;
 
 public class InputUtility {
 	//private static ArrayList<KeyCode> keyPressed = new ArrayList<>();

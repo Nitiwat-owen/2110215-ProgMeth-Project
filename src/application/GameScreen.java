@@ -1,20 +1,12 @@
 package application;
 
-import input.InputUtility;
-import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.*;
 import sharedObject.IRenderable;
 import sharedObject.RenderableHolder;
-import javafx.scene.input.KeyEvent;
 
 public class GameScreen extends Canvas {
 

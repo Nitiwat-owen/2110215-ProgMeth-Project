@@ -1,12 +1,8 @@
 package entity;
 
 import entity.base.*;
-import input.InputUtility;
-import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import logic.Cell;
 import logic.GameController;
 import sharedObject.RenderableHolder;
 
@@ -20,8 +16,8 @@ public class Bomb extends WeaponEntity implements Updatable {
 		this.centerY = y * 36 + 18;
 		this.radius = 15;
 		damage = 100;
-		this.visible = true;
-		this.destroy = false;
+		this.isVisible = true;
+		this.isDestroy = false;
 	}
 
 	@Override
@@ -37,7 +33,7 @@ public class Bomb extends WeaponEntity implements Updatable {
 
 		gc.strokeOval(centerX - radius, centerY - radius, radius, radius);
 		gc.fillOval(centerX - radius, centerY - radius, radius, radius);
-		if (!GameController.isTimerPlay() && visible) {
+		if (!GameController.isTimerPlay() && isVisible) {
 			RenderableHolder.timerSound.play();
 			GameController.setTimerPlay(true);
 		}

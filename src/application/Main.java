@@ -1,35 +1,24 @@
 package application;
 
-import entity.*;
 import input.InputUtility;
 import javafx.animation.AnimationTimer;
-import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import logic.Cell;
 import logic.GameController;
 import sharedObject.RenderableHolder;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -44,7 +33,6 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
@@ -82,7 +70,6 @@ public class Main extends Application {
 
 	private Scene startScene;
 	private Scene gameScene;
-	private Scene helpScene;
 	private Scene endScene;
 
 	private Stage window;
@@ -101,61 +88,26 @@ public class Main extends Application {
 		startPane.setSpacing(20);
 		startPane.setAlignment(Pos.CENTER);
 
-		InitializePlayButton();
-		InitializeHelpButton();
-		InitializeCreditButton();
-		InitializeExitButton();
-		InitializeBackButton();
-		InitializeResumeButton();
+		initializePlayButton();
+		initializeHelpButton();
+		initializeCreditButton();
+		initializeExitButton();
+		initializeBackButton();
+		initializeResumeButton();
 
 		drawNameText(startGC);
 		drawBackground(startPane);
 		startPane.getChildren().addAll(startCanvas, playButton, helpButton, creditButton, exitButton);
 		startScene = new Scene(startPane, width, height);
-
+		
 		window.setScene(startScene);
 		window.setTitle("Labyrinth Escape");
 		window.setResizable(false);
 		window.show();
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-//		drawEndText(endGC);
-//		drawBackground(endPane);
-//		endPane.getChildren().addAll(endCanvas);
-//		endScene = new Scene(endPane, width, height);
-
 		gameScene = new Scene(playPane, width, height);
 		addListener(gameScene);
-
-//		Pane topPane = new Pane();
-//		topPane.getChildren().add(topCanvas);
-//		gamePane.getChildren().add(topPane);
-//
-//		Pane playingPane = new Pane();
-//		playingPane.getChildren().add(gameCanvas);
-//		gamePane.getChildren().add(playingPane);
-//
-//		gameScene = new Scene(playPane, width, height);
-//		addListener(gameScene);
-//		gameMap = MapParser.readMap("map.csv");
-//		GameController.InitializeMap(gameMap, 1, 6);
-//
-//		gameCanvas.requestFocus();
-//		topCanvas.requestFocus();
-
-//		animation = new AnimationTimer() {
-//			public void handle(long now) {
-//				topCanvas.drawBulletCount(topPaneGC);
-//				topCanvas.drawPenetBulletCount(topPaneGC);
-//				topCanvas.drawBombCount(topPaneGC);
-//				gameCanvas.drawMap(gameGC);
-//				GameController.update();
-//				//GameController.getGameMap().update();
-//				RenderableHolder.getInstance().update();
-//			}
-//		};
-//		animation.start();
-//		addEventListener(gameScene);
 	}
 
 	public void drawNameText(GraphicsContext gc) {
@@ -195,7 +147,7 @@ public class Main extends Application {
 		pane.setBackground(new Background(Background));
 	}
 
-	public void InitializePlayButton() {
+	public void initializePlayButton() {
 		playButton = new Button("PLAY");
 		playButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		playButton.setPrefWidth(200);
@@ -206,7 +158,7 @@ public class Main extends Application {
 			@Override
 			public void handle(MouseEvent event) {
 				loadingScreen();
-				gameScreen();
+				gamingScreen();
 				window.setScene(gameScene);
 				animation = new AnimationTimer() {
 					public void handle(long now) {
@@ -226,7 +178,7 @@ public class Main extends Application {
 		});
 	}
 
-	public void InitializeExitButton() {
+	public void initializeExitButton() {
 		exitButton = new Button("EXIT");
 		exitButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		exitButton.setPrefWidth(200);
@@ -241,7 +193,7 @@ public class Main extends Application {
 		});
 	}
 
-	public void InitializeHelpButton() {
+	public void initializeHelpButton() {
 		helpButton = new Button("HELP");
 		helpButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		helpButton.setPrefWidth(200);
@@ -271,7 +223,7 @@ public class Main extends Application {
 		});
 	}
 
-	public void InitializeCreditButton() {
+	public void initializeCreditButton() {
 		creditButton = new Button("CREDIT");
 		creditButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		creditButton.setPrefWidth(200);
@@ -295,7 +247,7 @@ public class Main extends Application {
 		});
 	}
 
-	public void InitializeBackButton() {
+	public void initializeBackButton() {
 		backButton = new Button("BACK");
 		backButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		backButton.setPrefWidth(200);
@@ -314,7 +266,7 @@ public class Main extends Application {
 		});
 	}
 
-	public void InitializeResumeButton() {
+	public void initializeResumeButton() {
 		resumeButton = new Button("RESUME");
 		resumeButton.setFont(Font.font("Verdana", FontWeight.LIGHT, 20));
 		resumeButton.setPrefWidth(200);
@@ -391,7 +343,7 @@ public class Main extends Application {
 		});
 	}
 
-	public void gameScreen() {
+	public void gamingScreen() {
 		gamePane.getChildren().clear();
 		topPane.getChildren().clear();
 		playingPane.getChildren().clear();

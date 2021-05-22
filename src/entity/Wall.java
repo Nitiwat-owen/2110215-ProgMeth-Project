@@ -1,9 +1,6 @@
 package entity;
 
-import java.awt.Rectangle;
-import application.Main;
 import entity.base.*;
-import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
@@ -22,19 +19,19 @@ public class Wall extends CollidableEntity implements Destroyable {
 		this.centerX = x * 36 + 18;
 		this.centerY = y * 36+ 18;
 		this.health = 100;
-		visible = true;
-		destroy = false;
+		isVisible = true;
+		isDestroy = false;
 		barVisible = false;
 	}
 
 	@Override
 	public boolean interact(Entity e) {
-		if(visible) {
+		if(isVisible) {
 			if (e instanceof WeaponEntity) {
 				setHealth(getHealth() - ((WeaponEntity) e).getDamage());
 				e.setDestroy(true);
 				e.setVisible(false);
-				this.Destroyable();
+				this.destroy();
 				this.barVisible = true;
 				if(e instanceof Bullet) {
 					RenderableHolder.bulletHittingSound.play();
@@ -49,10 +46,10 @@ public class Wall extends CollidableEntity implements Destroyable {
 	}
 
 	@Override
-	public boolean Destroyable() {
+	public boolean destroy() {
 		if (health <= 0) {
-			this.destroy = true;
-			this.visible = false;
+			this.isDestroy = true;
+			this.isVisible = false;
 			return true;
 		}
 		return false;

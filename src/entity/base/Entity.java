@@ -1,21 +1,15 @@
 package entity.base;
 
-import application.Main;
-import entity.Bomb;
-import entity.Bullet;
-import entity.PenetratedBullet;
 import logic.*;
 import sharedObject.*;
-import entity.Player;
 import input.InputUtility;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 
 public abstract class Entity implements IRenderable {
 
 	protected int x, y, z;
 	protected double centerX, centerY;
-	protected boolean visible, destroy;
+	protected boolean isVisible, isDestroy;
 	protected int health;
 	protected double speed;
 	protected double radius;
@@ -102,20 +96,20 @@ public abstract class Entity implements IRenderable {
 
 	@Override
 	public boolean isDestroyed() {
-		return destroy;
+		return isDestroy;
 	}
 	
-	public void setDestroy(boolean destroy) {
-		this.destroy = destroy;
+	public void setDestroy(boolean isDestroy) {
+		this.isDestroy = isDestroy;
 	}
 
 	@Override
 	public boolean isVisible() {
-		return visible;
+		return isVisible;
 	}
 	
-	public void setVisible(boolean visible) {
-		this.visible = visible;
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
 	}
 
 	public void move(String dir) {

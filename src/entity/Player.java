@@ -3,10 +3,8 @@ package entity;
 import entity.base.*;
 import input.InputUtility;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
-import logic.Cell;
 import logic.GameController;
 import sharedObject.RenderableHolder;
 
@@ -20,8 +18,8 @@ public class Player extends Entity implements Updatable {
 		this.centerX = x * 36 + radius;
 		this.centerY = y * 36 + radius;
 		this.dir = "W";
-		this.visible = true;
-		this.destroy = false;
+		this.isVisible = true;
+		this.isDestroy = false;
 		this.speed = 36.0;
 	}
 

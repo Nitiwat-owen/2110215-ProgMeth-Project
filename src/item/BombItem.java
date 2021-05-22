@@ -15,17 +15,17 @@ public class BombItem extends CollidableEntity {
 		this.radius = 15;
 		this.centerX = x + radius;
 		this.centerY = y + radius;
-		visible = true;
-		destroy = false;
+		isVisible = true;
+		isDestroy = false;
 	}
 
 	@Override
 	public boolean interact(Entity e) {
-		if(visible) {
+		if(isVisible) {
 			if (e instanceof Player) {
 				GameController.addBombCount();
-				visible = false;
-				destroy = true;
+				isVisible = false;
+				isDestroy = true;
 				GameController.getGameMap().getCellMap()[y][x].setIsEmpty(true);
 				GameController.getGameMap().getCellMap()[y][x].setEntity(null);
 			} else {

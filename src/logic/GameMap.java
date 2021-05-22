@@ -2,13 +2,9 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import entity.base.*;
-import input.InputUtility;
 import entity.*;
 import item.*;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import sharedObject.RenderableHolder;
 
 public class GameMap {
@@ -39,6 +35,7 @@ public class GameMap {
 		cellMap = new Cell[row][column];
 		collidableEntity = new ArrayList<CollidableEntity>();
 		movableEntity = new ArrayList<Entity>();
+
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
 				cellMap[i][j] = new Cell(j, i);
@@ -115,13 +112,13 @@ public class GameMap {
 						cellMap[e1.getY()][e1.getX()].setEntity(null);
 					}
 					if (e2.isDestroyed()) {
+						itr2.remove();
 						if (e2 instanceof Bomb) {
 							bombExplosion(e2);
 							RenderableHolder.timerSound.stop();
 							RenderableHolder.explosionSound.play();
 							GameController.setTimerPlay(false);
 						}
-						itr2.remove();
 					}
 				}
 			}

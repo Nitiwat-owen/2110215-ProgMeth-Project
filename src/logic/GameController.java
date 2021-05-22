@@ -1,11 +1,8 @@
 package logic;
 
-import java.util.ArrayList;
-
 import application.Main;
 import entity.*;
 import input.InputUtility;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import sharedObject.RenderableHolder;
 

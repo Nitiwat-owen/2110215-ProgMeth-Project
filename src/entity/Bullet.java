@@ -1,19 +1,8 @@
 package entity;
 
 import entity.base.*;
-import input.InputUtility;
-import javafx.application.Platform;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-import logic.Cell;
-import logic.GameController;
-import sharedObject.RenderableHolder;
-import application.GameScreen;
-import application.Main;
 
 public class Bullet extends WeaponEntity implements Updatable {
 
@@ -26,8 +15,8 @@ public class Bullet extends WeaponEntity implements Updatable {
 		this.centerY = y * 36 + 18;
 		this.damage = 20;
 		this.speed = 5.0;
-		this.visible = true;
-		this.destroy = false;
+		this.isVisible = true;
+		this.isDestroy = false;
 
 	}
 
@@ -38,7 +27,7 @@ public class Bullet extends WeaponEntity implements Updatable {
 
 	@Override
 	public void draw(GraphicsContext gc) {
-		if (!destroy) {
+		if (!isDestroy) {
 			gc.setLineWidth(1);
 			gc.setStroke(Color.BLACK);
 			gc.setFill(Color.GRAY);
