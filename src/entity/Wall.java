@@ -36,6 +36,12 @@ public class Wall extends CollidableEntity implements Destroyable {
 				e.setVisible(false);
 				this.Destroyable();
 				this.barVisible = true;
+				if(e instanceof Bullet) {
+					RenderableHolder.bulletHittingSound.play();
+				}
+				if(e instanceof PenetratedBullet) {
+					RenderableHolder.penetBulletHittingSound.play();
+				}
 				return true;
 			}
 		}

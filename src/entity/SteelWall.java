@@ -22,6 +22,12 @@ public class SteelWall extends CollidableEntity {
 		if (e instanceof WeaponEntity) {
 			e.setDestroy(true);
 			e.setVisible(false);
+			if(e instanceof Bullet) {
+				RenderableHolder.bulletHittingSound.play();
+			}
+			if(e instanceof PenetratedBullet) {
+				RenderableHolder.penetBulletHittingSound.play();
+			}
 		}
 		return false;
 	}

@@ -24,8 +24,9 @@ public class RenderableHolder {
 	private Comparator<IRenderable> comparator;
 	public static Image mapSprite;
 	public static Image tankSprite;
-	public static AudioClip timerSound, explosionSound;
-	
+	public static AudioClip timerSound, explosionSound, bulletSound, penetBulletSound, outOfBulletSound,
+			bulletHittingSound, penetBulletHittingSound;
+
 	static {
 		loadResource();
 	}
@@ -46,8 +47,13 @@ public class RenderableHolder {
 	public static void loadResource() {
 		mapSprite = new Image(ClassLoader.getSystemResource("image.png").toString());
 		tankSprite = new Image(ClassLoader.getSystemResource("tankImage.png").toString());
-		 timerSound = new AudioClip(ClassLoader.getSystemResource("tiktok.wav").toString());
-		 explosionSound = new AudioClip(ClassLoader.getSystemResource("Explosion.wav").toString());
+		timerSound = new AudioClip(ClassLoader.getSystemResource("Timer.wav").toString());
+		explosionSound = new AudioClip(ClassLoader.getSystemResource("Explosion.wav").toString());
+		bulletSound = new AudioClip(ClassLoader.getSystemResource("bulletSound.wav").toString());
+		penetBulletSound = new AudioClip(ClassLoader.getSystemResource("penetratedBulletSound.wav").toString());
+		outOfBulletSound = new AudioClip(ClassLoader.getSystemResource("bulletEmpty.wav").toString());
+		bulletHittingSound = new AudioClip(ClassLoader.getSystemResource("bulletHitWall.wav").toString());
+		penetBulletHittingSound = new AudioClip(ClassLoader.getSystemResource("penetBulletHitWall.wav").toString());
 	}
 
 	public void add(IRenderable entity) {

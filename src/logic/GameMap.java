@@ -115,7 +115,7 @@ public class GameMap {
 						cellMap[e1.getY()][e1.getX()].setEntity(null);
 					}
 					if (e2.isDestroyed()) {
-						if (e2 instanceof Bomb) {		
+						if (e2 instanceof Bomb) {
 							bombExplosion(e2);
 							RenderableHolder.timerSound.stop();
 							RenderableHolder.explosionSound.play();
@@ -190,11 +190,16 @@ public class GameMap {
 				bullet.setDir(dir);
 				addMovableEntity(bullet, targetX, targetY);
 				GameController.setBulletCount(GameController.getBulletCount() - 1);
+				RenderableHolder.bulletSound.play();
 			} else if (!GameController.isSimpleBullet() && GameController.getPenetratedCount() > 0) {
 				PenetratedBullet penetBullet = new PenetratedBullet(targetX, targetY);
 				penetBullet.setDir(dir);
 				addMovableEntity(penetBullet, targetX, targetY);
 				GameController.setPenetratedCount(GameController.getPenetratedCount() - 1);
+				RenderableHolder.penetBulletSound.play();
+			}
+			if (GameController.getBulletCount() == 0 || GameController.getPenetratedCount() == 0) {
+				RenderableHolder.outOfBulletSound.play();
 			}
 		}
 	}

@@ -345,7 +345,7 @@ public class Main extends Application {
 
 	public static void creatingMenuPane() {
 		menuPane.getChildren().clear();
-		
+
 		menuPane.setAlignment(Pos.CENTER);
 		playPane.getChildren().add(menuPane);
 		menuPane.setMaxHeight(150);
@@ -396,6 +396,7 @@ public class Main extends Application {
 		topPane.getChildren().clear();
 		playingPane.getChildren().clear();
 		playPane.getChildren().clear();
+
 		RenderableHolder.getInstance().getEntities().clear();
 
 		playPane.getChildren().add(gamePane);
