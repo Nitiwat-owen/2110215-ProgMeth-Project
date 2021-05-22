@@ -10,8 +10,6 @@ public class GameController {
 
 	private static GameMap gameMap;
 
-	private static boolean isPlanted;
-
 	private static Player player;
 
 	private static boolean isWin;
@@ -28,10 +26,8 @@ public class GameController {
 
 	public static void InitializeMap(String[][] map, int x, int y) {
 		gameMap = new GameMap(map);
-		isPlanted = false;
 		player = new Player(x, y);
 
-		// gameMap.addEntity(player, x, y);
 		RenderableHolder.getInstance().add(player);
 
 		isWin = false;
@@ -68,14 +64,6 @@ public class GameController {
 
 	public static boolean isGameWin() {
 		return isWin;
-	}
-
-	public static boolean isPlanted() {
-		return isPlanted;
-	}
-
-	public static void setPlanted(boolean isPlanted) {
-		GameController.isPlanted = isPlanted;
 	}
 
 	public static Player getPlayer() {

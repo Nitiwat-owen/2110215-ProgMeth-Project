@@ -113,12 +113,16 @@ public class GameMap {
 						cellMap[e1.getY()][e1.getX()].setEntity(null);
 					}
 					if (e2.isDestroyed()) {
-						itr2.remove();
-						if (e2 instanceof Bomb) {
-							bombExplosion(e2);
-							RenderableHolder.timerSound.stop();
-							RenderableHolder.explosionSound.play();
-							GameController.setTimerPlay(false);
+						try {
+							itr2.remove();
+							if (e2 instanceof Bomb) {
+								bombExplosion(e2);
+								RenderableHolder.timerSound.stop();
+								RenderableHolder.explosionSound.play();
+								GameController.setTimerPlay(false);
+							}
+						}catch(IllegalStateException e) {
+							
 						}
 					}
 				}

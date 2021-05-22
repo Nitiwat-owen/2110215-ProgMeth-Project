@@ -3,6 +3,7 @@ package application;
 import input.InputUtility;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -45,6 +46,7 @@ public class Main extends Application {
 	private static Button backButton;
 	private static Button resumeButton;
 
+	public static StackPane pane = new StackPane();
 	private VBox startPane = new VBox();
 	private VBox endPane = new VBox();
 	public static StackPane playPane = new StackPane();
@@ -68,6 +70,7 @@ public class Main extends Application {
 	public static Canvas endCanvas = new Canvas(width, 500);
 	public static GraphicsContext endGC = endCanvas.getGraphicsContext2D();
 
+	private Scene Scene;
 	private Scene startScene;
 	private Scene gameScene;
 	private Scene endScene;
