@@ -115,10 +115,13 @@ public class GameMap {
 						cellMap[e1.getY()][e1.getX()].setEntity(null);
 					}
 					if (e2.isDestroyed()) {
-						itr2.remove();
-						if (e2 instanceof Bomb) {
+						if (e2 instanceof Bomb) {		
 							bombExplosion(e2);
+							RenderableHolder.timerSound.stop();
+							RenderableHolder.explosionSound.play();
+							GameController.setTimerPlay(false);
 						}
+						itr2.remove();
 					}
 				}
 			}
@@ -150,7 +153,7 @@ public class GameMap {
 		for (int i = targetY - 1; i <= targetY + 1; i++) {
 			for (int j = targetX - 1; j <= targetX + 1; j++) {
 				Entity targetEntity = cellMap[i][j].getEntity();
-				if (targetEntity instanceof Interactable) {
+				if (targetEntity instanceof Wall) {
 					((Interactable) targetEntity).interact(e);
 					cellMap[targetEntity.getY()][targetEntity.getX()].setIsEmpty(true);
 					cellMap[targetEntity.getY()][targetEntity.getX()].setEntity(null);

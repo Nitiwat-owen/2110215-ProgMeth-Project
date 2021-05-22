@@ -12,17 +12,13 @@ import sharedObject.RenderableHolder;
 
 public class Bomb extends WeaponEntity implements Updatable {
 
-	private boolean flashing;
-	private int flashingCount;
-	private int flashDurationCount;
-
 	public Bomb(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.z = 6;
-		this.centerX = x * 36 + 12;
-		this.centerY = y * 36 + 12;
-		this.radius = 14;
+		this.centerX = x * 36 + 18;
+		this.centerY = y * 36 + 18;
+		this.radius = 15;
 		damage = 100;
 		this.visible = true;
 		this.destroy = false;
@@ -39,20 +35,16 @@ public class Bomb extends WeaponEntity implements Updatable {
 		gc.setStroke(Color.BLACK);
 		gc.setFill(Color.BLACK);
 
-		gc.strokeOval(centerX, centerY, radius, radius);
-		gc.fillOval(centerX, centerY, radius, radius);
-		if (!GameController.isExplosionPlay()) {
-			RenderableHolder.explosionSound.play();
-			GameController.setExplosionPlay(true);
+		gc.strokeOval(centerX - radius, centerY - radius, radius, radius);
+		gc.fillOval(centerX - radius, centerY - radius, radius, radius);
+		if (!GameController.isTimerPlay() && visible) {
+			RenderableHolder.timerSound.play();
+			GameController.setTimerPlay(true);
 		}
 	}
 
 	@Override
 	public void update() {
-		radius += 0.02;
-		if (radius > 18.0) {
-			visible = false;
-			destroy = true;
-		}
+		radius += 0.1;
 	}
 }

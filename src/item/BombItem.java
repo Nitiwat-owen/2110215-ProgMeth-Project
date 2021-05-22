@@ -21,12 +21,17 @@ public class BombItem extends CollidableEntity {
 
 	@Override
 	public boolean interact(Entity e) {
-		if (e instanceof Player) {
-			GameController.addBombCount();
-		} else {
-			e.setDestroy(true);
+		if(visible) {
+			if (e instanceof Player) {
+				GameController.addBombCount();
+				visible = false;
+				destroy = true;
+				GameController.getGameMap().getCellMap()[y][x].setIsEmpty(true);
+				GameController.getGameMap().getCellMap()[y][x].setEntity(null);
+			} else {
+				e.setDestroy(true);
+			}
 		}
-		destroy = true;
 		return true;
 	}
 

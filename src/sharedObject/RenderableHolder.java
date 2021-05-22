@@ -1,10 +1,17 @@
 package sharedObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.AudioSystem;
 import entity.Player;
 import entity.SteelWall;
 import javafx.scene.image.Image;
@@ -18,7 +25,7 @@ public class RenderableHolder {
 	public static Image mapSprite;
 	public static Image tankSprite;
 	public static AudioClip timerSound, explosionSound;
-
+	
 	static {
 		loadResource();
 	}
@@ -39,7 +46,8 @@ public class RenderableHolder {
 	public static void loadResource() {
 		mapSprite = new Image(ClassLoader.getSystemResource("image.png").toString());
 		tankSprite = new Image(ClassLoader.getSystemResource("tankImage.png").toString());
-		explosionSound = new AudioClip(ClassLoader.getSystemResource("ExplosionSound.wav").toString());
+		 timerSound = new AudioClip(ClassLoader.getSystemResource("tiktok.wav").toString());
+		 explosionSound = new AudioClip(ClassLoader.getSystemResource("Explosion.wav").toString());
 	}
 
 	public void add(IRenderable entity) {
