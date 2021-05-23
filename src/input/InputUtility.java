@@ -14,37 +14,33 @@ public class InputUtility {
 		InputUtility.code = code;
 	}
 
-	private static boolean pressed = false;
-	private static boolean triggered = false;
+	private static boolean isPressed = false;
+	private static boolean isTriggered = false;
 
 	public static boolean getPressed() {
-		return pressed;
+		return isPressed;
 	}
 
-	public static void setPressed(boolean pressed) {
-		if (pressed) {
-			InputUtility.pressed = true;
-		} else {
-			InputUtility.pressed = false;
-		}
+	public static void setPressed(boolean isPressed) {
+		InputUtility.isPressed = isPressed;
 	}
 
 	public static boolean getTriggered() {
-		return triggered;
+		return isTriggered;
 	}
 
-	public static void setTriggered(KeyCode code, boolean pressed) {
-		if (pressed) {
-			triggered = true;
+	public static void setTriggered(KeyCode code, boolean isPressed) {
+		if (isPressed) {
+			isTriggered = true;
 			if (!InputUtility.code.equals(code)) {
 				InputUtility.code = code;
 			}
 		} else {
-			triggered = false;
+			isTriggered = false;
 		}
 	}
 
 	public static void postUpdate() {
-		triggered = false;
+		isTriggered = false;
 	}
 }

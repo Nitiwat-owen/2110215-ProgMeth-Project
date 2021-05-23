@@ -8,7 +8,6 @@ import sharedObject.RenderableHolder;
 public class Cell extends Entity {
 	private Entity entity;
 	private boolean isEmpty;
-	private int x, y;
 
 	public Cell(int x, int y) {
 		entity = null;

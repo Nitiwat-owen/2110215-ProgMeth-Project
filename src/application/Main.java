@@ -46,14 +46,13 @@ public class Main extends Application {
 	private static Button backButton;
 	private static Button resumeButton;
 
-	public static StackPane pane = new StackPane();
 	private VBox startPane = new VBox();
 	private VBox endPane = new VBox();
-	public static StackPane playPane = new StackPane();
-	public static Pane topPane = new Pane();
-	public static Pane playingPane = new Pane();
-	public static VBox gamePane = new VBox();
-	public static VBox menuPane = new VBox();
+	private static StackPane playPane = new StackPane();
+	private Pane topPane = new Pane();
+	private Pane playingPane = new Pane();
+	private VBox gamePane = new VBox();
+	private static VBox menuPane = new VBox();
 
 	private static final int width = 540;
 	private static final int height = 600;
@@ -70,7 +69,6 @@ public class Main extends Application {
 	public static Canvas endCanvas = new Canvas(width, 500);
 	public static GraphicsContext endGC = endCanvas.getGraphicsContext2D();
 
-	private Scene Scene;
 	private Scene startScene;
 	private Scene gameScene;
 	private Scene endScene;
@@ -159,14 +157,11 @@ public class Main extends Application {
 		playButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				loadingScreen();
 				gamingScreen();
 				window.setScene(gameScene);
 				animation = new AnimationTimer() {
 					public void handle(long now) {
-						topCanvas.drawBulletCount(topPaneGC);
-						topCanvas.drawPenetBulletCount(topPaneGC);
-						topCanvas.drawBombCount(topPaneGC);
+						topCanvas.drawTopPane(topPaneGC);
 						gameCanvas.drawMap(gameGC);
 						GameController.update();
 						RenderableHolder.getInstance().update();
@@ -311,24 +306,6 @@ public class Main extends Application {
 		menuPane.getChildren().addAll(resumeButton, backButton, exitButton);
 	}
 
-	public void loadingScreen() {
-		startPane.getChildren().clear();
-
-		Canvas loadingCanvas = new Canvas(width, height);
-		GraphicsContext loadingGC = loadingCanvas.getGraphicsContext2D();
-
-		startPane.getChildren().addAll(loadingCanvas);
-		drawBackground(startPane);
-
-		loadingGC.setLineWidth(5);
-		loadingGC.setFill(Color.BLACK);
-		loadingGC.fillRect(0, 0, width, height);
-
-		loadingGC.setFont(Font.font("VERDENA", FontWeight.BOLD, 50));
-		loadingGC.setFill(Color.WHITE);
-		loadingGC.fillText("LOADING...", 250, 550);
-	}
-
 	public void endingScreen() {
 		drawEndText(endGC);
 		drawBackground(endPane);
@@ -361,7 +338,6 @@ public class Main extends Application {
 		playingPane.getChildren().add(gameCanvas);
 		gamePane.getChildren().add(playingPane);
 
-		// gameScene = new Scene(playPane, width, height);
 		gameMap = MapParser.readMap("map.csv");
 		GameController.InitializeMap(gameMap, 1, 6);
 
