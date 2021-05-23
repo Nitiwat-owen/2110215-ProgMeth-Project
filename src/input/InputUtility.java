@@ -39,8 +39,4 @@ public class InputUtility {
 			isTriggered = false;
 		}
 	}
-
-	public static void postUpdate() {
-		isTriggered = false;
-	}
 }

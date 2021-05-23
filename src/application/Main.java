@@ -3,7 +3,6 @@ package application;
 import input.InputUtility;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -100,7 +99,7 @@ public class Main extends Application {
 		drawBackground(startPane);
 		startPane.getChildren().addAll(startCanvas, playButton, helpButton, creditButton, exitButton);
 		startScene = new Scene(startPane, width, height);
-		
+
 		window.setScene(startScene);
 		window.setTitle("Labyrinth Escape");
 		window.setResizable(false);
@@ -274,6 +273,7 @@ public class Main extends Application {
 			@Override
 			public void handle(MouseEvent event) {
 				playPane.getChildren().remove(menuPane);
+				InputUtility.setCode(KeyCode.UNDEFINED);
 				animation.start();
 			}
 		});
