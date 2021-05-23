@@ -31,8 +31,8 @@ public class GameController {
 		RenderableHolder.getInstance().add(player);
 
 		isWin = false;
-		bullet_count = 10;
-		penetrated_count = 10;
+		bullet_count = 5;
+		penetrated_count = 0;
 		bomb_count = 0;
 		isSimpleBullet = true;
 		isTimerPlay = false;

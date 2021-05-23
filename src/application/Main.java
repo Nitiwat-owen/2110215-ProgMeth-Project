@@ -339,7 +339,7 @@ public class Main extends Application {
 		gamePane.getChildren().add(playingPane);
 
 		gameMap = MapParser.readMap("map.csv");
-		GameController.InitializeMap(gameMap, 1, 6);
+		GameController.InitializeMap(gameMap, 1, 13);
 
 		gameCanvas.requestFocus();
 		topCanvas.requestFocus();
