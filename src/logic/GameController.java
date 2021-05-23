@@ -1,16 +1,14 @@
 package logic;
 
-import java.util.ArrayList;
-
+import application.Main;
 import entity.*;
-import javafx.scene.canvas.GraphicsContext;
+import input.InputUtility;
+import javafx.scene.input.KeyCode;
 import sharedObject.RenderableHolder;
 
 public class GameController {
 
 	private static GameMap gameMap;
-
-	private static boolean isPlanted;
 
 	private static Player player;
 
@@ -24,19 +22,20 @@ public class GameController {
 
 	private static boolean isSimpleBullet;
 
+	private static boolean isTimerPlay;
+
 	public static void InitializeMap(String[][] map, int x, int y) {
 		gameMap = new GameMap(map);
-		isPlanted = false;
 		player = new Player(x, y);
 
-		// gameMap.addEntity(player, x, y);
 		RenderableHolder.getInstance().add(player);
 
 		isWin = false;
-		bullet_count = 10;
+		bullet_count = 5;
 		penetrated_count = 0;
 		bomb_count = 0;
 		isSimpleBullet = true;
+		isTimerPlay = false;
 	}
 
 	public static boolean isSimpleBullet() {
@@ -65,14 +64,6 @@ public class GameController {
 
 	public static boolean isGameWin() {
 		return isWin;
-	}
-
-	public static boolean isPlanted() {
-		return isPlanted;
-	}
-
-	public static void setPlanted(boolean isPlanted) {
-		GameController.isPlanted = isPlanted;
 	}
 
 	public static Player getPlayer() {
@@ -125,13 +116,36 @@ public class GameController {
 
 	public static void update() {
 		player.update();
+		gameMap.update();
+		KeyCode code = InputUtility.getCode();
+		switch (code) {
+		case SPACE:
+			shoot();
+			InputUtility.setCode(KeyCode.UNDEFINED);
+			break;
+		case Q:
+			setSimpleBullet(!GameController.isSimpleBullet());
+			InputUtility.setCode(KeyCode.UNDEFINED);
+			break;
+		case B:
+			plantedBomb();
+			InputUtility.setCode(KeyCode.UNDEFINED);
+			break;
+		case P :
+			Main.animation.stop();
+			Main.creatingMenuPane();
+			InputUtility.setCode(KeyCode.UNDEFINED);
+			break;
+		default:
+			break;
+		}
 	}
 
-	public static void shoot(GraphicsContext gc) {
+	public static void shoot() {
 		String currentDir = player.getDir();
 		int x = player.getX();
 		int y = player.getY();
-		gameMap.shooting(x, y, currentDir, gc);
+		gameMap.shooting(x, y, currentDir);
 	}
 
 	public static void plantedBomb() {
@@ -140,4 +154,13 @@ public class GameController {
 		int y = player.getY();
 		GameController.getGameMap().planting(x, y, currentDir);
 	}
+
+	public static boolean isTimerPlay() {
+		return isTimerPlay;
+	}
+
+	public static void setTimerPlay(boolean isTimerPlay) {
+		GameController.isTimerPlay = isTimerPlay;
+	}
+
 }

@@ -5,22 +5,29 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
 import sharedObject.RenderableHolder;
 
-public class SteelWall extends Entity implements Interactable {
+public class SteelWall extends CollidableEntity {
 	public SteelWall(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.z = 8;
-		visible = true;
-		destroy = false;
+		this.radius = 18;
+		this.centerX = x * 36 + 18;
+		this.centerY = y * 36 + 18;
+		isVisible = true;
+		isDestroy = false;
 	}
 
 	@Override
 	public boolean interact(Entity e) {
-		if (e instanceof Weapon) {
-			//e.remove();
+		if (e instanceof WeaponEntity) {
 			e.setDestroy(true);
 			e.setVisible(false);
-			return true;
+			if(e instanceof Bullet) {
+				RenderableHolder.bulletHittingSound.play();
+			}
+			if(e instanceof PenetratedBullet) {
+				RenderableHolder.penetBulletHittingSound.play();
+			}
 		}
 		return false;
 	}

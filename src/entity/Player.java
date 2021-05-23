@@ -3,80 +3,25 @@ package entity;
 import entity.base.*;
 import input.InputUtility;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
-import logic.Cell;
 import logic.GameController;
 import sharedObject.RenderableHolder;
 
-public class Player extends Entity {
-//	private int bullets;
-//	private int penetratedBullets;
-//	private int bombs;
-	// private int angle;
-	// private String dir;
-	
+public class Player extends Entity implements Updatable {
+
 	public Player(int x, int y) {
-//		bullets = 10;
-//		penetratedBullets = 0;
-//		bombs = 0;
 		this.x = x;
 		this.y = y;
 		this.z = 50;
-		// this.angle = 0;
+		this.radius = 16;
+		this.centerX = x * 36 + radius;
+		this.centerY = y * 36 + radius;
 		this.dir = "W";
-		this.visible = true;
-		this.destroy = false;
-		this.speed = 36;
+		this.isVisible = true;
+		this.isDestroy = false;
+		this.speed = 36.0;
 	}
-
-//	public int getAngle() {
-//		return angle;
-//	}
-//
-//	public void setAngle(int angle) {
-//		this.angle = angle;
-//	}
-//
-//	public boolean move(String dir) {
-//		int targetx = x;
-//		int targety = y;
-//
-//		switch (dir) {
-//		case "W":
-//			targety -= 1;
-//			this.setAngle(0);
-//			break;
-//		case "A":
-//			targetx -= 1;
-//			this.setAngle(270);
-//			break;
-//		case "S":
-//			targety += 1;
-//			this.setAngle(180);
-//			break;
-//		case "D":
-//			targetx += 1;
-//			this.setAngle(90);
-//			break;
-//		default:
-//			break;
-//		}
-//		if (GameController.getGameMap().isMovable(targetx, targety, this)) {
-////			this.destroy = true;
-////			RenderableHolder.getInstance().update();
-////			RenderableHolder.getInstance().add(this);
-//			if (targetx != x || targety != y) {
-//				RenderableHolder.getInstance().add(new Cell(x, y));
-//			}
-//			this.remove();
-//			this.x = targetx;
-//			this.y = targety;
-//			return true;
-//		}
-//		return false;
-//	}
 
 	@Override
 	public int getIndex() {
@@ -102,18 +47,31 @@ public class Player extends Entity {
 		gc.drawImage(tankImage, x * 36, y * 36);
 	}
 
+	@Override
 	public void update() {
-		if (InputUtility.getCode().equals("W")) {
+		int playerX = this.getX();
+		int playerY = this.getY();
+		if (playerX == 14 && playerY == 2) {
+			GameController.getGameMap().exitGate();
+		}
+		KeyCode code = InputUtility.getCode();
+		switch (code) {
+		case W:
 			this.move("W");
-		}
-		if (InputUtility.getCode().equals("A")) {
+			break;
+		case A:
 			this.move("A");
-		}
-		if (InputUtility.getCode().equals("S")) {
+			break;
+		case S:
 			this.move("S");
-		}
-		if (InputUtility.getCode().equals("D")) {
+			break;
+		case D:
 			this.move("D");
+			break;
+		default:
+			break;
+
 		}
+
 	}
 }

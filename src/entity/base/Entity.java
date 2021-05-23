@@ -1,20 +1,18 @@
 package entity.base;
 
-import application.Main;
-import entity.Bomb;
-import entity.Bullet;
-import entity.PenetratedBullet;
 import logic.*;
 import sharedObject.*;
-import entity.Player;
-import javafx.scene.image.WritableImage;
+import input.InputUtility;
+import javafx.scene.input.KeyCode;
 
 public abstract class Entity implements IRenderable {
 
 	protected int x, y, z;
-	protected boolean visible, destroy;
+	protected double centerX, centerY;
+	protected boolean isVisible, isDestroy;
 	protected int health;
-	protected int speed;
+	protected double speed;
+	protected double radius;
 	protected String dir;
 
 	public abstract int getIndex();
@@ -52,6 +50,22 @@ public abstract class Entity implements IRenderable {
 		this.z = z;
 	}
 
+	public double getCenterX() {
+		return centerX;
+	}
+
+	public void setCenterX(double centerX) {
+		this.centerX = centerX;
+	}
+
+	public double getCenterY() {
+		return centerY;
+	}
+
+	public void setCenterY(double centerY) {
+		this.centerY = centerY;
+	}
+
 	public int getHealth() {
 		return this.health;
 	}
@@ -64,89 +78,74 @@ public abstract class Entity implements IRenderable {
 		this.dir = dir;
 	}
 
-	public int getSpeed() {
+	public double getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(int speed) {
+	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
 
-	public void remove() {
-		GameController.getGameMap().removeEntity(this.x, this.y);
+	public double getRadius() {
+		return radius;
+	}
+
+	public void setRadius(double radius) {
+		this.radius = radius;
 	}
 
 	@Override
 	public boolean isDestroyed() {
-		return destroy;
+		return isDestroy;
+	}
+	
+	public void setDestroy(boolean isDestroy) {
+		this.isDestroy = isDestroy;
 	}
 
 	@Override
 	public boolean isVisible() {
-		return visible;
+		return isVisible;
+	}
+	
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
 	}
 
-	public boolean move(String dir) {
-		int targetx = x;
-		int targety = y;
+	public void move(String dir) {
+		double targetx = centerX;
+		double targety = centerY;
 
 		switch (dir) {
 		case "W":
-			targety -= speed / 36;
+			targety -= speed;
 			this.setDir("W");
 			break;
 		case "A":
-			targetx -= speed / 36;
+			targetx -= speed;
 			this.setDir("A");
 			break;
 		case "S":
-			targety += speed / 36;
+			targety += speed;
 			this.setDir("S");
 			break;
 		case "D":
-			targetx += speed / 36;
+			targetx += speed;
 			this.setDir("D");
 			break;
 		default:
 			break;
 		}
-		if (GameController.getGameMap().isMovable(targetx, targety, this)) {
+		int indexX = (int) (targetx / 36);
+		int indexY = (int) (targety / 36);
 
-//			this.destroy = true;
-			//this.remove();
-//			RenderableHolder.getInstance().update();
-//			if (this instanceof Player) {
-//				Player player = new Player(targetx, targety);
-//				GameController.setPlayer(player);
-//				GameController.getGameMap().addEntity(player, targetx, targety);
-//			}
-//			if (this instanceof Bullet) {
-//				Bullet bullet = new Bullet(targetx, targety);
-//				GameController.getGameMap().addEntity(bullet, targetx, targety);
-//			}
-//			if (this instanceof PenetratedBullet) {
-//				PenetratedBullet penetBullet = new PenetratedBullet(targetx, targety);
-//				GameController.getGameMap().addEntity(penetBullet, targetx, targety);
-//			}
-//			RenderableHolder.getInstance().update();
-//			RenderableHolder.getInstance().add(this);
-			
-			if (targetx != x || targety != y) {
-				RenderableHolder.getInstance().add(new Cell(x, y));
-			}
-			this.x = targetx;
-			this.y = targety;
-			return true;
+		if (GameController.getGameMap().isMovable(indexX, indexY, this)) {
+			this.x = indexX;
+			this.y = indexY;
+			this.centerX = targetx;
+			this.centerY = targety;
+			InputUtility.setCode(KeyCode.UNDEFINED);
 		}
-		return false;
-	}
-
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
-	public void setDestroy(boolean destroy) {
-		this.destroy = destroy;
 	}
 
 }

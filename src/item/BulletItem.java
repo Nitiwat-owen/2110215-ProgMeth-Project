@@ -1,24 +1,38 @@
 package item;
 
+import entity.Player;
 import entity.base.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
 import logic.GameController;
 import sharedObject.RenderableHolder;
 
-public class BulletItem extends Entity implements Interactable {
+public class BulletItem extends CollidableEntity {
 	public BulletItem(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.z = 11;
-		visible = true;
-		destroy = false;
+		this.radius = 15;
+		this.centerX = x + radius;
+		this.centerY = y + radius;
+		isVisible = true;
+		isDestroy = false;
 	}
 
+	@Override
 	public boolean interact(Entity e) {
-		this.remove();
-		GameController.addBulletCount();
-		destroy = true;
+		if (isVisible) {
+			if (e instanceof Player) {
+				GameController.addBulletCount();
+				isVisible = false;
+				isDestroy = true;
+				GameController.getGameMap().getCellMap()[y][x].setIsEmpty(true);
+				GameController.getGameMap().getCellMap()[y][x].setEntity(null);
+			} else {
+				e.setDestroy(true);
+			}
+
+		}
 		return true;
 	}
 

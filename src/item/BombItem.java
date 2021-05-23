@@ -1,24 +1,37 @@
 package item;
 
+import entity.Player;
 import entity.base.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
 import logic.*;
 import sharedObject.RenderableHolder;
 
-public class BombItem extends Entity implements Interactable {
+public class BombItem extends CollidableEntity {
 	public BombItem(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.z = 10;
-		visible = true;
-		destroy = false;
+		this.radius = 15;
+		this.centerX = x + radius;
+		this.centerY = y + radius;
+		isVisible = true;
+		isDestroy = false;
 	}
 
+	@Override
 	public boolean interact(Entity e) {
-		this.remove();
-		GameController.addBombCount();
-		destroy = true;
+		if(isVisible) {
+			if (e instanceof Player) {
+				GameController.addBombCount();
+				isVisible = false;
+				isDestroy = true;
+				GameController.getGameMap().getCellMap()[y][x].setIsEmpty(true);
+				GameController.getGameMap().getCellMap()[y][x].setEntity(null);
+			} else {
+				e.setDestroy(true);
+			}
+		}
 		return true;
 	}
 

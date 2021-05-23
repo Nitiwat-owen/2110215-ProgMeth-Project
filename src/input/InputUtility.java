@@ -1,100 +1,42 @@
 package input;
 
-import java.util.ArrayList;
-
-import application.GameScreen;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
-import logic.*;
 
 public class InputUtility {
 	//private static ArrayList<KeyCode> keyPressed = new ArrayList<>();
-	private static String code = "";
+	private static KeyCode code = KeyCode.UNDEFINED ;
 
-	public static String getCode() {
+	public static KeyCode getCode() {
 		return code;
 	}
 
-	public static void setCode(String code) {
+	public static void setCode(KeyCode code) {
 		InputUtility.code = code;
 	}
 
-	private static boolean pressed = false;
-	private static boolean triggered = false;
+	private static boolean isPressed = false;
+	private static boolean isTriggered = false;
 
 	public static boolean getPressed() {
-		return pressed;
+		return isPressed;
 	}
 
-	public static void setPressed(boolean pressed) {
-		if (pressed) {
-			InputUtility.pressed = true;
-		} else {
-			InputUtility.pressed = false;
-		}
+	public static void setPressed(boolean isPressed) {
+		InputUtility.isPressed = isPressed;
 	}
 
 	public static boolean getTriggered() {
-		return triggered;
+		return isTriggered;
 	}
 
-	public static void setTriggered(String code, boolean pressed) {
-		if (pressed) {
-			triggered = true;
+	public static void setTriggered(KeyCode code, boolean isPressed) {
+		if (isPressed) {
+			isTriggered = true;
 			if (!InputUtility.code.equals(code)) {
 				InputUtility.code = code;
 			}
 		} else {
-			triggered = false;
+			isTriggered = false;
 		}
 	}
-
-	public static void postUpdate() {
-		triggered = false;
-	}
-
-//	public static boolean getKeyPressed(KeyCode keyCode) {
-//		return keyPressed.contains(keyCode);
-//	}
-//
-//	public static void setKeyPressed(KeyCode keyCode, boolean pressed) {
-//		if (pressed) {
-//			if (!keyPressed.contains(keyCode)) {
-//				keyPressed.add(keyCode);
-//			} else {
-//				keyPressed.remove(keyCode);
-//			}
-//			System.out.println(keyPressed);
-//		}
-//	}
-//
-	public static void addEventListener(Canvas canvas, GraphicsContext gc) {
-		canvas.setOnKeyPressed((event) -> {
-			KeyCode keycode = event.getCode();
-			switch (keycode) {
-			case W:
-				GameController.movePlayer("W");
-				break;
-			case A:
-				GameController.movePlayer("A");
-				break;
-			case S:
-				GameController.movePlayer("S");
-				break;
-			case D:
-				GameController.movePlayer("D");
-				break;
-			default:
-				break;
-			}
-			Thread t = new Thread(() -> {
-				((GameScreen) canvas).drawMap(gc);
-			});
-			t.start();
-
-		});
-	}
-
 }

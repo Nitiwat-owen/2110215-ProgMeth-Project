@@ -1,5 +1,5 @@
 package entity.base;
 
 public interface Destroyable {
-	public abstract boolean Destroyable(Entity e);
+	public abstract boolean destroy();
 }

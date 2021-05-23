@@ -1,15 +1,12 @@
 package entity;
 
-import java.awt.Rectangle;
-import application.Main;
 import entity.base.*;
-import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import sharedObject.RenderableHolder;
 
-public class Wall extends Entity implements Interactable, Destroyable {
+public class Wall extends CollidableEntity implements Destroyable {
 
 	private double percentage;
 	private boolean barVisible;
@@ -18,33 +15,42 @@ public class Wall extends Entity implements Interactable, Destroyable {
 		this.x = x;
 		this.y = y;
 		this.z = 7;
+		this.radius = 18.0;
+		this.centerX = x * 36 + 18;
+		this.centerY = y * 36+ 18;
 		this.health = 100;
-		visible = true;
-		destroy = false;
+		isVisible = true;
+		isDestroy = false;
 		barVisible = false;
 	}
 
 	@Override
 	public boolean interact(Entity e) {
-		if (e instanceof Weapon) {
-			setHealth(getHealth() - ((Weapon) e).getDamage());
-			e.setDestroy(true);
-			e.setVisible(false);
-			this.Destroyable(e);
-			this.barVisible = true;
-			Main.gameCanvas.drawMap(Main.gameGC);
-			return true;
+		if(isVisible) {
+			if (e instanceof WeaponEntity) {
+				setHealth(getHealth() - ((WeaponEntity) e).getDamage());
+				e.setDestroy(true);
+				e.setVisible(false);
+				this.destroy();
+				this.barVisible = true;
+				if(e instanceof Bullet) {
+					RenderableHolder.bulletHittingSound.play();
+				}
+				if(e instanceof PenetratedBullet) {
+					RenderableHolder.penetBulletHittingSound.play();
+				}
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
-	public boolean Destroyable(Entity e) {
+	public boolean destroy() {
 		if (health <= 0) {
-			destroy = true;
-			visible = false;
-			this.remove();
-			Main.gameCanvas.drawMap(Main.gameGC);
+			this.isDestroy = true;
+			this.isVisible = false;
+			return true;
 		}
 		return false;
 	}
@@ -67,7 +73,7 @@ public class Wall extends Entity implements Interactable, Destroyable {
 			gc.strokeRect(x * 36 + 3, y * 36 + 30, 30, 6);
 
 			percentage = health / 100.0;
-			
+
 			if (percentage >= 0.5) {
 				gc.setFill(Color.GREEN);
 				gc.fillRect(x * 36 + 3, y * 36 + 30, percentage * 30, 6);
